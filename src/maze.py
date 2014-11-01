@@ -48,7 +48,7 @@ class Maze:
     def __repr__(self):
         result = ""
 
-        for y in range(1, self.height + 1):
+        for y in xrange(1, self.height + 1):
             for x in xrange(1, self.width + 1):
                 # Draw top line
                 if (x, y - 1) in self.get_reachable_neighbors(x, y):
@@ -58,7 +58,7 @@ class Maze:
             result += '+\n'
 
             for x in xrange(1, self.width + 1):
-                # Draw vertical passage
+                # Draw horizontal passage
                 if (x - 1, y) in self.get_reachable_neighbors(x, y):
                     result += '   '
                 else: result += '|  '
