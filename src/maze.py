@@ -8,7 +8,7 @@ class Maze:
         self.height = height
         self._reachable = dict()
 
-        # Initialize self.reachable
+        # Initialize self._reachable
         for x in xrange(1, width + 1):
             for y in xrange(1, height + 1):
                 self._reachable[(x, y)] = set()
@@ -54,7 +54,7 @@ class Maze:
         queue = [start]
         parent = dict()
 
-        # Initialize parent
+        # Initialize parent dictionary
         for v in iter(self._reachable): parent[v] = None
         parent[start] = start
 
@@ -82,7 +82,9 @@ class Maze:
         return path
     
     def __repr__(self):
-        result = ""
+        """Returns a string that represents the current maze."""
+
+        result = ''
 
         for y in xrange(1, self.height + 1):
             for x in xrange(1, self.width + 1):
