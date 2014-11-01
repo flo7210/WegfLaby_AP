@@ -38,6 +38,12 @@ class Maze:
 
         self._reachable[v1].add(v2)
         self._reachable[v2].add(v1)
+
+    def add_path(self, path):
+        """Adds edges along the given path."""
+
+        for i in range(1, len(path)):
+            self.add_edge(path[i], path[i - 1])
     
     def __repr__(self):
         result = ""
