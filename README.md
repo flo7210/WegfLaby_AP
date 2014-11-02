@@ -27,5 +27,4 @@ Für TeX:
   
   ```tex
   \usepackage[utf8]{inputenc} 
-  \usepackage[T1]{fontenc}
   ```
