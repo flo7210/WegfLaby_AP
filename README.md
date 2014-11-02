@@ -10,6 +10,7 @@ Ordnerstruktur
 * `/src` für Quellcode
 * `/docs` für Webseite/Dokumentation
 * `/poster` für Poster
+* `/presentation` für Präsentation
 
 Coding style
 ----------
