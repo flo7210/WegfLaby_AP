@@ -8,7 +8,7 @@ Ordnerstruktur
 
 * `/steckbrief` für Steckbrief
 * `/src` für Quellcode
-* `/docs` für Webseite/Dokumentation
+* `/site` für Webseite
 * `/poster` für Poster
 * `/presentation` für Präsentation
 
