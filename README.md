@@ -17,9 +17,9 @@ Coding style
 
 Für Python:
 
-* Wir folgen [PEP8](http://legacy.python.org/dev/peps/pep-0008/).
+* Wir folgen [PEP 8](http://legacy.python.org/dev/peps/pep-0008/).
 * Insbesondere benutzen wir keine Tabs, sondern Leerzeichen, nämlich 4 Stück.
-* Öffentliche Module, Funktionen, Klassen und Methoden sollen einen Docstring beinhalten.
+* Öffentliche Module, Funktionen, Klassen und Methoden sollen einen Docstring beinhalten, siehe [PEP 257](http://legacy.python.org/dev/peps/pep-0257/).
 * Kommentare und Namen auf Englisch.
 
 Für TeX:
