@@ -228,7 +228,7 @@ pip-log.txt
 *.ilg
 *.ind
 *.log
-*.oout
+*.out
 *.synctex.gz
 *.toc
 *.pdf
