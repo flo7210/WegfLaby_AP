@@ -3,6 +3,14 @@ WegfLaby_AP
 
 Repository zum Robotikpraktikum "Wegfindung im Labyrinth (AP)"
 
+Ordnerstruktur
+--------------
+
+* `/steckbrief` für Steckbrief
+* `/src` für Quellcode
+* `/docs` für Webseite/Dokumentation
+* `/poster` für Poster
+
 Coding style
 ----------
 
