@@ -16,6 +16,7 @@ Für Python:
 Für TeX:
 
 * Kein `fontspec` package, da nicht kompatibel mit `pdftex`. Stattdessen:
+  
   ```tex
   \usepackage[utf8]{inputenc} 
   \usepackage[T1]{fontenc}
