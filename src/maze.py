@@ -9,8 +9,8 @@ class Maze:
         self._reachable = dict()
 
         # Initialize self._reachable
-        for x in xrange(1, width + 1):
-            for y in xrange(1, height + 1):
+        for x in range(1, width + 1):
+            for y in range(1, height + 1):
                 self._reachable[(x, y)] = set()
 
     def has_vertex(self, x, y):
@@ -86,8 +86,8 @@ class Maze:
 
         result = ''
 
-        for y in xrange(1, self.height + 1):
-            for x in xrange(1, self.width + 1):
+        for y in range(1, self.height + 1):
+            for x in range(1, self.width + 1):
                 # Draw top line
                 if (x, y - 1) in self.get_reachable_neighbors(x, y):
                     result += '+  '
@@ -95,7 +95,7 @@ class Maze:
 
             result += '+\n'
 
-            for x in xrange(1, self.width + 1):
+            for x in range(1, self.width + 1):
                 # Draw horizontal passage
                 if (x - 1, y) in self.get_reachable_neighbors(x, y):
                     result += '   '
@@ -104,7 +104,7 @@ class Maze:
             result += '|\n'
 
             if y == self.height:
-                for x in xrange(1, self.width + 1):
+                for x in range(1, self.width + 1):
                     # Draw bottom line
                     result += '+--'
 
