@@ -19,7 +19,7 @@ Für Python:
 
 * Wir folgen [PEP 8](http://legacy.python.org/dev/peps/pep-0008/).
 * Insbesondere benutzen wir keine Tabs, sondern Leerzeichen, nämlich 4 Stück.
-* Öffentliche Module, Funktionen, Klassen und Methoden sollen einen Docstring beinhalten, siehe [PEP 257](http://legacy.python.org/dev/peps/pep-0257/).
+* Öffentliche Module, Funktionen, Klassen und Methoden sollen einen Docstring beinhalten.
 * Kommentare und Namen auf Englisch.
 
 Für TeX:
