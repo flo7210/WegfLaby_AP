@@ -221,6 +221,16 @@ pip-log.txt
 #Mr Developer
 .mr.developer.cfg
 
+#############
+## C
+#############
+
+*.eep
+*.elf
+*.hex
+dep/
+obj/
+
 ##############
 ## LaTeX
 ##############
