@@ -32,6 +32,9 @@ uint8_t stehtcnt = 0;
 float last_sx = 0.0;
 float last_sy = 0.0;
 
+uint16_t last_balanced_x = 0;
+uint16_t last_balanced_y = 0;
+
 uint16_t servo_null_x = 1470;
 uint16_t servo_null_y = 1462;
 
@@ -72,15 +75,16 @@ static uint8_t norm(uint8_t x, uint8_t y, uint8_t x2, uint8_t y2) {
     return max(abs(x - x2), abs(y - y2));
 }
 
-// Controls the balancing of the ball. Returns:
-// 0 - if position is incorrect
-// 2 - if destination is reached
-// 1 - otherwise
+// Controls the balancing of the ball. Returns when ball is balanced:
+// -1 - if destination is not reached and probably never will
+// 0  - if destination is not reached
+// 1  - if destination is reached
+//
+// If ball is not balanced, this returns -2.
 static int control(uint16_t x, uint16_t y, uint16_t destX, uint16_t destY) {
-    //char ubuf[128];
     rb_append(&rb_xy, x, y);
     if (rb_xy.count < 10)
-        return 0;
+        return -2;
 
     /* Abweichung des jetztigen Werts zu den letzten gespeicherten Werten
      * vergleichen, bei zu großer Abweichung wird der Wert nicht verarbeitet
@@ -93,29 +97,28 @@ static int control(uint16_t x, uint16_t y, uint16_t destX, uint16_t destY) {
         avrg += norm(x, y, rb_xy.val_x[current], rb_xy.val_y[current]);
     }
     if ((avrg / 9) >= 75)
-        return 0;
+        return -2;
 
     /* Wenn sich die Kugelposition für eine halbe Sekunde ein bisschen nicht ändert,
      * hat sich die Kugel balanciert. */
     if (avrg <= 8) {
         if (stehtcnt >= 30) {
+            // Ball is balanced
+            if (norm(x, y, destX, destY) <= destinationFuzzy)
+                return 1; // Destination reached
+
+            if (norm(x, y, last_balanced_x, last_balanced_y) <= destinationFuzzy)
+                return -1;
+
             servo_null_x = last_sx;
             servo_null_y = last_sy;
+
+            last_balanced_x = x;
+            last_balanced_y = y;
+
             stehtcnt = 0;
-            
-            // Print position
-            char strX[15], strY[15];
-            sprintf(strX, "%d", x);
-            sprintf(strY, "%d", y);
 
-            uart_puts(strX);
-            uart_puts(", ");
-            uart_puts(strY);
-            uart_puts("\r\n");
-
-            // Destination reached
-            if (norm(x, y, destX, destY) <= destinationFuzzy)
-                return 2;
+            return 0;
         } else stehtcnt++;
     } else {
         stehtcnt = 0;
@@ -123,7 +126,7 @@ static int control(uint16_t x, uint16_t y, uint16_t destX, uint16_t destY) {
 
     rb_append(&rb_xyv, x, y);
     if (rb_xyv.count < 10)
-        return 0;
+        return -2;
 
     /* Wir greifen auf den fünftletzten Eintrag (vor dem aktuell eingefügten)
      * zu, indem wir 6 Schritte zurückgehen */
@@ -137,7 +140,7 @@ static int control(uint16_t x, uint16_t y, uint16_t destX, uint16_t destY) {
 
     rb_append(&rb_v, vx, vy);
     if (rb_v.count < 10)
-        return 0;
+        return -2;
 
     int16_t xoff = destX - x;
     int16_t yoff = destY - y;
@@ -163,14 +166,15 @@ static int control(uint16_t x, uint16_t y, uint16_t destX, uint16_t destY) {
 
     setServo(0, (int)servo_x);
     setServo(1, (int)servo_y);
-    return 1;
+    return -2;
 }
 
 // Start balancing
 static int startBalancing(uint16_t destX, uint16_t destY) {
     int16_t x = 0, y = 0;
+    int result = -2;
 
-    uart_puts_pgm(PSTR("# Start balancing...\r\n"));
+    // uart_puts_pgm(PSTR("# Start balancing...\r\n"));
 
     while(1) {
         if (!Recognize_Event())
@@ -181,24 +185,20 @@ static int startBalancing(uint16_t destX, uint16_t destY) {
     
         x = Buffer_Touchscreen_Data.x_pos - 200;
         y = Buffer_Touchscreen_Data.y_pos - 200;
-        int16_t result = control(x, y, destX, destY);
+        result = control(x, y, destX, destY);
 
-        // Destination reached
-        if (result == 2) 
+        if (result >= -1) {
+            // Print
+            uart_puts("=");
+            uart_puti(result);
+            uart_puts("\r\n");
+        }
+
+        if (result == 1 || result == -1)
             break;
     }
 
-    char strX[15], strY[15];
-    sprintf(strX, "%d", x);
-    sprintf(strY, "%d", y);
-
-    uart_puts(strX);
-    uart_puts(", ");
-    uart_puts(strY);
-    uart_puts("\r\n");
-    _delay_ms(300);
-
-    return 1;
+    return result;
 }
 
 int main(void) {
