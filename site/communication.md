@@ -15,7 +15,7 @@ Ein *Befehl* ist genau sieben Zeichen lang und hat die folgende Syntax:
 [x-coord],[y-coord]
 ```
 
-Hier sind `[x-coord]` bzw. `[y-coord]` dreistellige Zahlen zwischen `025` und `555`, die die Koordinaten des Zielpunkts beschreiben, den der Ball erreichen soll.
+Hier sind `[x-coord]` und `[y-coord]` dreistellige Zahlen zwischen `025` und `555`, die die Koordinaten des Zielpunkts beschreiben, den der Ball erreichen soll.
 
 Antwort
 -------
