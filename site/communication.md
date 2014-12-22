@@ -20,7 +20,7 @@ Hier sind `[x-coord]` und `[y-coord]` dreistellige Zahlen zwischen `025` und `55
 Antwort
 -------
 
-*Antworten* enden immer mit einem `\n`. Der Microcontroller wird nur Antworten geben, wenn sich der Ball balanciert hat. Er kann folgende Antworten geben:
+*Antworten* bestehen genau aus einer Zeile. Der Microcontroller wird nur Antworten geben, wenn sich der Ball balanciert hat. Er kann folgende Antworten geben:
 
 * `=0`, wenn der Ball den Zielpunkt noch nicht erreicht hat.
 * `=-1`, wenn der Ball den Zielpunkt nicht erreicht hat und (wahrscheinlich) nie erreichen wird.
