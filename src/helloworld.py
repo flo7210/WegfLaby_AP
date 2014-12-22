@@ -1,4 +1,6 @@
+from __builtin__ import *
 from maze import *
+import serial
 
 print('Hello World')
 
@@ -23,3 +25,12 @@ print(m.__repr__(m.bfs((1, 2), (5, 3))))
 print('')
 print(n)
 print(n.__repr__(n.bfs((1, 2), (5, 3))))
+
+def run_on(path):
+    ser = serial.Serial(0)
+
+    for (x, y) in path:
+        ser.write(str(x).zfill(3) + ',' + str(y).zfill(3))
+        line = ser.readline()
+
+    ser.close()
