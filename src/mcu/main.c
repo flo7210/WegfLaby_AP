@@ -176,7 +176,7 @@ static int startBalancing(uint16_t destX, uint16_t destY) {
 
     // uart_puts_pgm(PSTR("# Start balancing...\r\n"));
 
-    while(1) {
+    while (1) {
         if (!Recognize_Event())
             continue;
 
@@ -217,33 +217,28 @@ int main(void) {
 	setServo(0, servo_null_x);
     setServo(1, servo_null_y);
 
-    // Start TODO
+    // Get input "[x-coord],[y-coord]"
+    while (1) {
+        uint16_t destX = 1;
+        uint16_t destY = 1;
 
-    // Get input
-    uint16_t destx[5];
-    uint16_t desty[5];
-
-    int i, j;
-    for (i = 0; i < 5; i++) {
-        destx[i] = 1;
-        desty[i] = 1;
-
-        for (j = 0; j < 3; j++) {
-            char c = uart_getc();
+        int i;
+        char c;
+        for (i = 0; i < 3; i++) {
+            c = uart_getc();
             uint16_t d = c - '0';
-            destx[i] += d * pow(10, 2 - j);
-            desty[i] += d * pow(10, 2 - j);
+            destX += d * pow(10, 2 - i);
+        }
+        c = uart_getc(); // Get comma
+        for (i = 0; i < 3; i++) {
+            c = uart_getc();
+            uint16_t d = c - '0';
+            destY += d * pow(10, 2 - i);
         }
 
-        uart_puti(destx[i]);
+        // Move ball
+        startBalancing(destX, destY);
     }
-
-    // Move ball
-    for (i = 0; i < sizeof(destx) / sizeof(int); i++) {
-        startBalancing(destx[i], desty[i]);
-    }
-
-    // End TODO
 	
 	return 0;
 }
