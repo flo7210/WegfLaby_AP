@@ -30,7 +30,11 @@ def run_on(path):
     ser = serial.Serial(0)
 
     for (x, y) in path:
-        ser.write(str(x).zfill(3) + ',' + str(y).zfill(3))
+        input = str(x).zfill(3) + ',' + str(y).zfill(3)
+        ser.write(input)
+        print(input)
+
         line = ser.readline()
+        print(line)
 
     ser.close()
