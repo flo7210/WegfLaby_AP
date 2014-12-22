@@ -19,7 +19,7 @@ n.add_path([(1, 1), (2, 1), (3, 1), (4, 1), (5, 1),
             (1, 3), (1, 2), (1, 1)])
 
 print(m)
-print(m.bfs((1, 2), (5, 3)))
+print(m.__repr__(m.bfs((1, 2), (5, 3))))
 print('')
 print(n)
-print(n.bfs((1, 2), (5, 3)))
+print(n.__repr__(n.bfs((1, 2), (5, 3))))

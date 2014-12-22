@@ -81,7 +81,7 @@ class Maze:
         path.reverse()
         return path
     
-    def __repr__(self):
+    def __repr__(self, path = []):
         """Returns a string that represents the current maze."""
 
         result = ''
@@ -98,8 +98,12 @@ class Maze:
             for x in range(1, self.width + 1):
                 # Draw horizontal passage
                 if (x - 1, y) in self.get_reachable_neighbors(x, y):
-                    result += '   '
-                else: result += '|  '
+                    result += ' '
+                else: result += '|'
+
+                if (x, y) in path:
+                    result += 'xx'
+                else: result += '  '
 
             result += '|\n'
 
