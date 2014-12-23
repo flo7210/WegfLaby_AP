@@ -28,4 +28,6 @@ Antwort
 
 Hier heißt *Zielpunkt erreichen*, wenn sich der Ball in einer festgelegten unmittelbaren Umgebung des Zielpunktes befindet. Die Variable `uint8_t destinationFuzzy`, die die Größe der Umgebung festlegt, liegt in `main.c`. Die Norm, die diese Umgebung beschreibt, wird in der folgenden Funktion in `main.c` angegeben:
 
-```static uint8_t norm(uint8_t x, uint8_t y, uint8_t x2, uint8_t y2)```
+```
+static uint8_t norm(uint8_t x, uint8_t y, uint8_t x2, uint8_t y2)
+```
