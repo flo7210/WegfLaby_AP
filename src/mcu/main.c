@@ -192,10 +192,9 @@ static int startBalancing(uint16_t destX, uint16_t destY) {
             uart_puts("=");
             uart_puti(result);
             uart_puts("\r\n");
-        }
 
-        if (result == 1 || result == -1)
-            break;
+            if (result != 0) break;
+        }
     }
 
     return result;
