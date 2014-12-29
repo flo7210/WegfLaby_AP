@@ -206,14 +206,14 @@ int main(void) {
     memset(&rb_xyv, '\0', sizeof(struct ringbuffer));
     memset(&rb_v, '\0', sizeof(struct ringbuffer));
     
-	uartInit();   // serielle Ausgabe an PC
-	//ADCInit(0);   // Analoge Werte einlesen
-	//PWMInit();    // Pulsweite auf D6 ausgeben 
-	timerInit();  // "Systemzeit" initialisieren
-	servoInit();  // Servoansteuerung initialisieren
-	Touchscreen_Init();
+    uartInit();   // serielle Ausgabe an PC
+    //ADCInit(0);   // Analoge Werte einlesen
+    //PWMInit();    // Pulsweite auf D6 ausgeben 
+    timerInit();  // "Systemzeit" initialisieren
+    servoInit();  // Servoansteuerung initialisieren
+    Touchscreen_Init();
 
-	setServo(0, servo_null_x);
+    setServo(0, servo_null_x);
     setServo(1, servo_null_y);
 
     // Get input "[x-coord],[y-coord]"
@@ -238,6 +238,6 @@ int main(void) {
         // Move ball
         startBalancing(destX, destY);
     }
-	
-	return 0;
+
+    return 0;
 }
