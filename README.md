@@ -8,9 +8,9 @@ Ordnerstruktur
 
 * `/steckbrief` für Steckbrief
 * `/src` für Quellcode
-* `/site` für Webseite
 * `/poster` für Poster
 * `/presentation` für Präsentation
+* Benutze Wiki für Webseite
 
 Coding style
 ----------
