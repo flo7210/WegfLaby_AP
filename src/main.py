@@ -11,15 +11,21 @@ def run(path, maze):
         if path[i] in skippables: continue
         time.sleep(1)
 
+        # Send command `[x-coord],[y-coord]`
         (t, u) = touchscreen_coord(path[i], maze)
         input = str(t).zfill(3) + ',' + str(u).zfill(3)
 
         ser.write(input)
         print(input)
 
+        # Get response `=[id]`
         response = ser.read(2)
         print(response)
         print
+
+        if response[1] == '2':
+            print('Something went wrong.');
+            break;
 
         print(maze.print_path(path[:i+1], path[-1:]))
         print

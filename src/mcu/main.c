@@ -189,7 +189,7 @@ static int startBalancing(uint16_t destX, uint16_t destY) {
         result = control(x, y, destX, destY);
 
         if (result >= 1) {
-            // Print
+            // Send response `=[id]`
             uart_puts("=");
             uart_puti(result);
 
@@ -216,7 +216,7 @@ int main(void) {
     setServo(0, servo_null_x);
     setServo(1, servo_null_y);
 
-    // Get input "[x-coord],[y-coord]"
+    // Get input `[x-coord],[y-coord]`
     while (1) {
         uint16_t destX = 1;
         uint16_t destY = 1;
