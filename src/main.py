@@ -41,7 +41,7 @@ def get_skippables(path):
     for i in range(2, len(path)):
         (x, y) = path[i]
 
-        if (x == anchor[0]) ^ (y == anchor[1]):
+        if x == anchor[0] or y == anchor[1]:
             skippables.append(path[i - 1])
         else:
             anchor = path[i - 1]
