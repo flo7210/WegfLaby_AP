@@ -1,10 +1,10 @@
-from __builtin__ import *
 from maze import *
 import serial
 import time
 
-def run_on(path, maze):
+def run(path, maze):
     ser = serial.Serial(0)
+    i = 0
 
     for (x, y) in path:
         time.sleep(1)
@@ -17,10 +17,17 @@ def run_on(path, maze):
 
         response = ser.read(2)
         print(response)
+        print
+
+        i += 1
+        print(maze.print_path(path[:i], path[-1:]))
+        print
 
     ser.close()
 
 def touchscreen_coord(maze_coord, maze):
+    """Returns the corresponding touchscreen coordinates to the given maze coordinates"""
+
     (x, y) = maze_coord;
     touchscreen_width = touchscreen_height = 530;
 
@@ -29,24 +36,24 @@ def touchscreen_coord(maze_coord, maze):
 
     return (t, u)
 
+def detect_maze():
+    m = Maze(7, 5)
+    m.add_path([(1, 3), (1, 2), (1, 1), (2, 1), (1, 1), 
+                (1, 2), (2, 2), (2, 3), (3, 3), (3, 2), 
+                (3, 1), (4, 1), (5, 1), (6, 1), (7, 1),
+                (7, 2), (5, 1), (5, 2), (6, 2), (6, 3), 
+                (5, 3), (4, 1), (4, 2), (4, 3), (4, 4),
+                (3, 4), (4, 4), (4, 5), (5, 5), (4, 5), 
+                (3, 5), (2, 5), (1, 5), (1, 4), (2, 4),
+                (4, 4), (5, 4), (6, 4), (6, 5), (7, 5),
+                (7, 4), (7, 3)])
 
-print('Hello World')
+    return m
 
-m = Maze(7, 5)
-m.add_path([(1, 3), (1, 2), (1, 1), (2, 1), (1, 1), 
-            (1, 2), (2, 2), (2, 3), (3, 3), (3, 2), 
-            (3, 1), (4, 1), (5, 1), (6, 1), (7, 1),
-            (7, 2)])
-m.add_path([(5, 1), (5, 2), (6, 2), (6, 3), (5, 3)])
-m.add_path([(4, 1), (4, 2), (4, 3), (4, 4), (3, 4),
-            (4, 4), (4, 5), (5, 5), (4, 5), (3, 5), 
-            (2, 5), (1, 5), (1, 4), (2, 4)])
-m.add_path([(4, 4), (5, 4), (6, 4), (6, 5), (7, 5),
-            (7, 4), (7, 3)])
-
+m = detect_maze();
 path = m.bfs((1, 3), (7, 3))
 
 print(m)
-print(m.__repr__(path))
+print
 
-run_on(path, m)
+run(path, m)

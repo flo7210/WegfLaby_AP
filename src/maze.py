@@ -81,8 +81,8 @@ class Maze:
         path.reverse()
         return path
     
-    def __repr__(self, path = []):
-        """Returns a string that represents the current maze."""
+    def print_path(self, path, marks = []):
+        """Returns a string that represents the current maze with the given path."""
 
         result = ''
 
@@ -101,8 +101,13 @@ class Maze:
                     result += ' '
                 else: result += '|'
 
+
                 if (x, y) in path:
-                    result += 'xx'
+                    if (x, y) == path[len(path) - 1]:
+                        result += '(X'
+                    else: result += ' x'
+                elif (x, y) in marks:
+                    result += ' #'
                 else: result += '  '
 
             result += '|\n'
@@ -113,3 +118,8 @@ class Maze:
                     result += '+--'
 
         return result + '+'
+
+    def __repr__(self):
+        """Returns a string that represents the current maze."""
+
+        return self.print_path([]);
