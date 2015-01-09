@@ -76,15 +76,15 @@ static uint8_t norm(uint8_t x, uint8_t y, uint8_t x2, uint8_t y2) {
 }
 
 // Controls the balancing of the ball. Returns when ball is balanced:
+// 0 - if destination is not reached
+// 1 - if destination is reached
 // 2 - if destination is not reached and probably never will
-// 0  - if destination is not reached
-// 1  - if destination is reached
 //
-// If ball is not balanced, this returns -2.
+// If ball is not balanced, this returns -1.
 static int control(uint16_t x, uint16_t y, uint16_t destX, uint16_t destY) {
     rb_append(&rb_xy, x, y);
     if (rb_xy.count < 10)
-        return -2;
+        return -1;
 
     /* Abweichung des jetztigen Werts zu den letzten gespeicherten Werten
      * vergleichen, bei zu großer Abweichung wird der Wert nicht verarbeitet
@@ -97,7 +97,7 @@ static int control(uint16_t x, uint16_t y, uint16_t destX, uint16_t destY) {
         avrg += norm(x, y, rb_xy.val_x[current], rb_xy.val_y[current]);
     }
     if ((avrg / 9) >= 75)
-        return -2;
+        return -1;
 
     /* Wenn sich die Kugelposition für eine halbe Sekunde ein bisschen nicht ändert,
      * hat sich die Kugel balanciert. */
@@ -126,7 +126,7 @@ static int control(uint16_t x, uint16_t y, uint16_t destX, uint16_t destY) {
 
     rb_append(&rb_xyv, x, y);
     if (rb_xyv.count < 10)
-        return -2;
+        return -1;
 
     /* Wir greifen auf den fünftletzten Eintrag (vor dem aktuell eingefügten)
      * zu, indem wir 6 Schritte zurückgehen */
@@ -140,7 +140,7 @@ static int control(uint16_t x, uint16_t y, uint16_t destX, uint16_t destY) {
 
     rb_append(&rb_v, vx, vy);
     if (rb_v.count < 10)
-        return -2;
+        return -1;
 
     int16_t xoff = destX - x;
     int16_t yoff = destY - y;
@@ -166,18 +166,16 @@ static int control(uint16_t x, uint16_t y, uint16_t destX, uint16_t destY) {
 
     setServo(0, (int)servo_x);
     setServo(1, (int)servo_y);
-    return -2;
+    return -1;
 }
 
 // Start balancing
 static int startBalancing(uint16_t destX, uint16_t destY) {
     int16_t x = 0, y = 0;
-    int result = -2;
+    int result = -1;
 
     last_balanced_x = -1;
     last_balanced_y = -1;
-
-    // uart_puts_pgm(PSTR("# Start balancing...\r\n"));
 
     while (1) {
         if (!Recognize_Event())
@@ -217,8 +215,6 @@ int main(void) {
 
     setServo(0, servo_null_x);
     setServo(1, servo_null_y);
-
-    uart_puts("Initialized\n");
 
     // Get input "[x-coord],[y-coord]"
     while (1) {
