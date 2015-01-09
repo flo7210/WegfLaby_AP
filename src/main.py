@@ -1,5 +1,5 @@
 from __builtin__ import *
-from maze import *
+from maze import Maze
 from serial import Serial
 import time
 
