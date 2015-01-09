@@ -65,10 +65,11 @@ def detect_maze():
 
     return m
 
-m = detect_maze();
-path = m.bfs((1, 3), (7, 3))
+if __name__ == "__main__":
+    m = detect_maze();
+    path = m.bfs((1, 3), (7, 3))
 
-print(m)
-print
+    print(m)
+    print
 
-run(path, m)
+    run(path, m)
