@@ -1,15 +1,17 @@
+from __builtin__ import *
 from maze import *
-import serial
+from serial import Serial
 import time
 
 def run(path, maze):
-    ser = serial.Serial(0)
-    i = 0
+    ser = Serial(0)
+    skippables = get_skippables(path);
 
-    for (x, y) in path:
+    for i in range(len(path)):
+        if path[i] in skippables: continue
         time.sleep(1)
 
-        (t, u) = touchscreen_coord((x, y), maze);
+        (t, u) = touchscreen_coord(path[i], maze)
         input = str(t).zfill(3) + ',' + str(u).zfill(3)
 
         ser.write(input)
@@ -19,14 +21,29 @@ def run(path, maze):
         print(response)
         print
 
-        i += 1
-        print(maze.print_path(path[:i], path[-1:]))
+        print(maze.print_path(path[:i+1], path[-1:]))
         print
 
     ser.close()
 
+def get_skippables(path):
+    """Return a list of vertices in the given path that can be skipped."""
+
+    skippables = []
+    anchor = path[0]
+
+    for i in range(2, len(path)):
+        (x, y) = path[i]
+
+        if (x == anchor[0]) ^ (y == anchor[1]):
+            skippables.append(path[i - 1])
+        else:
+            anchor = path[i - 1]
+
+    return skippables
+
 def touchscreen_coord(maze_coord, maze):
-    """Returns the corresponding touchscreen coordinates to the given maze coordinates"""
+    """Return the corresponding touchscreen coordinates to the given maze coordinates."""
 
     (x, y) = maze_coord;
     touchscreen_width = touchscreen_height = 530;
@@ -38,15 +55,13 @@ def touchscreen_coord(maze_coord, maze):
 
 def detect_maze():
     m = Maze(7, 5)
-    m.add_path([(1, 3), (1, 2), (1, 1), (2, 1), (1, 1), 
-                (1, 2), (2, 2), (2, 3), (3, 3), (3, 2), 
-                (3, 1), (4, 1), (5, 1), (6, 1), (7, 1),
-                (7, 2), (5, 1), (5, 2), (6, 2), (6, 3), 
-                (5, 3), (4, 1), (4, 2), (4, 3), (4, 4),
-                (3, 4), (4, 4), (4, 5), (5, 5), (4, 5), 
-                (3, 5), (2, 5), (1, 5), (1, 4), (2, 4),
-                (4, 4), (5, 4), (6, 4), (6, 5), (7, 5),
-                (7, 4), (7, 3)])
+    m.add_path([(1, 3), (1, 2), (1, 1), (2, 1), (1, 1), (1, 2), (2, 2), (2, 3), 
+                (3, 3), (3, 2), (3, 1), 
+                (4, 1), (5, 1), (6, 1), (7, 1), (7, 2), (5, 1), (5, 2), (6, 2), 
+                (6, 3), (5, 3), 
+                (4, 1), (4, 2), (4, 3), (4, 4), (3, 4), (4, 4), (4, 5), (5, 5), 
+                (4, 5), (3, 5), (2, 5), (1, 5), (1, 4), (2, 4),
+                (4, 4), (5, 4), (6, 4), (6, 5), (7, 5), (7, 4), (7, 3)])
 
     return m
 
