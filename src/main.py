@@ -8,7 +8,7 @@ def run(path, maze):
     skippables = get_skippables(path);
 
     for i in range(len(path)):
-        if path[i] in skippables: continue
+        if i in skippables: continue
         time.sleep(1)
 
         # Send command `[x-coord],[y-coord]`
@@ -42,7 +42,7 @@ def get_skippables(path):
         (x, y) = path[i]
 
         if x == anchor[0] or y == anchor[1]:
-            skippables.append(path[i - 1])
+            skippables.append(i - 1)
         else:
             anchor = path[i - 1]
 
