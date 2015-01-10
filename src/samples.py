@@ -21,5 +21,5 @@ print
 
 print("Get skippables:")
 skippables = main.get_skippables(path)
-print(m.print_path([], skippables))
+print(m.print_path([], [ path[i] for i in skippables ]))
 print
