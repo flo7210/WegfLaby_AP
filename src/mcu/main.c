@@ -102,10 +102,8 @@ static int control(uint16_t x, uint16_t y, uint16_t destX, uint16_t destY) {
     /* Wenn sich die Kugelposition für eine halbe Sekunde ein bisschen nicht ändert,
      * hat sich die Kugel balanciert. */
     if (avrg <= 8) {
-        if (stehtcnt >= 30) {
+        if (stehtcnt == 30) {
             // Ball is balanced
-            stehtcnt = 0;
-            
             if (norm(x, y, destX, destY) <= destinationFuzzy)
                 return 1; // Destination reached
 
