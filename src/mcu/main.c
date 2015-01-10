@@ -104,6 +104,8 @@ static int control(uint16_t x, uint16_t y, uint16_t destX, uint16_t destY) {
     if (avrg <= 8) {
         if (stehtcnt >= 30) {
             // Ball is balanced
+            stehtcnt = 0;
+            
             if (norm(x, y, destX, destY) <= destinationFuzzy)
                 return 1; // Destination reached
 
@@ -115,8 +117,6 @@ static int control(uint16_t x, uint16_t y, uint16_t destX, uint16_t destY) {
 
             last_balanced_x = x;
             last_balanced_y = y;
-
-            stehtcnt = 0;
 
             return 0;
         } else stehtcnt++;
