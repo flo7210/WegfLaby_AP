@@ -1,11 +1,12 @@
 from __builtin__ import *
 from maze import Maze
+from balancer import Balancer
 from serial import Serial
 import time
 
 def run(path, maze):
     ser = Serial(0)
-    skippables = get_skippables(path);
+    skippables = maze.get_skippables(path);
 
     for i in range(len(path)):
         if i in skippables: continue
@@ -31,34 +32,7 @@ def run(path, maze):
         print
 
     ser.close()
-
-def get_skippables(path):
-    """Return a list of vertices in the given path that can be skipped."""
-
-    skippables = []
-    anchor = path[0]
-
-    for i in range(2, len(path)):
-        (x, y) = path[i]
-
-        if x == anchor[0] or y == anchor[1]:
-            skippables.append(i - 1)
-        else:
-            anchor = path[i - 1]
-
-    return skippables
-
-def touchscreen_coord(maze_coord, maze):
-    """Return the corresponding touchscreen coordinates to the given maze coordinates."""
-
-    (x, y) = maze_coord;
-    touchscreen_width = touchscreen_height = 530;
-
-    t = x * touchscreen_width / maze.width - touchscreen_width / (2 * maze.width) + 25
-    u = y * touchscreen_height / maze.height - touchscreen_height / (2 * maze.height) + 25
-
-    return (t, u)
-
+    
 def detect_maze():
     m = Maze(7, 5)
     m.add_path([(1, 3), (1, 2), (1, 1), (2, 1), (1, 1), (1, 2), (2, 2), (2, 3), 
