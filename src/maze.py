@@ -49,7 +49,7 @@ class Maze:
             self.add_edge(path[i], path[i - 1])
 
     def bfs(self, start, end):
-        """Perform a breadth-first search and returns an optimal path from start to end."""
+        """Perform a breadth-first search and return an optimal path from start to end."""
 
         queue = [start]
         parent = dict()
