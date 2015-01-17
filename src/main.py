@@ -1,4 +1,3 @@
-from __builtin__ import *
 from maze import Maze
 from balancer import Balancer
 from serial import Serial
