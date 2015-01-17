@@ -18,16 +18,20 @@ class Balancer:
     def start_listening(self):
         """Start listening for responses and handle them."""
 
-        while True:
-            response = self.read_response()
-            self.response_handler(self, response)
-
-            # Break loop if ball is balanced
-            if response[0]: break
-
-        if len(self.command_queue) > 1:
+        while len(self.command_queue) > 1:
             (t, u) = self.command_queue.pop(0)
             self.send_command(t, u)
+
+            while True:
+                response = self.read_response()
+                self.response_handler(self, (t, u), response)
+
+                # Break loop if ball is balanced
+                if response[0]: break
+
+    def add_command(self, t, u):
+        """Add a command to the command queue"""
+        self.command_queue.append((t, u))
 
     def send_command(self, t, u):
         """Send a command to direct the ball to the given touchscreen coordinates and start listening."""
@@ -44,7 +48,7 @@ class Balancer:
 
         return (balanced, t, u)
 
-    def to_touchscreen_coord(self, v, maze):
+    def to_touchscreen_coord(self, maze, v):
         """Return the corresponding touchscreen coordinates to the given vertex in the maze."""
 
         width = self.width - 2 * self.padding
@@ -54,6 +58,17 @@ class Balancer:
         u = v[1] * height / maze.height - height / (2 * maze.height) + self.padding
 
         return (t, u)
+
+    def to_vertex(self, maze, coord):
+        """Return the corresponding vertex in the maze to the given touchscreen coordinates."""
+
+        vertex_width = self.width / maze.width
+        vertex_height = self.height / maze.height
+
+        x = coord[0] % vertex_width
+        y = coord[1] % vertex_height
+
+        return (x, y)
     
     def __enter__(self):
         return self
