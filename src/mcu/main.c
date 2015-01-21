@@ -68,14 +68,15 @@ static uint8_t max(uint8_t x, uint8_t y) {
     return x > y ? x : y;
 }
 
-// Maximal norm function
-static uint8_t norm(uint8_t x, uint8_t y, uint8_t x2, uint8_t y2) {
+// Distance function
+static uint8_t distance(uint8_t x, uint8_t y, uint8_t x2, uint8_t y2) {
     return max(abs(x - x2), abs(y - y2));
 }
 
 // Controls the balancing of the ball. Returns:
-// 1 - if ball is balanced
-// 0 - otherwise
+// 1  - if ball is balanced
+// -1 - invalid position
+// 0  - otherwise
 static int control(uint16_t x, uint16_t y) {
     rb_append(&rb_xy, x, y);
     if (rb_xy.count < 10)
@@ -89,21 +90,24 @@ static int control(uint16_t x, uint16_t y) {
     uint8_t count = 0;
     for (count = 0; count < 10; count++) {
         current = (current == 0 ? 10-1 : current-1);
-        avrg += norm(x, y, rb_xy.val_x[current], rb_xy.val_y[current]);
+        avrg += distance(x, y, rb_xy.val_x[current], rb_xy.val_y[current]);
     }
     if ((avrg / 9) >= 75)
-        return 0;
+        return -1;
 
     /* Wenn sich die Kugelposition für eine halbe Sekunde ein bisschen nicht ändert,
      * hat sich die Kugel balanciert. */
-    if (avrg <= 8) {
+    if (avrg <= 10) {
         if (stehtcnt == 30) {
             // Ball is balanced
             servo_null_x = last_sx;
             servo_null_y = last_sy;
+            stehtcnt++;
 
             return 1;
-        } else stehtcnt++;
+        }
+
+        stehtcnt++;
     } else {
         stehtcnt = 0;
     }
@@ -156,6 +160,9 @@ static int control(uint16_t x, uint16_t y) {
 static int readCommand() {
     // Get command `[x-coord],[y-coord]`
     
+    destX = 0;
+    destY = 0;
+
     int i;
     char c;
     for (i = 0; i < 3; i++) {
@@ -169,6 +176,8 @@ static int readCommand() {
         uint16_t d = c - '0';
         destY += d * pow(10, 2 - i);
     }
+
+    return 1;
 }
 
 static int sendResponse(char sign, int16_t x, int16_t y) {
@@ -183,6 +192,8 @@ static int sendResponse(char sign, int16_t x, int16_t y) {
     if (y < 100) uart_putc('0');
     if (y < 10) uart_putc('0');
     uart_puti(y);
+
+    return 1;
 }
 
 int main(void) {
@@ -199,8 +210,10 @@ int main(void) {
     setServo(0, servo_null_x);
     setServo(1, servo_null_y);
 
+    uart_puts("Initialized.\n");
+
     while (1) {
-        readCoordinates();
+        readCommand();
 
         while (1) {
             if (!Recognize_Event())
@@ -211,10 +224,12 @@ int main(void) {
         
             int16_t x = Buffer_Touchscreen_Data.x_pos - 200;
             int16_t y = Buffer_Touchscreen_Data.y_pos - 200;
-            result = control(x, y);
+            int result = control(x, y);
 
-            sendResponse(result == 0 ? ':' : '=', x, y);
-            if (result != 0) break;
+            if (result >= 0) {
+                sendResponse(result == 0 ? ':' : '=', x, y);
+                if (result != 0) break;
+            }
         }
     }
 
