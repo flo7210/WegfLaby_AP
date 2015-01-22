@@ -1,64 +1,45 @@
-from __builtin__ import *
 from maze import Maze
+from balancer import Balancer
 from serial import Serial
 import time
+import math
 
 def run(path, maze):
-    ser = Serial(0)
-    skippables = get_skippables(path);
+    with Balancer(Serial(0)) as balancer:
+        def response_handler(destination, response):
+            (balanced, t, u) = response
 
-    for i in range(len(path)):
-        if i in skippables: continue
-        time.sleep(1)
+            if balanced and distance(destination, (t, u)) < 15:
+                # We are balanced and in the right place
+                print(maze.print_path(path[:response_handler.counter + 1], path[-1:]))
+                print
+                
+                # Skip over skippables
+                if response_handler.counter + 1 >= len(path): return
 
-        # Send command `[x-coord],[y-coord]`
-        (t, u) = touchscreen_coord(path[i], maze)
-        input = str(t).zfill(3) + ',' + str(u).zfill(3)
+                skippables = maze.get_skippables(path)
+                while True:
+                    response_handler.counter += 1
+                    if response_handler.counter not in skippables: break
 
-        ser.write(input)
-        print(input)
+                # Add new command
+                (t, u) = to_touchscreen_coord(maze, balancer, path[response_handler.counter])
+                print (t, u)
+                print
+                balancer.add_command(t, u)
+            elif balanced:
+                # If we're not in the right place, run old command again
+                (t, u) = destination
+                balancer.add_command(t, u)
+        
+        # Add first command
+        response_handler.counter = -1
+        response_handler((0, 0), (True, 0, 0))
 
-        # Get response `=[id]`
-        response = ser.read(2)
-        print(response)
-        print
-
-        if response[1] == '2':
-            print('Something went wrong.');
-            break;
-
-        print(maze.print_path(path[:i+1], path[-1:]))
-        print
-
-    ser.close()
-
-def get_skippables(path):
-    """Return a list of vertices in the given path that can be skipped."""
-
-    skippables = []
-    anchor = path[0]
-
-    for i in range(2, len(path)):
-        (x, y) = path[i]
-
-        if x == anchor[0] or y == anchor[1]:
-            skippables.append(i - 1)
-        else:
-            anchor = path[i - 1]
-
-    return skippables
-
-def touchscreen_coord(maze_coord, maze):
-    """Return the corresponding touchscreen coordinates to the given maze coordinates."""
-
-    (x, y) = maze_coord;
-    touchscreen_width = touchscreen_height = 530;
-
-    t = x * touchscreen_width / maze.width - touchscreen_width / (2 * maze.width) + 25
-    u = y * touchscreen_height / maze.height - touchscreen_height / (2 * maze.height) + 25
-
-    return (t, u)
-
+        # Start listening
+        balancer.response_handler = response_handler
+        balancer.start_listening()
+    
 def detect_maze():
     m = Maze(7, 5)
     m.add_path([(1, 3), (1, 2), (1, 1), (2, 1), (1, 1), (1, 2), (2, 2), (2, 3), 
@@ -71,11 +52,35 @@ def detect_maze():
 
     return m
 
+def to_touchscreen_coord(maze, balancer, v):
+    """Return the corresponding touchscreen coordinates to the given vertex in the maze."""
+
+    width = balancer.width - 2 * balancer.padding
+    height = balancer.height - 2 * balancer.padding
+
+    t = v[0] * width / maze.width - width / (2 * maze.width) + balancer.padding
+    u = v[1] * height / maze.height - height / (2 * maze.height) + balancer.padding
+
+    return (t, u)
+
+def to_vertex(maze, balancer, coord):
+    """Return the corresponding vertex in the maze to the given touchscreen coordinates."""
+
+    vertex_width = balancer.width / maze.width
+    vertex_height = balancer.height / maze.height
+
+    x = coord[0] / vertex_width + 1
+    y = coord[1] / vertex_height + 1
+
+    return (x, y)
+
+def distance(coord1, coord2):
+    (t1, u1) = coord1
+    (t2, u2) = coord2
+    return max(abs(t1 - t2), abs(u1 - u2))
+
 if __name__ == "__main__":
     m = detect_maze();
     path = m.bfs((1, 3), (7, 3))
-
-    print(m)
-    print
 
     run(path, m)

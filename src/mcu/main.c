@@ -32,13 +32,11 @@ uint8_t stehtcnt = 0;
 float last_sx = 0.0;
 float last_sy = 0.0;
 
-uint16_t last_balanced_x = -1;
-uint16_t last_balanced_y = -1;
-
 uint16_t servo_null_x = 1470;
 uint16_t servo_null_y = 1462;
 
-uint8_t destinationFuzzy = 20;
+uint16_t destX = 290;
+uint16_t destY = 290;
 
 // Touchscreen helper function
 static unsigned char Recognize_Event(void) {
@@ -70,21 +68,19 @@ static uint8_t max(uint8_t x, uint8_t y) {
     return x > y ? x : y;
 }
 
-// Maximal norm function
-static uint8_t norm(uint8_t x, uint8_t y, uint8_t x2, uint8_t y2) {
+// Distance function
+static uint8_t distance(uint8_t x, uint8_t y, uint8_t x2, uint8_t y2) {
     return max(abs(x - x2), abs(y - y2));
 }
 
-// Controls the balancing of the ball. Returns when ball is balanced:
-// 0 - if destination is not reached
-// 1 - if destination is reached
-// 2 - if destination is not reached and probably never will
-//
-// If ball is not balanced, this returns -1.
-static int control(uint16_t x, uint16_t y, uint16_t destX, uint16_t destY) {
+// Controls the balancing of the ball. Returns:
+// 1  - if ball is balanced
+// -1 - invalid position
+// 0  - otherwise
+static int control(uint16_t x, uint16_t y) {
     rb_append(&rb_xy, x, y);
     if (rb_xy.count < 10)
-        return -1;
+        return 0;
 
     /* Abweichung des jetztigen Werts zu den letzten gespeicherten Werten
      * vergleichen, bei zu großer Abweichung wird der Wert nicht verarbeitet
@@ -94,37 +90,31 @@ static int control(uint16_t x, uint16_t y, uint16_t destX, uint16_t destY) {
     uint8_t count = 0;
     for (count = 0; count < 10; count++) {
         current = (current == 0 ? 10-1 : current-1);
-        avrg += norm(x, y, rb_xy.val_x[current], rb_xy.val_y[current]);
+        avrg += distance(x, y, rb_xy.val_x[current], rb_xy.val_y[current]);
     }
     if ((avrg / 9) >= 75)
         return -1;
 
     /* Wenn sich die Kugelposition für eine halbe Sekunde ein bisschen nicht ändert,
      * hat sich die Kugel balanciert. */
-    if (avrg <= 8) {
+    if (avrg <= 10) {
         if (stehtcnt == 30) {
             // Ball is balanced
-            if (norm(x, y, destX, destY) <= destinationFuzzy)
-                return 1; // Destination reached
-
-            // if (last_balanced_x >= 0 && last_balanced_y >= 0 && norm(x, y, last_balanced_x, last_balanced_y) <= destinationFuzzy)
-            //     return 2;
-
             servo_null_x = last_sx;
             servo_null_y = last_sy;
+            stehtcnt++;
 
-            last_balanced_x = x;
-            last_balanced_y = y;
+            return 1;
+        }
 
-            return 0;
-        } else stehtcnt++;
+        stehtcnt++;
     } else {
         stehtcnt = 0;
     }
 
     rb_append(&rb_xyv, x, y);
     if (rb_xyv.count < 10)
-        return -1;
+        return 0;
 
     /* Wir greifen auf den fünftletzten Eintrag (vor dem aktuell eingefügten)
      * zu, indem wir 6 Schritte zurückgehen */
@@ -138,7 +128,7 @@ static int control(uint16_t x, uint16_t y, uint16_t destX, uint16_t destY) {
 
     rb_append(&rb_v, vx, vy);
     if (rb_v.count < 10)
-        return -1;
+        return 0;
 
     int16_t xoff = destX - x;
     int16_t yoff = destY - y;
@@ -164,38 +154,46 @@ static int control(uint16_t x, uint16_t y, uint16_t destX, uint16_t destY) {
 
     setServo(0, (int)servo_x);
     setServo(1, (int)servo_y);
-    return -1;
+    return 0;
 }
 
-// Start balancing
-static int startBalancing(uint16_t destX, uint16_t destY) {
-    int16_t x = 0, y = 0;
-    int result = -1;
-
-    last_balanced_x = -1;
-    last_balanced_y = -1;
-
-    while (1) {
-        if (!Recognize_Event())
-            continue;
-
-        if (!TestBit(Buffer_Touchscreen_Data.Flag_Register, FLAG_REGISTER_COORDINATES))
-            continue;
+static int readCommand() {
+    // Get command `[x-coord],[y-coord]`
     
-        x = Buffer_Touchscreen_Data.x_pos - 200;
-        y = Buffer_Touchscreen_Data.y_pos - 200;
-        result = control(x, y, destX, destY);
+    destX = 0;
+    destY = 0;
 
-        if (result >= 1) {
-            // Send response `=[id]`
-            uart_puts("=");
-            uart_puti(result);
-
-            if (result != 0) break;
-        }
+    int i;
+    char c;
+    for (i = 0; i < 3; i++) {
+        c = uart_getc();
+        uint16_t d = c - '0';
+        destX += d * pow(10, 2 - i);
+    }
+    c = uart_getc(); // Get comma
+    for (i = 0; i < 3; i++) {
+        c = uart_getc();
+        uint16_t d = c - '0';
+        destY += d * pow(10, 2 - i);
     }
 
-    return result;
+    return 1;
+}
+
+static int sendResponse(char sign, int16_t x, int16_t y) {
+    uart_putc(sign);
+    
+    if (x < 100) uart_putc('0');
+    if (x < 10) uart_putc('0');
+    uart_puti(x);
+
+    uart_putc(',');
+    
+    if (y < 100) uart_putc('0');
+    if (y < 10) uart_putc('0');
+    uart_puti(y);
+
+    return 1;
 }
 
 int main(void) {
@@ -204,37 +202,35 @@ int main(void) {
     memset(&rb_xyv, '\0', sizeof(struct ringbuffer));
     memset(&rb_v, '\0', sizeof(struct ringbuffer));
     
-    uartInit();   // serielle Ausgabe an PC
-    //ADCInit(0);   // Analoge Werte einlesen
-    //PWMInit();    // Pulsweite auf D6 ausgeben 
-    timerInit();  // "Systemzeit" initialisieren
-    servoInit();  // Servoansteuerung initialisieren
+    uartInit();
+    timerInit();
+    servoInit();
     Touchscreen_Init();
 
     setServo(0, servo_null_x);
     setServo(1, servo_null_y);
 
-    // Get input `[x-coord],[y-coord]`
+    uart_puts("Initialized.\n");
+
     while (1) {
-        uint16_t destX = 1;
-        uint16_t destY = 1;
+        readCommand();
 
-        int i;
-        char c;
-        for (i = 0; i < 3; i++) {
-            c = uart_getc();
-            uint16_t d = c - '0';
-            destX += d * pow(10, 2 - i);
-        }
-        c = uart_getc(); // Get comma
-        for (i = 0; i < 3; i++) {
-            c = uart_getc();
-            uint16_t d = c - '0';
-            destY += d * pow(10, 2 - i);
-        }
+        while (1) {
+            if (!Recognize_Event())
+                continue;
 
-        // Move ball
-        startBalancing(destX, destY);
+            if (!TestBit(Buffer_Touchscreen_Data.Flag_Register, FLAG_REGISTER_COORDINATES))
+                continue;
+        
+            int16_t x = Buffer_Touchscreen_Data.x_pos - 200;
+            int16_t y = Buffer_Touchscreen_Data.y_pos - 200;
+            int result = control(x, y);
+
+            if (result >= 0) {
+                sendResponse(result == 0 ? ':' : '=', x, y);
+                if (result != 0) break;
+            }
+        }
     }
 
     return 0;

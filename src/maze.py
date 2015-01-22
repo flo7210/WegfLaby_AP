@@ -49,7 +49,7 @@ class Maze:
             self.add_edge(path[i], path[i - 1])
 
     def bfs(self, start, end):
-        """Perform a breadth-first search and returns an optimal path from start to end."""
+        """Perform a breadth-first search and return an optimal path from start to end."""
 
         queue = [start]
         parent = dict()
@@ -80,6 +80,22 @@ class Maze:
 
         path.reverse()
         return path
+
+    def get_skippables(self, path):
+        """Return a list of vertices in the given path that can be skipped."""
+
+        skippables = []
+        anchor = path[0]
+
+        for i in range(2, len(path)):
+            (x, y) = path[i]
+
+            if x == anchor[0] or y == anchor[1]:
+                skippables.append(i - 1)
+            else:
+                anchor = path[i - 1]
+
+        return skippables
     
     def print_path(self, path, marks = []):
         """Return a string that represents the current maze with the given path."""
