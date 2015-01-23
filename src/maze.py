@@ -22,7 +22,7 @@ class Maze:
         """Return the neighbors of the vertex given by x and y on the rectangle."""
 
         if not self.has_vertex(x, y): return []
-        neighbors = [(x + 1, y), (x, y - 1), (x, y + 1), (x - 1, y)]
+        neighbors = [(x + 1, y), (x, y - 1), (x - 1, y), (x, y + 1)]
         return [(x, y) for (x, y) in neighbors if self.has_vertex(x, y)]
 
     def get_reachable_neighbors(self, x, y):

@@ -23,14 +23,14 @@ def run(path, maze):
                     if response_handler.counter not in skippables: break
 
                 # Add new command
-                (t, u) = to_touchscreen_coord(maze, balancer, path[response_handler.counter])
-                print (t, u)
+                (tNew, uNew) = to_touchscreen_coord(maze, balancer, path[response_handler.counter])
+                print (tNew, uNew)
                 print
-                balancer.add_command(t, u)
+                balancer.add_command(tNew, uNew)
             elif balanced:
                 # If we're not in the right place, run old command again
-                (t, u) = destination
-                balancer.add_command(t, u)
+                (tNew, uNew) = destination
+                balancer.add_command(tNew, uNew)
         
         # Add first command
         response_handler.counter = -1
@@ -39,18 +39,70 @@ def run(path, maze):
         # Start listening
         balancer.response_handler = response_handler
         balancer.start_listening()
-    
-def detect_maze():
-    m = Maze(7, 5)
-    m.add_path([(1, 3), (1, 2), (1, 1), (2, 1), (1, 1), (1, 2), (2, 2), (2, 3), 
-                (3, 3), (3, 2), (3, 1), 
-                (4, 1), (5, 1), (6, 1), (7, 1), (7, 2), (5, 1), (5, 2), (6, 2), 
-                (6, 3), (5, 3), 
-                (4, 1), (4, 2), (4, 3), (4, 4), (3, 4), (4, 4), (4, 5), (5, 5), 
-                (4, 5), (3, 5), (2, 5), (1, 5), (1, 4), (2, 4),
-                (4, 4), (5, 4), (6, 4), (6, 5), (7, 5), (7, 4), (7, 3)])
 
-    return m
+def detect_maze():
+    dualmaze = Maze(7,5)
+    maze = Maze(7, 5)
+    visited = []
+    neighbors_stack = []
+
+    with Balancer(Serial(0)) as balancer:
+        def response_handler(destination, response):
+            (balanced, t, u) = response
+
+            if balanced and distance(destination, (t, u)) < 15:
+                # We are balanced and in the right place
+                (x, y) = to_vertex(maze, balancer, (t, u))
+
+                if len(neighbors_stack) == 0 and (x, y) not in visited:
+                    # Get neighbors
+                    response_handler.anchor = (x, y)
+                    neighbors = maze.get_neighbors(x, y)
+                    # but only those which are not in visited
+                    neighbors_stack.extend([n for n in neighbors if n not in visited])
+                    # print neighbors_stack
+                
+                if len(neighbors_stack) == 0:
+                    return
+
+                # Process neighbors stack
+                neighbor = neighbors_stack.pop()
+                (tNew, uNew) = to_touchscreen_coord(maze, balancer, neighbor)
+
+                if neighbor != response_handler.anchor:
+                    neighbors_stack.append(response_handler.anchor)
+
+                elif len(neighbors_stack) == 0:
+                    # Visited all neighbors of response_handler.anchor
+                    visited.append(response_handler.anchor)
+                    print visited
+
+                balancer.add_command(tNew, uNew)
+            elif balanced:
+                # If we're not in the right place, run old command again
+                (tNew, uNew) = destination
+                balancer.add_command(tNew, uNew)
+
+        (t, u) = to_touchscreen_coord(maze, balancer, (1, 3))
+        balancer.add_command(t, u)
+
+        balancer.response_handler = response_handler
+        balancer.start_listening()
+
+    return maze
+
+    
+# def detect_maze():
+#     m = Maze(7, 5)
+#     m.add_path([(1, 3), (1, 2), (1, 1), (2, 1), (1, 1), (1, 2), (2, 2), (2, 3), 
+#                 (3, 3), (3, 2), (3, 1), 
+#                 (4, 1), (5, 1), (6, 1), (7, 1), (7, 2), (5, 1), (5, 2), (6, 2), 
+#                 (6, 3), (5, 3), 
+#                 (4, 1), (4, 2), (4, 3), (4, 4), (3, 4), (4, 4), (4, 5), (5, 5), 
+#                 (4, 5), (3, 5), (2, 5), (1, 5), (1, 4), (2, 4),
+#                 (4, 4), (5, 4), (6, 4), (6, 5), (7, 5), (7, 4), (7, 3)])
+
+#     return m
 
 def to_touchscreen_coord(maze, balancer, v):
     """Return the corresponding touchscreen coordinates to the given vertex in the maze."""
@@ -83,4 +135,4 @@ if __name__ == "__main__":
     m = detect_maze();
     path = m.bfs((1, 3), (7, 3))
 
-    run(path, m)
+    # run(path, m)
