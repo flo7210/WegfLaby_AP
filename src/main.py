@@ -56,9 +56,9 @@ def detect_maze():
                     # Get neighbors
                     balance_handler.anchor = (x, y)
                     neighbors = maze.get_neighbors(x, y)
-                    # but only those which are not in visited
+
+                    # But add only those we have not visited
                     neighbors_stack.extend([n for n in neighbors if n not in visited])
-                    # print neighbors_stack
                 
                 if len(neighbors_stack) == 0:
                     return
@@ -104,11 +104,11 @@ def detect_maze():
 def to_touchscreen_coord(maze, balancer, v):
     """Return the corresponding touchscreen coordinates to the given vertex in the maze."""
 
-    width = balancer.width - 2 * balancer.padding
-    height = balancer.height - 2 * balancer.padding
+    width = balancer.width
+    height = balancer.height
 
-    t = v[0] * width / maze.width - width / (2 * maze.width) + balancer.padding
-    u = v[1] * height / maze.height - height / (2 * maze.height) + balancer.padding
+    t = v[0] * width / maze.width - width / (2 * maze.width)
+    u = v[1] * height / maze.height - height / (2 * maze.height)
 
     return (t, u)
 
