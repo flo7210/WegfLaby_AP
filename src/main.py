@@ -1,38 +1,27 @@
 from maze import Maze
 from balancer import Balancer
 from serial import Serial
-import time
-import math
 
 def run(path, maze):
     with Balancer(Serial(0)) as balancer:        
-        # Add first command
-        balance_handler.counter = -1
-        balance_handler((0, 0), (True, 0, 0), True)
-
-        # Start listening
-        balancer.balance_handler = balance_handler
-        balancer.start_listening()
-        
-        # Handlers
         def balance_handler(destination, response, destination_reached):
             (balanced, t, u) = response
 
             if destination_reached:
                 # We are balanced and in the right place
-                print(maze.print_path(path[:response_handler.counter + 1], path[-1:]))
+                print(maze.print_path(path[:balance_handler.counter + 1], path[-1:]))
                 print
                 
                 # Get next command and skip over skippables
-                if response_handler.counter + 1 >= len(path): return
+                if balance_handler.counter + 1 >= len(path): return
 
                 skippables = maze.get_skippables(path)
                 while True:
-                    response_handler.counter += 1
-                    if response_handler.counter not in skippables: break
+                    balance_handler.counter += 1
+                    if balance_handler.counter not in skippables: break
 
                 # Add new command
-                (tNew, uNew) = to_touchscreen_coord(maze, balancer, path[response_handler.counter])
+                (tNew, uNew) = to_touchscreen_coord(maze, balancer, path[balance_handler.counter])
                 print (tNew, uNew)
                 print
                 balancer.add_command(tNew, uNew)
@@ -41,6 +30,14 @@ def run(path, maze):
                 (tNew, uNew) = destination
                 balancer.add_command(tNew, uNew)
 
+        # Add first command
+        balance_handler.counter = -1
+        balance_handler((0, 0), (True, 0, 0), True)
+
+        # Start listening
+        balancer.balance_handler = balance_handler
+        balancer.start_listening()
+        
 def detect_maze():
     dualmaze = Maze(7,5)
     maze = Maze(7, 5)
@@ -48,13 +45,6 @@ def detect_maze():
     neighbors_stack = []
 
     with Balancer(Serial(0)) as balancer:
-        (t, u) = to_touchscreen_coord(maze, balancer, (1, 3))
-        balancer.add_command(t, u)
-
-        balancer.balance_handler = balance_handler
-        balancer.start_listening()
-
-        # Handlers
         def balance_handler(destination, response, destination_reached):
             (balanced, t, u) = response
 
@@ -77,11 +67,11 @@ def detect_maze():
                 neighbor = neighbors_stack.pop()
                 (tNew, uNew) = to_touchscreen_coord(maze, balancer, neighbor)
 
-                if neighbor != response_handler.anchor:
+                if neighbor != balance_handler.anchor:
                     neighbors_stack.append(balance_handler.anchor)
 
                 elif len(neighbors_stack) == 0:
-                    # Visited all neighbors of response_handler.anchor
+                    # Visited all neighbors of balance_handler.anchor
                     visited.append(balance_handler.anchor)
                     print visited
 
@@ -90,6 +80,12 @@ def detect_maze():
                 # If we're not in the right place, run old command again
                 (tNew, uNew) = destination
                 balancer.add_command(tNew, uNew)
+
+        (t, u) = to_touchscreen_coord(maze, balancer, (1, 3))
+        balancer.add_command(t, u)
+
+        balancer.balance_handler = balance_handler
+        balancer.start_listening()
 
     return maze
     
