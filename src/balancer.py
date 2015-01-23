@@ -7,6 +7,7 @@ class Balancer:
         """Initialize a new instance of the Balancer class."""
 
         self.response_handler = None
+        self.balance_handler = None
         self.serial = serial
         self.width = width
         self.height = height
@@ -23,13 +24,18 @@ class Balancer:
             self.send_command(t, u)
 
             while True:
-                response = self.read_response()
+                (balanced, tNew, uNew) = self.read_response()
+                response = (balanced, tNew, uNew)
 
+                # Fire handlers
+                if balanced and self.balance_handler is not None:
+                    self.balance_handler((tNew, uNew), response, self.distance((t, u), (tNew, uNew)) < 15)
+                
                 if self.response_handler is not None:
-                    self.response_handler((t, u), response)
+                    self.response_handler((tNew, uNew), response)
 
                 # Break loop if ball is balanced
-                if response[0]: break
+                if balanced: break
 
     def add_command(self, t, u):
         """Add a command to the command queue"""
@@ -49,6 +55,11 @@ class Balancer:
 
         return (balanced, t, u)
     
+    def distance(self, coord1, coord2):
+        (t1, u1) = coord1
+        (t2, u2) = coord2
+        return max(abs(t1 - t2), abs(u1 - u2))
+
     def __enter__(self):
         return self
 

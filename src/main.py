@@ -5,16 +5,25 @@ import time
 import math
 
 def run(path, maze):
-    with Balancer(Serial(0)) as balancer:
-        def response_handler(destination, response):
+    with Balancer(Serial(0)) as balancer:        
+        # Add first command
+        balance_handler.counter = -1
+        balance_handler((0, 0), (True, 0, 0), True)
+
+        # Start listening
+        balancer.balance_handler = balance_handler
+        balancer.start_listening()
+        
+        # Handlers
+        def balance_handler(destination, response, destination_reached):
             (balanced, t, u) = response
 
-            if balanced and distance(destination, (t, u)) < 15:
+            if destination_reached:
                 # We are balanced and in the right place
                 print(maze.print_path(path[:response_handler.counter + 1], path[-1:]))
                 print
                 
-                # Skip over skippables
+                # Get next command and skip over skippables
                 if response_handler.counter + 1 >= len(path): return
 
                 skippables = maze.get_skippables(path)
@@ -27,18 +36,10 @@ def run(path, maze):
                 print (tNew, uNew)
                 print
                 balancer.add_command(tNew, uNew)
-            elif balanced:
+            else:
                 # If we're not in the right place, run old command again
                 (tNew, uNew) = destination
                 balancer.add_command(tNew, uNew)
-        
-        # Add first command
-        response_handler.counter = -1
-        response_handler((0, 0), (True, 0, 0))
-
-        # Start listening
-        balancer.response_handler = response_handler
-        balancer.start_listening()
 
 def detect_maze():
     dualmaze = Maze(7,5)
@@ -47,16 +48,23 @@ def detect_maze():
     neighbors_stack = []
 
     with Balancer(Serial(0)) as balancer:
-        def response_handler(destination, response):
+        (t, u) = to_touchscreen_coord(maze, balancer, (1, 3))
+        balancer.add_command(t, u)
+
+        balancer.balance_handler = balance_handler
+        balancer.start_listening()
+
+        # Handlers
+        def balance_handler(destination, response, destination_reached):
             (balanced, t, u) = response
 
-            if balanced and distance(destination, (t, u)) < 15:
+            if destination_reached:
                 # We are balanced and in the right place
                 (x, y) = to_vertex(maze, balancer, (t, u))
 
                 if len(neighbors_stack) == 0 and (x, y) not in visited:
                     # Get neighbors
-                    response_handler.anchor = (x, y)
+                    balance_handler.anchor = (x, y)
                     neighbors = maze.get_neighbors(x, y)
                     # but only those which are not in visited
                     neighbors_stack.extend([n for n in neighbors if n not in visited])
@@ -70,27 +78,20 @@ def detect_maze():
                 (tNew, uNew) = to_touchscreen_coord(maze, balancer, neighbor)
 
                 if neighbor != response_handler.anchor:
-                    neighbors_stack.append(response_handler.anchor)
+                    neighbors_stack.append(balance_handler.anchor)
 
                 elif len(neighbors_stack) == 0:
                     # Visited all neighbors of response_handler.anchor
-                    visited.append(response_handler.anchor)
+                    visited.append(balance_handler.anchor)
                     print visited
 
                 balancer.add_command(tNew, uNew)
-            elif balanced:
+            else:
                 # If we're not in the right place, run old command again
                 (tNew, uNew) = destination
                 balancer.add_command(tNew, uNew)
 
-        (t, u) = to_touchscreen_coord(maze, balancer, (1, 3))
-        balancer.add_command(t, u)
-
-        balancer.response_handler = response_handler
-        balancer.start_listening()
-
     return maze
-
     
 # def detect_maze():
 #     m = Maze(7, 5)
@@ -132,7 +133,8 @@ def distance(coord1, coord2):
     return max(abs(t1 - t2), abs(u1 - u2))
 
 if __name__ == "__main__":
-    m = detect_maze();
-    path = m.bfs((1, 3), (7, 3))
+    pass
+    #m = detect_maze();
+    #path = m.bfs((1, 3), (7, 3))
 
     # run(path, m)
