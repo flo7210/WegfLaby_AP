@@ -82,10 +82,18 @@ def detect_maze():
                 (tNew, uNew) = destination
                 balancer.add_command(tNew, uNew)
 
+        def response_handler(destination, response):
+            (balanced, t, u) = response
+            v = to_vertex(maze, balancer, (t, u))
+
+            print(maze.print_path([], [v]))
+            print
+
         (t, u) = to_touchscreen_coord(maze, balancer, (1, 3))
         balancer.add_command(t, u)
 
         balancer.balance_handler = balance_handler
+        balancer.response_handler = response_handler
         balancer.start_listening()
 
     return maze
