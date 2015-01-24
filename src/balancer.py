@@ -6,6 +6,7 @@ class Balancer:
 
         self.response_handler = None
         self.balance_handler = None
+        self.destination_reached = lambda dest, coord: self.distance(dest, coord) < 15
         self.serial = serial
         self.width = width
         self.height = height
@@ -26,7 +27,7 @@ class Balancer:
 
                 # Fire handlers
                 if balanced and self.balance_handler is not None:
-                    self.balance_handler((t, u), response, self.distance((t, u), (tNew, uNew)) < 15)
+                    self.balance_handler((t, u), response, self.destination_reached((t, u), (tNew, uNew)))
                 
                 if self.response_handler is not None:
                     self.response_handler((t, u), response)
