@@ -40,7 +40,7 @@ class Balancer:
         self.command_queue.append((t, u))
     
     def distance(self, coord1, coord2):
-        """Calculate the distance between the given coordinates."""
+        """Calculate the Chebyshev distance between the given coordinates."""
 
         (t1, u1) = coord1
         (t2, u2) = coord2

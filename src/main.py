@@ -68,6 +68,7 @@ def detect_maze():
                 (tNew, uNew) = to_touchscreen_coord(maze, balancer, neighbor)
 
                 if neighbor != balance_handler.anchor:
+                    # Return to anchor
                     neighbors_stack.append(balance_handler.anchor)
 
                 elif len(neighbors_stack) == 0:
