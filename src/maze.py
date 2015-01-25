@@ -25,10 +25,10 @@ class Maze:
         neighbors = [(x + 1, y), (x, y - 1), (x - 1, y), (x, y + 1)]
         return [(x, y) for (x, y) in neighbors if self.has_vertex(x, y)]
 
-    def get_reachable_neighbors(self, x, y):
+    def get_reachables(self, x, y):
         """Return a set of reachable neighbors of the given vertex in the maze."""
 
-        return self._reachable[(x, y)]
+        return [v for v in self.get_neighbors(x, y) if v in self._reachable[(x, y)]]
     
     def add_edge(self, v1, v2):
         """Add an edge between vertices v1 and v2 to indicate that they are reachable."""
