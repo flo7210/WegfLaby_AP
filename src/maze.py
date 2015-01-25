@@ -1,5 +1,5 @@
 class Maze:
-    """A representation of a maze as a rectangular graph."""
+    """An abstract representation of a maze as a rectangular graph."""
 
     def __init__(self, width, height):
         """Initialize a new instance of the Maze class with given width and height."""
