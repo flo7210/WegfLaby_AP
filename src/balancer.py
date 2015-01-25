@@ -54,7 +54,7 @@ class Balancer:
         self.serial.close();
 
     def _send_command(self, t, u):
-        """Send a command to direct the ball to the given touchscreen coordinates and start listening."""
+        """Send a command to direct the ball to the given touchscreen coordinates."""
 
         self.serial.write(str(t).zfill(3) + ',' + str(u).zfill(3))
 
