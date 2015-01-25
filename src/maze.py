@@ -62,7 +62,7 @@ class Maze:
             (x, y) = queue.pop(0)
             if (x, y) == end: break
 
-            for v in self.get_reachable_neighbors(x, y):
+            for v in self.get_reachables(x, y):
                 if parent[v] is not None: 
                     # Vertex v already visited
                     continue
@@ -105,7 +105,7 @@ class Maze:
         for y in range(1, self.height + 1):
             for x in range(1, self.width + 1):
                 # Draw top line
-                if (x, y - 1) in self.get_reachable_neighbors(x, y):
+                if (x, y - 1) in self.get_reachables(x, y):
                     result += '+  '
                 else: result += '+--'
 
@@ -113,7 +113,7 @@ class Maze:
 
             for x in range(1, self.width + 1):
                 # Draw horizontal passage
-                if (x - 1, y) in self.get_reachable_neighbors(x, y):
+                if (x - 1, y) in self.get_reachables(x, y):
                     result += ' '
                 else: result += '|'
 
