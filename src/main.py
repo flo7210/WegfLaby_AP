@@ -132,14 +132,8 @@ def to_vertex(maze, balancer, coord):
 
     return (x, y)
 
-def distance(coord1, coord2):
-    (t1, u1) = coord1
-    (t2, u2) = coord2
-    return max(abs(t1 - t2), abs(u1 - u2))
-
 if __name__ == "__main__":
-    pass
-    #m = detect_maze();
+    m = detect_maze();
     #path = m.bfs((1, 3), (7, 3))
 
     # run(path, m)
