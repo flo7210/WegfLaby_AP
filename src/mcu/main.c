@@ -98,16 +98,15 @@ static int control(uint16_t x, uint16_t y) {
     /* Wenn sich die Kugelposition für eine halbe Sekunde ein bisschen nicht ändert,
      * hat sich die Kugel balanciert. */
     if (avrg <= 10) {
+        stehtcnt++;
+
         if (stehtcnt == 30) {
             // Ball is balanced
             servo_null_x = last_sx;
             servo_null_y = last_sy;
-            stehtcnt++;
 
             return 1;
         }
-
-        stehtcnt++;
     } else {
         stehtcnt = 0;
     }
@@ -119,16 +118,14 @@ static int control(uint16_t x, uint16_t y) {
     /* Wir greifen auf den fünftletzten Eintrag (vor dem aktuell eingefügten)
      * zu, indem wir 6 Schritte zurückgehen */
     int8_t xyv_current = rb_xyv.current - 6;
-    if (xyv_current < 0)
-        xyv_current += 10;
+    if (xyv_current < 0) xyv_current += 10;
     float vx = ((int16_t)x - (int16_t)rb_xyv.val_x[xyv_current]) * 1.0/5.0;
     float vy = ((int16_t)y - (int16_t)rb_xyv.val_y[xyv_current]) * 1.0/5.0;
     vx = (vx > 5 ? 5 : (vx < -5 ? -5 : vx));
     vy = (vy > 5 ? 5 : (vy < -5 ? -5 : vy));
 
     rb_append(&rb_v, vx, vy);
-    if (rb_v.count < 10)
-        return 0;
+    if (rb_v.count < 10) return 0;
 
     int16_t xoff = destX - x;
     int16_t yoff = destY - y;
@@ -145,9 +142,9 @@ static int control(uint16_t x, uint16_t y) {
     if (last_sx > 0.0) {
         /* Servo-Werte deckeln (maximal 20 Servoschritte pro Messung) */
         if (fabsf(last_sx - servo_x) > 20)
-            servo_x = last_sx - sgn((last_sx - servo_x)) * 20.0;
+            servo_x = last_sx - sgn(last_sx - servo_x) * 20.0;
         if (fabsf(last_sy - servo_y) > 20)
-            servo_y = last_sy - sgn((last_sy - servo_y)) * 20.0;
+            servo_y = last_sy - sgn(last_sy - servo_y) * 20.0;
     }
     last_sx = servo_x;
     last_sy = servo_y;
