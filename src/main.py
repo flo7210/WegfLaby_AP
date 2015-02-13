@@ -45,7 +45,7 @@ def is_visited(vertex, maze, dualmaze):
 
     return True
 
-def detect_walls(anchor, maze, dualmaze, visited):
+def detect_walls(anchor, maze, dualmaze):
     neighbors_stack = [None]
 
     with Balancer(Serial(0)) as balancer:
@@ -68,12 +68,12 @@ def detect_walls(anchor, maze, dualmaze, visited):
                     neighbors = maze.get_neighbors(x, y)
 
                     # But add only those we have not visited
-                    neighbors_stack.extend([n for n in neighbors if n not in visited])
+                    neighbors_stack.extend([n for n in neighbors if not is_visited(n, maze, dualmaze)])
                 
                 if len(neighbors_stack) == 0:
                     return
 
-                print maze.print_path([], neighbors_stack)
+                print maze.print_path([anchor], neighbors_stack)
 
                 if v_destination != anchor:
                     # Neighbor is reachable, add to maze
@@ -113,21 +113,20 @@ def detect_maze(start):
     maze = Maze(7, 5)
     dualmaze = Maze(7, 5)
 
-    visited = [start]
+    last_vertex = start
     stack = [start]
 
     while len(stack) > 0:
         vertex = stack.pop()
 
-        run(maze.bfs(visited[-1], vertex), maze)
-        detect_walls(vertex, maze, dualmaze, visited)
-        
-        visited.append(vertex)
+        run(maze.bfs(last_vertex, vertex), maze)
+        detect_walls(vertex, maze, dualmaze)
 
         print maze.print_path([], [vertex])
 
         # Refill stack
-        stack.extend([v for v in maze.get_reachables(vertex[0], vertex[1]) if v not in visited])
+        stack.extend([v for v in maze.get_reachables(vertex[0], vertex[1]) if not is_visited(v, maze, dualmaze)])
+        last_vertex = vertex
 
     return maze
 
