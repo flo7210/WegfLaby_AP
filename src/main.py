@@ -66,7 +66,7 @@ def detect_maze_local(anchor, maze, dualmaze, visited):
                 if len(neighbors_stack) == 0:
                     return
 
-                print neighbors_stack
+                print maze.print_path([], neighbors_stack)
 
                 # Neighbor is reachable, add to maze
                 v = to_vertex(maze, balancer, destination)
@@ -118,7 +118,6 @@ def detect_maze(start):
         visited.append(vertex)
 
         print maze.print_path([], [vertex])
-        print dualmaze.print_path([], [vertex])
 
         # Refill stack
         stack.extend([v for v in maze.get_reachables(vertex[0], vertex[1]) if v not in visited])
