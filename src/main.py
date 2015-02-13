@@ -68,10 +68,9 @@ def detect_walls(anchor, maze, dualmaze, visited):
 
                 print maze.print_path([], neighbors_stack)
 
-                # Neighbor is reachable, add to maze
-                v = to_vertex(maze, balancer, destination)
-                if v != anchor:
-                    maze.add_edge(anchor, v)
+                if v_destination != anchor:
+                    # Neighbor is reachable, add to maze
+                    maze.add_edge(anchor, v_destination)
 
                 # Process neighbors stack
                 neighbor = neighbors_stack.pop()
@@ -79,16 +78,17 @@ def detect_walls(anchor, maze, dualmaze, visited):
                 balancer.add_command(t_new, u_new)
 
                 if neighbor != anchor:
-                    # Return to vertex before moving to next neighbor
+                    # Return to anchor before moving to next neighbor
                     neighbors_stack.append(anchor)
             else:
-                if balance_handler.failcounter < 2  or v_destination == anchor:
+                if balance_handler.failcounter < 1 or v_destination == anchor:
                     balancer.add_command(t_destination, u_destination)
 
                     if to_vertex(maze, balancer, (t, u)) == anchor:
                         balance_handler.failcounter += 1
 
                 else:
+                    # There is a wall between anchor and destination, add to dualmaze
                     dualmaze.add_edge(anchor, v_destination)
 
                     (t_new, u_new) = to_touchscreen_coord(maze, balancer, anchor)
