@@ -18,6 +18,11 @@ class Maze:
 
         return min(x, y) > 0 and x <= self.width and y <= self.height
 
+    def has_edge(self, v1, v2):
+        """Return whether v1 is reachable from v2 or not."""
+
+        return v1 in self.get_reachables(v2[0], v2[1])
+
     def get_neighbors(self, x, y):
         """Return the neighbors of the vertex given by x and y on the rectangle."""
 
