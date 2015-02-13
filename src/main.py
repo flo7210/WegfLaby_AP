@@ -22,8 +22,6 @@ def run(path, maze):
 
                 # Add new command
                 (t_new, u_new) = to_touchscreen_coord(maze, balancer, path[balance_handler.counter])
-                print (t_new, u_new)
-                print
                 balancer.add_command(t_new, u_new)
             else:
                 # If we're not in the right place, run old command again
@@ -74,6 +72,7 @@ def detect_walls(anchor, maze, dualmaze):
                     return
 
                 print maze.print_path([anchor], neighbors_stack)
+                print
 
                 if v_destination != anchor:
                     # Neighbor is reachable, add to maze
@@ -123,6 +122,7 @@ def detect_maze(start):
         detect_walls(vertex, maze, dualmaze)
 
         print maze.print_path([], [vertex])
+        print
 
         # Refill stack
         stack.extend([v for v in maze.get_reachables(vertex[0], vertex[1]) if not is_done(v, maze, dualmaze)])
