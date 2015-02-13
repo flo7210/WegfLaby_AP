@@ -32,8 +32,8 @@ uint8_t stehtcnt = 0;
 float last_sx = 0.0;
 float last_sy = 0.0;
 
-uint16_t servo_null_x = 1470;
-uint16_t servo_null_y = 1462;
+uint16_t servo_null_x = 1584;
+uint16_t servo_null_y = 1458;
 
 uint16_t destX = 290;
 uint16_t destY = 290;
@@ -104,6 +104,10 @@ static int control(uint16_t x, uint16_t y) {
             // Ball is balanced
             servo_null_x = last_sx;
             servo_null_y = last_sy;
+            uart_puts("# x:");
+            uart_puti(servo_null_x);
+            uart_puts("# y:");
+            uart_puti(servo_null_y);
 
             return 1;
         }

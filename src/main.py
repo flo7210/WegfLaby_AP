@@ -21,14 +21,14 @@ def run(path, maze):
                     if balance_handler.counter not in skippables: break
 
                 # Add new command
-                (tNew, uNew) = to_touchscreen_coord(maze, balancer, path[balance_handler.counter])
-                print (tNew, uNew)
+                (t_new, u_new) = to_touchscreen_coord(maze, balancer, path[balance_handler.counter])
+                print (t_new, u_new)
                 print
-                balancer.add_command(tNew, uNew)
+                balancer.add_command(t_new, u_new)
             else:
                 # If we're not in the right place, run old command again
-                (tNew, uNew) = destination
-                balancer.add_command(tNew, uNew)
+                (t_new, u_new) = destination
+                balancer.add_command(t_new, u_new)
 
         # Add first command
         balance_handler.counter = -1
@@ -37,24 +37,27 @@ def run(path, maze):
         # Start listening
         balancer.balance_handler = balance_handler
         balancer.start_listening()
-        
-def detect_maze():
-    dualmaze = Maze(7,5)
-    maze = Maze(7, 5)
-    visited = []
-    neighbors_stack = []
+
+def detect_maze_local(anchor, maze, dualmaze, visited):
+    neighbors_stack = [None]
 
     with Balancer(Serial(0)) as balancer:
         def balance_handler(destination, response, destination_reached):
-            (balanced, t, u) = response
+            (_, t, u) = response
+            (t_destination, u_destination) = destination
+            v_destination = to_vertex(maze, balancer, destination)
 
-            if destination_reached:
+            if destination_reached or (v_destination != anchor and to_vertex(maze, balancer, (t, u)) == v_destination):
+                balance_handler.failcounter = 0
+
                 # We are balanced and in the right place
-                (x, y) = to_vertex(maze, balancer, (t, u))
+                (x, y) = to_vertex(maze, balancer, destination)
 
-                if len(neighbors_stack) == 0 and (x, y) not in visited:
+                if len(neighbors_stack) > 0 and neighbors_stack[0] == None:
+                    del neighbors_stack[0]
+
+                    # First time run
                     # Get neighbors
-                    balance_handler.anchor = (x, y)
                     neighbors = maze.get_neighbors(x, y)
 
                     # But add only those we have not visited
@@ -63,24 +66,33 @@ def detect_maze():
                 if len(neighbors_stack) == 0:
                     return
 
+                print neighbors_stack
+
+                # Neighbor is reachable, add to maze
+                v = to_vertex(maze, balancer, destination)
+                if v != anchor:
+                    maze.add_edge(anchor, v)
+
                 # Process neighbors stack
                 neighbor = neighbors_stack.pop()
-                (tNew, uNew) = to_touchscreen_coord(maze, balancer, neighbor)
+                (t_new, u_new) = to_touchscreen_coord(maze, balancer, neighbor)
+                balancer.add_command(t_new, u_new)
 
-                if neighbor != balance_handler.anchor:
-                    # Return to anchor
-                    neighbors_stack.append(balance_handler.anchor)
-
-                elif len(neighbors_stack) == 0:
-                    # Visited all neighbors of balance_handler.anchor
-                    visited.append(balance_handler.anchor)
-                    print visited
-
-                balancer.add_command(tNew, uNew)
+                if neighbor != anchor:
+                    # Return to vertex before moving to next neighbor
+                    neighbors_stack.append(anchor)
             else:
-                # If we're not in the right place, run old command again
-                (tNew, uNew) = destination
-                balancer.add_command(tNew, uNew)
+                if balance_handler.failcounter < 2  or v_destination == anchor:
+                    balancer.add_command(t_destination, u_destination)
+
+                    if to_vertex(maze, balancer, (t, u)) == anchor:
+                        balance_handler.failcounter += 1
+
+                else:
+                    dualmaze.add_edge(anchor, v_destination)
+
+                    (t_new, u_new) = to_touchscreen_coord(maze, balancer, anchor)
+                    balancer.add_command(t_new, u_new)
 
         def response_handler(destination, response):
             (balanced, t, u) = response
@@ -89,15 +101,38 @@ def detect_maze():
             print(maze.print_path([], [v]))
             print
 
-        (t, u) = to_touchscreen_coord(maze, balancer, (1, 3))
+        balance_handler.failcounter = 0
+
+        (t, u) = to_touchscreen_coord(maze, balancer, anchor)
         balancer.add_command(t, u)
 
         balancer.balance_handler = balance_handler
-        balancer.response_handler = response_handler
+        # balancer.response_handler = response_handler
         balancer.start_listening()
 
+def detect_maze():
+    maze = Maze(7, 5)
+    dualmaze = Maze(7, 5)
+    start = (1, 3)
+    visited = [start]
+    stack = [start]
+
+    while len(stack) > 0:
+        vertex = stack.pop()
+
+        run(maze.bfs(visited[-1], vertex), maze)
+        detect_maze_local(vertex, maze, dualmaze, visited)
+        
+        visited.append(vertex)
+
+        print maze.print_path([], [vertex])
+        print dualmaze.print_path([], [vertex])
+
+        # Refill stack
+        stack.extend([v for v in maze.get_reachables(vertex[0], vertex[1]) if v not in visited])
+
     return maze
-    
+
 # def detect_maze():
 #     m = Maze(7, 5)
 #     m.add_path([(1, 3), (1, 2), (1, 1), (2, 1), (1, 1), (1, 2), (2, 2), (2, 3), 

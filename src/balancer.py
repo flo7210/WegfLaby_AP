@@ -23,6 +23,8 @@ class Balancer:
 
             while True:
                 response = self._read_response()
+                if response is None: continue
+
                 (balanced, tNew, uNew) = response
 
                 # Fire handlers
@@ -62,6 +64,9 @@ class Balancer:
         """Read a response from the balancer."""
 
         response = self.serial.read(8)
+        if response[0] == '#':
+            print response
+            return None
 
         balanced = response[0] == '='
         t = int(response[1:4])
