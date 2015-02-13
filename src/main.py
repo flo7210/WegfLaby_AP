@@ -54,9 +54,9 @@ def detect_maze_local(anchor, maze, dualmaze, visited):
                 (x, y) = to_vertex(maze, balancer, destination)
 
                 if len(neighbors_stack) > 0 and neighbors_stack[0] == None:
+                    # First time run
                     del neighbors_stack[0]
 
-                    # First time run
                     # Get neighbors
                     neighbors = maze.get_neighbors(x, y)
 
@@ -94,26 +94,18 @@ def detect_maze_local(anchor, maze, dualmaze, visited):
                     (t_new, u_new) = to_touchscreen_coord(maze, balancer, anchor)
                     balancer.add_command(t_new, u_new)
 
-        def response_handler(destination, response):
-            (balanced, t, u) = response
-            v = to_vertex(maze, balancer, (t, u))
-
-            print(maze.print_path([], [v]))
-            print
-
         balance_handler.failcounter = 0
 
         (t, u) = to_touchscreen_coord(maze, balancer, anchor)
         balancer.add_command(t, u)
 
         balancer.balance_handler = balance_handler
-        # balancer.response_handler = response_handler
         balancer.start_listening()
 
-def detect_maze():
+def detect_maze(start):
     maze = Maze(7, 5)
     dualmaze = Maze(7, 5)
-    start = (1, 3)
+
     visited = [start]
     stack = [start]
 
@@ -168,7 +160,7 @@ def to_vertex(maze, balancer, coord):
     return (x, y)
 
 if __name__ == "__main__":
-    m = detect_maze();
+    m = detect_maze((1, 3));
     #path = m.bfs((1, 3), (7, 3))
 
     # run(path, m)
