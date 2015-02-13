@@ -38,7 +38,7 @@ def run(path, maze):
         balancer.balance_handler = balance_handler
         balancer.start_listening()
 
-def is_visited(vertex, maze, dualmaze):
+def is_done(vertex, maze, dualmaze):
     for neighbor in maze.get_neighbors(vertex):
         if maze.has_edge(neighbor, vertex) == dualmaze.has_edge(neighbor, vertex):
             return False
@@ -68,7 +68,7 @@ def detect_walls(anchor, maze, dualmaze):
                     neighbors = maze.get_neighbors(x, y)
 
                     # But add only those we have not visited
-                    neighbors_stack.extend([n for n in neighbors if not is_visited(n, maze, dualmaze)])
+                    neighbors_stack.extend([n for n in neighbors if not is_done(n, maze, dualmaze)])
                 
                 if len(neighbors_stack) == 0:
                     return
@@ -125,7 +125,7 @@ def detect_maze(start):
         print maze.print_path([], [vertex])
 
         # Refill stack
-        stack.extend([v for v in maze.get_reachables(vertex[0], vertex[1]) if not is_visited(v, maze, dualmaze)])
+        stack.extend([v for v in maze.get_reachables(vertex[0], vertex[1]) if not is_done(v, maze, dualmaze)])
         last_vertex = vertex
 
     return maze
