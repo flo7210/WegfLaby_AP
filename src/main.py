@@ -38,7 +38,7 @@ def run(path, maze):
         balancer.balance_handler = balance_handler
         balancer.start_listening()
 
-def detect_maze_local(anchor, maze, dualmaze, visited):
+def detect_walls(anchor, maze, dualmaze, visited):
     neighbors_stack = [None]
 
     with Balancer(Serial(0)) as balancer:
@@ -113,7 +113,7 @@ def detect_maze(start):
         vertex = stack.pop()
 
         run(maze.bfs(visited[-1], vertex), maze)
-        detect_maze_local(vertex, maze, dualmaze, visited)
+        detect_walls(vertex, maze, dualmaze, visited)
         
         visited.append(vertex)
 
