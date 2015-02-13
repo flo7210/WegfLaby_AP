@@ -38,6 +38,13 @@ def run(path, maze):
         balancer.balance_handler = balance_handler
         balancer.start_listening()
 
+def is_visited(vertex, maze, dualmaze):
+    for neighbor in maze.get_neighbors(vertex):
+        if maze.has_edge(neighbor, vertex) == dualmaze.has_edge(neighbor, vertex):
+            return False
+
+    return True
+
 def detect_walls(anchor, maze, dualmaze, visited):
     neighbors_stack = [None]
 
@@ -159,7 +166,7 @@ def to_vertex(maze, balancer, coord):
     return (x, y)
 
 if __name__ == "__main__":
-    m = detect_maze((1, 3));
+    m = detect_maze((1, 3))
     #path = m.bfs((1, 3), (7, 3))
 
     # run(path, m)
