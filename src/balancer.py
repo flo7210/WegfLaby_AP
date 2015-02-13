@@ -18,8 +18,8 @@ class Balancer:
 
         while len(self.command_queue) > 0:
             # Get command
-            (t, u) = self.command_queue.pop(0)
-            self._send_command(t, u)
+            (t, u, force_reset) = self.command_queue.pop(0)
+            self._send_command(t, u, force_reset)
 
             while True:
                 response = self._read_response()
@@ -37,10 +37,10 @@ class Balancer:
                 # Break loop if ball is balanced
                 if balanced: break
 
-    def add_command(self, t, u):
+    def add_command(self, t, u, force_reset = False):
         """Add a command to the command queue."""
 
-        self.command_queue.append((t, u))
+        self.command_queue.append((t, u, force_reset))
     
     def distance(self, coord1, coord2):
         """Calculate the Chebyshev distance between the given coordinates."""
@@ -55,10 +55,13 @@ class Balancer:
     def __exit__(self, type, value, traceback):
         self.serial.close();
 
-    def _send_command(self, t, u):
+    def _send_command(self, t, u, force_reset = False):
         """Send a command to direct the ball to the given touchscreen coordinates."""
 
-        self.serial.write(str(t).zfill(3) + ',' + str(u).zfill(3))
+        sign = '.'
+        if force_reset: sign = '!'
+
+        self.serial.write(sign + str(t).zfill(3) + ',' + str(u).zfill(3))
 
     def _read_response(self):
         """Read a response from the balancer."""
