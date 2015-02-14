@@ -3,7 +3,7 @@ from balancer import Balancer
 from serial import Serial
 
 def run(path, maze):
-    with Balancer(Serial(0)) as balancer:        
+    with Balancer(Serial(0)) as balancer:
         def balance_handler(destination, response, destination_reached):
             (balanced, t, u) = response
 
@@ -49,7 +49,6 @@ def detect_walls(anchor, maze, dualmaze):
     with Balancer(Serial(0)) as balancer:
         def balance_handler(destination, response, destination_reached):
             (_, t, u) = response
-            (t_destination, u_destination) = destination
             v_destination = to_vertex(maze, balancer, destination)
 
             if destination_reached or (v_destination != anchor and to_vertex(maze, balancer, (t, u)) == v_destination):
@@ -87,12 +86,12 @@ def detect_walls(anchor, maze, dualmaze):
                     # Return to anchor before moving to next neighbor
                     neighbors_stack.append(anchor)
             else:
+                # We are not at the destination
                 if balance_handler.failcounter < 1 or v_destination == anchor:
-                    balancer.add_command(t_destination, u_destination)
+                    balancer.add_command(destination[0], destination[1])
 
                     if to_vertex(maze, balancer, (t, u)) == anchor:
                         balance_handler.failcounter += 1
-
                 else:
                     # There is a wall between anchor and destination, add to dualmaze
                     dualmaze.add_edge(anchor, v_destination)
@@ -124,7 +123,7 @@ def detect_maze(start):
         print maze.print_path([], [vertex])
         print
 
-        # Refill stack
+        # Fill stack
         stack.extend([v for v in maze.get_reachables(vertex[0], vertex[1]) if not is_done(v, maze, dualmaze)])
         last_vertex = vertex
 
