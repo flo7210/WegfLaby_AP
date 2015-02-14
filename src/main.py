@@ -44,7 +44,7 @@ def is_done(vertex, maze, dualmaze):
     return True
 
 def detect_walls(anchor, maze, dualmaze):
-    neighbors_stack = [None]
+    neighbors_stack = [n for n in maze.get_neighbors(anchor[0], anchor[1]) if not is_done(n, maze, dualmaze)]
 
     with Balancer(Serial(0)) as balancer:
         def balance_handler(destination, response, destination_reached):
@@ -52,23 +52,8 @@ def detect_walls(anchor, maze, dualmaze):
             v_destination = to_vertex(maze, balancer, destination)
 
             if destination_reached or (v_destination != anchor and to_vertex(maze, balancer, (t, u)) == v_destination):
-                balance_handler.failcounter = 0
-
                 # We are balanced and in the right place
-                (x, y) = to_vertex(maze, balancer, destination)
-
-                if len(neighbors_stack) > 0 and neighbors_stack[0] == None:
-                    # First time run
-                    del neighbors_stack[0]
-
-                    # Get neighbors
-                    neighbors = maze.get_neighbors(x, y)
-
-                    # But add only those we have not visited
-                    neighbors_stack.extend([n for n in neighbors if not is_done(n, maze, dualmaze)])
-                
-                if len(neighbors_stack) == 0:
-                    return
+                balance_handler.failcounter = 0
 
                 print maze.print_path([anchor], neighbors_stack)
                 print
@@ -76,6 +61,9 @@ def detect_walls(anchor, maze, dualmaze):
                 if v_destination != anchor:
                     # Neighbor is reachable, add to maze
                     maze.add_edge(anchor, v_destination)
+                
+                if len(neighbors_stack) == 0:
+                    return
 
                 # Process neighbors stack
                 neighbor = neighbors_stack.pop()
