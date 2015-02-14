@@ -19,7 +19,7 @@ class Balancer:
         while len(self.command_queue) > 0:
             # Get command
             (force_reset, t, u) = self.command_queue.pop(0)
-            self._send_command(t, u, force_reset)
+            self._send_command(force_reset, t, u)
 
             while True:
                 response = self._read_response()
