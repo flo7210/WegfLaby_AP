@@ -25,11 +25,11 @@ class Balancer:
                 response = self._read_response()
                 if response is None: continue
 
-                (balanced, tNew, uNew) = response
+                (balanced, t_new, u_new) = response
 
                 # Fire handlers
                 if balanced and self.balance_handler is not None:
-                    self.balance_handler((t, u), response, self.destination_reached((t, u), (tNew, uNew)))
+                    self.balance_handler((t, u), response, self.destination_reached((t, u), (t_new, u_new)))
                 
                 if self.response_handler is not None:
                     self.response_handler((t, u), response)
