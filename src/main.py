@@ -2,6 +2,28 @@ from maze import Maze
 from balancer import Balancer
 from serial import Serial
 
+def to_touchscreen_coord(maze, balancer, v):
+    """Return the corresponding touchscreen coordinates to the given vertex in the maze."""
+
+    width = balancer.width
+    height = balancer.height
+
+    t = v[0] * width / maze.width - width / (2 * maze.width)
+    u = v[1] * height / maze.height - height / (2 * maze.height)
+
+    return (t, u)
+
+def to_vertex(maze, balancer, coord):
+    """Return the corresponding vertex in the maze to the given touchscreen coordinates."""
+
+    vertex_width = balancer.width / maze.width
+    vertex_height = balancer.height / maze.height
+
+    x = coord[0] / vertex_width + 1
+    y = coord[1] / vertex_height + 1
+
+    return (x, y)
+
 def run(path, maze):
     with Balancer(Serial(0)) as balancer:
         def balance_handler(destination, response, destination_reached):
@@ -95,9 +117,9 @@ def detect_walls(anchor, maze, dualmaze):
         balancer.balance_handler = balance_handler
         balancer.start_listening()
 
-def detect_maze(start):
-    maze = Maze(7, 5)
-    dualmaze = Maze(7, 5)
+def detect_maze(start, width = 7, height = 5):
+    maze = Maze(width, height)
+    dualmaze = Maze(width, height)
 
     last_vertex = start
     stack = [start]
@@ -126,33 +148,10 @@ def detect_maze(start):
 #                 (4, 1), (4, 2), (4, 3), (4, 4), (3, 4), (4, 4), (4, 5), (5, 5), 
 #                 (4, 5), (3, 5), (2, 5), (1, 5), (1, 4), (2, 4),
 #                 (4, 4), (5, 4), (6, 4), (6, 5), (7, 5), (7, 4), (7, 3)])
-
 #     return m
-
-def to_touchscreen_coord(maze, balancer, v):
-    """Return the corresponding touchscreen coordinates to the given vertex in the maze."""
-
-    width = balancer.width
-    height = balancer.height
-
-    t = v[0] * width / maze.width - width / (2 * maze.width)
-    u = v[1] * height / maze.height - height / (2 * maze.height)
-
-    return (t, u)
-
-def to_vertex(maze, balancer, coord):
-    """Return the corresponding vertex in the maze to the given touchscreen coordinates."""
-
-    vertex_width = balancer.width / maze.width
-    vertex_height = balancer.height / maze.height
-
-    x = coord[0] / vertex_width + 1
-    y = coord[1] / vertex_height + 1
-
-    return (x, y)
 
 if __name__ == "__main__":
     m = detect_maze((1, 3))
-    #path = m.bfs((1, 3), (7, 3))
+    # path = m.bfs((1, 3), (7, 3))
 
     # run(path, m)
