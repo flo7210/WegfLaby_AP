@@ -34,8 +34,8 @@ float last_sy = 0.0;
 
 uint16_t servo_init_x = 1584;
 uint16_t servo_init_y = 1458;
-uint16_t servo_null_x = servo_init_x;
-uint16_t servo_null_y = servo_init_y;
+uint16_t servo_null_x = 1584;
+uint16_t servo_null_y = 1458;
 
 uint16_t destX = 290;
 uint16_t destY = 290;

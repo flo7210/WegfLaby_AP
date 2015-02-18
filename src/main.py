@@ -59,7 +59,7 @@ def run(path, maze):
         balancer.start_listening()
 
 def is_done(vertex, maze, dualmaze):
-    for neighbor in maze.get_neighbors(vertex):
+    for neighbor in maze.get_neighbors(vertex[0], vertex[1]):
         if maze.has_edge(neighbor, vertex) == dualmaze.has_edge(neighbor, vertex):
             return False
 
@@ -73,7 +73,7 @@ def detect_walls(anchor, maze, dualmaze):
             (_, t, u) = response
             v_destination = to_vertex(maze, balancer, destination)
 
-            if destination_reached or (v_destination != anchor and to_vertex(maze, balancer, (t, u)) == v_destination):
+            if destination_reached:
                 # We are balanced and in the right place
                 balance_handler.failcounter = 0
 
@@ -97,7 +97,7 @@ def detect_walls(anchor, maze, dualmaze):
                     neighbors_stack.append(anchor)
             else:
                 # We are not at the destination
-                if balance_handler.failcounter < 1 or v_destination == anchor:
+                if balance_handler.failcounter < 2 or v_destination == anchor:
                     balancer.add_command(destination[0], destination[1])
 
                     if to_vertex(maze, balancer, (t, u)) == anchor:
@@ -107,7 +107,7 @@ def detect_walls(anchor, maze, dualmaze):
                     dualmaze.add_edge(anchor, v_destination)
 
                     (t_new, u_new) = to_touchscreen_coord(maze, balancer, anchor)
-                    balancer.add_command(t_new, u_new)
+                    balancer.add_command(t_new, u_new, True)
 
         balance_handler.failcounter = 0
 
@@ -126,6 +126,7 @@ def detect_maze(start, width = 7, height = 5):
 
     while len(stack) > 0:
         vertex = stack.pop()
+        if is_done(vertex, maze, dualmaze): continue
 
         run(maze.bfs(last_vertex, vertex), maze)
         detect_walls(vertex, maze, dualmaze)
@@ -151,7 +152,7 @@ def detect_maze(start, width = 7, height = 5):
 #     return m
 
 if __name__ == "__main__":
-    m = detect_maze((1, 3))
+    m = detect_maze((1, 1), 5, 4)
     # path = m.bfs((1, 3), (7, 3))
 
     # run(path, m)
