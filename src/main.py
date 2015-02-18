@@ -77,13 +77,13 @@ def detect_walls(anchor, maze, dualmaze):
                 # We are balanced and in the right place
                 balance_handler.failcounter = 0
 
-                print maze.print_path([to_vertex(maze, balancer, (t, u)], neighbors_stack)
-                print
-
                 if v_destination != anchor:
                     # Neighbor is reachable, add to maze
                     maze.add_edge(anchor, v_destination)
-                
+
+                print maze.print_path([v_destination], neighbors_stack)
+                print
+
                 if len(neighbors_stack) == 0:
                     return
 
