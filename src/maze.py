@@ -173,4 +173,4 @@ class Maze:
     def __repr__(self):
         """Return a string that represents the current maze."""
 
-        return self.print_path([]);
+        return self.print_path([])
