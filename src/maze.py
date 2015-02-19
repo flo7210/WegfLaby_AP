@@ -101,7 +101,37 @@ class Maze:
                 anchor = path[i - 1]
 
         return skippables
-    
+
+    def parse(self, string):
+        """Add edges according to the given string representation of a maze."""
+
+        lines = string.splitlines()
+        width = int((len(lines[0]) - 1) / 3)
+        height = int((len(lines) - 1) / 2)
+        self.__init__(width, height)
+
+        y = 1
+        for i in range(1, len(lines) - 1):
+            line = lines[i]
+
+            for j in range(1, len(line) - 1):
+                if line[0] == '+':
+                    # Detect vertical edges
+                    if j % 3 != 1 or line[j] != ' ': continue
+                    x = int((j + 2) / 3)
+
+                    self.add_edge((x, y - 1), (x, y))
+                else:
+                    # Detect horizontal edges
+                    if j % 3 != 0 or line[j] != ' ': continue
+                    x = int(j / 3)
+
+                    self.add_edge((x, y), (x + 1, y))
+
+            if line[0] != '+': y += 1
+
+        return self
+
     def print_path(self, path, marks = []):
         """Return a string that represents the current maze with the given path."""
 
