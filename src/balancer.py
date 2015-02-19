@@ -1,7 +1,7 @@
 class Balancer:
     """This class is the bridge between the balancer and Python."""
 
-    def __init__(self, serial, width = 580, height = 580):
+    def __init__(self, serial, width = 580, height = 580, padding = 25):
         """Initialize a new instance of the Balancer class."""
 
         self.response_handler = None
@@ -10,6 +10,7 @@ class Balancer:
         self.serial = serial
         self.width = width
         self.height = height
+        self.padding = padding
 
         self.command_queue = []
             
@@ -40,6 +41,8 @@ class Balancer:
     def add_command(self, t, u, force_reset = False):
         """Add a command to the command queue."""
 
+        t = min(max(t, self.padding), self.width - self.padding)
+        u = min(max(t, self.padding), self.height - self.padding)
         self.command_queue.append((force_reset, t, u))
     
     def distance(self, coord1, coord2):
