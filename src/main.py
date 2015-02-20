@@ -25,6 +25,8 @@ def to_vertex(maze, balancer, coord):
     return (x, y)
 
 def run(path, maze):
+    if len(path) == 0: return
+
     with Balancer(Serial(0)) as balancer:
         def balance_handler(destination, response, destination_reached):
             (balanced, t, u) = response
@@ -81,6 +83,11 @@ def detect_walls(anchor, maze, dualmaze):
                     # Neighbor is reachable, add to maze
                     maze.add_edge(anchor, v_destination)
 
+                    # Avoid unnecessary return to the anchor
+                    if len(neighbors_stack) == 1 and neighbors_stack[0] == anchor:
+                        balance_handler.last_vertex = v_destination
+                        return
+
                 print maze.print_path([v_destination], neighbors_stack)
                 print
 
@@ -97,7 +104,7 @@ def detect_walls(anchor, maze, dualmaze):
                     neighbors_stack.append(anchor)
             else:
                 # We are not at the destination
-                if balance_handler.failcounter < 2 or v_destination == anchor:
+                if balance_handler.failcounter < 1 or v_destination == anchor:
                     balancer.add_command(destination[0], destination[1])
 
                     if to_vertex(maze, balancer, (t, u)) == anchor:
@@ -110,12 +117,15 @@ def detect_walls(anchor, maze, dualmaze):
                     balancer.add_command(t_new, u_new, True)
 
         balance_handler.failcounter = 0
+        balance_handler.last_vertex = anchor
 
         (t, u) = to_touchscreen_coord(maze, balancer, anchor)
         balancer.add_command(t, u)
 
         balancer.balance_handler = balance_handler
         balancer.start_listening()
+
+        return balance_handler.last_vertex
 
 def detect_maze(start, width = 7, height = 5):
     maze = Maze(width, height)
@@ -128,15 +138,12 @@ def detect_maze(start, width = 7, height = 5):
         vertex = stack.pop()
         if is_done(vertex, maze, dualmaze): continue
 
-        run(maze.bfs(last_vertex, vertex), maze)
-        detect_walls(vertex, maze, dualmaze)
+        if vertex != last_vertex: run(maze.bfs(last_vertex, vertex), maze)
+        last_vertex = detect_walls(vertex, maze, dualmaze)
 
-        print maze.print_path([], [vertex])
-        print
-
-        # Fill stack
-        stack.extend([v for v in maze.get_reachables(vertex[0], vertex[1]) if not is_done(v, maze, dualmaze)])
-        last_vertex = vertex
+        # Fill stack; avoid unnecessary paths
+        stack.extend([v for v in maze.get_reachables(vertex[0], vertex[1]) if v != last_vertex and not is_done(v, maze, dualmaze)])
+        if vertex != last_vertex: stack.append(last_vertex)
 
     return maze
 
@@ -152,7 +159,31 @@ def detect_maze(start, width = 7, height = 5):
 #     return m
 
 if __name__ == "__main__":
-    m = detect_maze((1, 1), 5, 4)
-    # path = m.bfs((1, 3), (7, 3))
+    width = int(raw_input('Width: '))
+    height = int(raw_input('Height: '))
 
-    # run(path, m)
+    # Find nearest vertex to begin with
+    with Balancer(Serial(0)) as balancer:
+        def balance_handler(destination, response, destination_reached):
+            (_, t, u) = response
+
+            # Do this the first time only
+            if balance_handler.position == (-1, -1):
+                balance_handler.position = (t, u)
+                balancer.add_command(t, u, True)
+            
+        balance_handler.position = (-1, -1)
+
+        balancer.add_command(290, 290)
+        balancer.balance_handler = balance_handler
+        balancer.start_listening()
+
+        start = to_vertex(Maze(width, height), balancer, balance_handler.position)
+        m = detect_maze(start, width, height)
+
+        with open('solution.maze', 'w') as f:
+            f.write(repr(m))
+
+
+        # path = m.bfs((1, 3), (7, 3))
+        # run(path, m)
