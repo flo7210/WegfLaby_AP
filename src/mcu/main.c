@@ -76,9 +76,9 @@ static uint8_t distance(uint8_t x, uint8_t y, uint8_t x2, uint8_t y2) {
 }
 
 // Controls the balancing of the ball. Returns:
-// 1  - if ball is balanced
+//  1 - if ball is balanced
 // -1 - invalid position
-// 0  - otherwise
+//  0 - otherwise
 static int control(uint16_t x, uint16_t y) {
     rb_append(&rb_xy, x, y);
     if (rb_xy.count < 10)
