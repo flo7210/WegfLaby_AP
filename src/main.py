@@ -127,7 +127,7 @@ def detect_walls(anchor, maze, dualmaze):
 
         return balance_handler.last_vertex
 
-def detect_maze(start, width = 7, height = 5):
+def detect_maze(start, width, height):
     maze = Maze(width, height)
     dualmaze = Maze(width, height)
 
@@ -184,6 +184,12 @@ if __name__ == "__main__":
         with open('solution.maze', 'w') as f:
             f.write(repr(m))
 
+        n = Maze(width, height)
 
-        # path = m.bfs((1, 3), (7, 3))
-        # run(path, m)
+        with open('solution.maze', 'r') as f:
+            s = f.read()
+            n.parse(s)
+            print repr(n)
+
+        #path = n.bfs((1, 3), (7, 3))
+        #run(path, n)
