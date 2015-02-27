@@ -193,13 +193,13 @@ if __name__ == "__main__":
             print('Maze detected!')
 
         name = raw_input('Filename (w/o extension): ')
-        with open('name.maze', 'w') as f:
+        with open(name + '.maze', 'w') as f:
             f.write(repr(m))
 
     if answer == 'B':
         name = raw_input('File name (w/o extension): ')
         n = Maze(1, 1)
-        with open('name.maze', 'r') as f:
+        with open(name + '.maze', 'r') as f:
             s = f.read()
             n.parse(s)
 
