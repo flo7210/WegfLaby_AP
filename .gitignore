@@ -245,3 +245,6 @@ obj/
 *.synctex.gz
 *.toc
 *.pdf
+*.nav
+*.snm
+*.vrb
