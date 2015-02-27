@@ -1,6 +1,5 @@
 \documentclass{beamer}
 \title{Wegfindung im Labyrinth (AP)}
-\title{Wegfindung im Labyrinth (AP)}
 \author{\texorpdfstring{Florian Nowak \& Yichuan Shen\\ Betreuer: Gero Plettenberg, Thomas Kloepfer}{Florian Nowak \& Yichuan Shen}}
 \date{Wintersemester 2014/15}
 
@@ -12,31 +11,69 @@
 \usepackage[ngerman]{babel}
 \usepackage{lmodern}
 \usepackage{graphicx}
+\usepackage{xparse}
+  \NewDocumentCommand\blocking{m}{\textcolor{green}{\textit{#1}}}
+  \NewDocumentCommand\blue{m}{{%
+  	\usebeamercolor[fg]{frametitle}{#1}%
+  	}}
+
 
 \begin{document}
 \maketitle
 
-\begin{frame}[fragile,t]{}
-Das Ergebnis des Praktikums ist in einer Präsentation vorzustellen. Diese besteht aus einem 20 minütigen Vortrag sowie einer 10 minütigen Demonstration der Lösung mit der Beantwortung eventueller Fragen. Die Zielgruppe der Präsentation ist ein fachlich vorgebildetes Publikum. Trotzdem sollte der Vortrag grundlegende Elemente der Aufgabenstellung erläutern.
+\begin{frame}[fragile,t]{Aufgabenstellung des Projekts}
+Ein bereits vorhandener Roboter mit neigbarem Touchscreen soll etwas Neues lernen: Er soll ein beliebiges auf dem Rahmen seines Touchscreens aufliegendes Labyrinth (vorgegebener Rastergröße) mithilfe einer Metallkugel einlesen können. Der Roboter kann eine solche Kugel bereits auf eine ihm vorgegebene Position durch Kippen rollen lassen (und dort auch zum Stillstehen bringen). Das Ziel ist es somit, den Roboter ein zuvor eingelesenes Labyrinth mit der Kugel (auf optimalem Weg) lösen zu lassen. 
 
 \medskip\noindent
-Der Vortrag beinhaltet folgende Punkte (siehe folgende Folien):
-\end{frame}
-
-\begin{frame}[fragile,t]{Aufgabenstellung des Projekts}
-Text.
+\blocking{Aufgabenstellung am Roboter erläutern!}
 \end{frame}
 
 \begin{frame}[fragile,t]{Vorstellung der Studierenden}
-Text.
+\blocking{Kurz vorstellen!}
+\end{frame}
+
+\begin{frame}[fragile,t]{Demonstration der Lösung des Labyrinths}
+\blocking{\verb~string~-Darstellung des vorhandenen Labyrinths einlesen, Labyrinth lösen! Anschließend mit der Breitensuche beginnen! (Parallel zum Vortrag laufen lassen.)} 
 \end{frame}
 
 \begin{frame}[fragile,t]{Herangehensweise an die Problemstellung}
-Text.
+\begin{itemize}
+\item Festlegung von \blue{Python (2.7.9)} als Programmiersprache
+\item Begutachtung des Roboters
+\item Auswahl des fortan zugrunde liegenden MCU-Codes, Einarbeitung (Milestone 1)
+\item Kommunikation zwischen Computer und MCU
+\item \ldots
+\end{itemize}
 \end{frame}
 
 \begin{frame}[fragile,t]{Praktikumsverlauf ausgehend von der ursprünglichen Planung}
-Text.
+\blue{Milestones:}
+\begin{enumerate}
+    \item \blue{Einarbeitung} \textit{(bis Anfang Dezember)}\blue{:}\\
+    Vorgängercode und Funktionsfähigkeit des Roboters testen.
+    \item \blue{Durchlaufen des Labyrinths} \textit{(bis Anfang Januar)}\blue{:}\\
+    Durch Vorgabe eines Labyrinths als Datenstruktur soll die Kugel einen beliebig vorgegebenen Pfad durchlaufen können. Ferner wird ein optimaler Weg durch das Labyrinth berechnet.
+    \item \blue{Erkennen des Labyrinths} \textit{(bis Ende Januar)}\blue{:}\\
+    Durch Ablaufen eines realen Labyrinths soll die Struktur des Labyrinths erkannt und abgespeichert werden. Dafür wird ein Algorithmus entworfen und implementiert.
+    \textcolor{gray}{
+    \item[\textcolor{gray}{4.}] Fertigstellung \textit{(bis Anfang März)}:\\
+    Präsentation, Poster und Webseite fertig stellen; ggf. eine grafische Oberfläche erstellen.
+}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile,t]{Praktikumsverlauf ausgehend von der ursprünglichen Planung}
+Unseren Zeitplan konnten wir recht gut einhalten. Der dritte Milestone ist wie erwartet aufwendiger geworden, erreicht haben wir ihn erst nach den Klausuren (also Mitte Februar). Hinzugekommen sind (optische) Verbesserungen an der Hardware. \blocking{Letztere zeigen!}
+
+\smallskip
+\begin{enumerate}
+	\item[3.] \blue{Erkennen des Labyrinths (Breitensuche)}
+	\begin{enumerate}
+	\item[(a)] Entwurf einer Routine zur Wanderkennung
+	\item[(b)] Optimierung (hinsichtlich Geschwindigkeit)
+	\end{enumerate}
+    \item[\textcolor{gray}{4.}] \textcolor{gray}{Fertigstellung}
+\end{enumerate}
 \end{frame}
 
 \begin{frame}[fragile,t]{Ergebnis in sinnvoller Strukturierung}
@@ -44,15 +81,11 @@ Text.
 \end{frame}
 
 \begin{frame}[fragile,t]{Aufgetretene Probleme}
-Ggf. mit Lösungsansatz.
+Text.
 \end{frame}
 
 \begin{frame}[fragile,t]{Ausblick/Reflexion}
 Mögliche Verbesserungen und Erweiterungen des Ergebnisses, welche ggf. in weiteren Praktika umgesetzt werden könnten.
-\end{frame}
-
-\begin{frame}[fragile,t]{}
-Allgemein ist auf eine sinnvolle Strukturierung zu achten. Trennung in Hardware und Software ist zum Beispiel naheliegend. Oftmals dienen Programmablaufschemata und ausgewählte Codeausschnitte als gutes Mittel zur Veranschaulichung.
 \end{frame}
 
 

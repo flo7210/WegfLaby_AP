@@ -35,7 +35,7 @@ def run(path, maze):
                 # We are balanced and in the right place
                 print(maze.print_path(path[:balance_handler.counter + 1], path[-1:]))
                 print
-                
+
                 # Get next command and skip over skippables
                 if balance_handler.counter + 1 >= len(path): return
 
@@ -149,47 +149,59 @@ def detect_maze(start, width, height):
 
 # def detect_maze():
 #     m = Maze(7, 5)
-#     m.add_path([(1, 3), (1, 2), (1, 1), (2, 1), (1, 1), (1, 2), (2, 2), (2, 3), 
-#                 (3, 3), (3, 2), (3, 1), 
-#                 (4, 1), (5, 1), (6, 1), (7, 1), (7, 2), (5, 1), (5, 2), (6, 2), 
-#                 (6, 3), (5, 3), 
-#                 (4, 1), (4, 2), (4, 3), (4, 4), (3, 4), (4, 4), (4, 5), (5, 5), 
+#     m.add_path([(1, 3), (1, 2), (1, 1), (2, 1), (1, 1), (1, 2), (2, 2), (2, 3),
+#                 (3, 3), (3, 2), (3, 1),
+#                 (4, 1), (5, 1), (6, 1), (7, 1), (7, 2), (5, 1), (5, 2), (6, 2),
+#                 (6, 3), (5, 3),
+#                 (4, 1), (4, 2), (4, 3), (4, 4), (3, 4), (4, 4), (4, 5), (5, 5),
 #                 (4, 5), (3, 5), (2, 5), (1, 5), (1, 4), (2, 4),
 #                 (4, 4), (5, 4), (6, 4), (6, 5), (7, 5), (7, 4), (7, 3)])
 #     return m
 
 if __name__ == "__main__":
-    width = int(raw_input('Width: '))
-    height = int(raw_input('Height: '))
+    e = Maze(7, 5)
+    with open('example.maze', 'r') as f:
+        s = f.read()
+        e.parse(s)
 
-    # Find nearest vertex to begin with
-    with Balancer(Serial(0)) as balancer:
-        def balance_handler(destination, response, destination_reached):
-            (_, t, u) = response
+    answer = None
+    while answer not in ['A', 'B']:
+        answer = raw_input('Detect new maze (A) or read existing .maze file (B)?')
 
-            # Do this the first time only
-            if balance_handler.position == (-1, -1):
-                balance_handler.position = (t, u)
-                balancer.add_command(t, u, True)
-            
-        balance_handler.position = (-1, -1)
+    if answer == 'A':
+        width = int(raw_input('Width: '))
+        height = int(raw_input('Height: '))
 
-        balancer.add_command(290, 290)
-        balancer.balance_handler = balance_handler
-        balancer.start_listening()
+        # Find nearest vertex to begin with
+        with Balancer(Serial(0)) as balancer:
+            def balance_handler(destination, response, destination_reached):
+                (_, t, u) = response
 
-        start = to_vertex(Maze(width, height), balancer, balance_handler.position)
-        m = detect_maze(start, width, height)
+                # Do this the first time only
+                if balance_handler.position == (-1, -1):
+                    balance_handler.position = (t, u)
+                    balancer.add_command(t, u, True)
 
-        with open('solution.maze', 'w') as f:
+            balance_handler.position = (-1, -1)
+
+            balancer.add_command(290, 290)
+            balancer.balance_handler = balance_handler
+            balancer.start_listening()
+
+            start = to_vertex(Maze(width, height), balancer, balance_handler.position)
+            m = detect_maze(start, width, height)
+            print('Maze detected!')
+
+        name = raw_input('Filename (w/o extension): ')
+        with open('name.maze', 'w') as f:
             f.write(repr(m))
 
-        n = Maze(width, height)
-
-        with open('solution.maze', 'r') as f:
+    if answer == 'B':
+        name = raw_input('File name (w/o extension): ')
+        n = Maze(1, 1)
+        with open('name.maze', 'r') as f:
             s = f.read()
             n.parse(s)
-            print repr(n)
 
-        #path = n.bfs((1, 3), (7, 3))
-        #run(path, n)
+    #path = e.bfs((1, 3), (7, 3))
+    #run(path, e)
