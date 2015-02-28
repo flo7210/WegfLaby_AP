@@ -11,11 +11,12 @@
 \usepackage[ngerman]{babel}
 \usepackage{lmodern}
 \usepackage{graphicx}
+  \graphicspath{{/home/flo/Github/WegfLaby_AP/praesentation/bilder/}}  
 \usepackage{xparse}
- \NewDocumentCommand\blocking{m}{\textcolor{green}{\textit{#1}}}
- \NewDocumentCommand\blue{m}{{%
- \usebeamercolor[fg]{frametitle}{#1}%
- }}
+  \NewDocumentCommand\blocking{m}{\textcolor{green}{\textit{#1}}}
+  \NewDocumentCommand\blue{m}{{%
+  	\usebeamercolor[fg]{frametitle}{#1}%
+  	}}
 
 
 \begin{document}
@@ -33,37 +34,39 @@ Ein bereits vorhandener Roboter mit neigbarem Touchscreen soll etwas Neues lerne
 \end{frame}
 
 \begin{frame}[fragile,t]{Demonstration der Lösung des Labyrinths}
-\blocking{\verb~string~-Darstellung des vorhandenen Labyrinths einlesen, Labyrinth lösen! Anschließend mit der Tiefensuche beginnen! (Parallel zum Vortrag laufen lassen.)}
+\blocking{\verb~string~-Darstellung des vorhandenen Labyrinths einlesen und Labyrinth lösen! Anschließend mit der Tiefensuche beginnen! (Letztere parallel zum weiteren Vortrag laufen lassen.)}
 \end{frame}
 
 \begin{frame}[fragile,t]{Herangehensweise an die Problemstellung}
 \begin{itemize}
 \item Festlegung von \blue{Python (2.7.9)} als Programmiersprache
 \item Begutachtung des Roboters
-\item Auswahl des fortan zugrunde liegenden MCU-Codes, Einarbeitung (Milestone 1)
-\item Kommunikation zwischen Computer und MCU
+\item Auswahl des fortan zugrunde liegenden MCU-Codes, Einarbeitung
+\item Erweiterung des Roboter um eine serielle Schnittstelle, Herstellung der Kommunikation zwischen Computer und MCU
+\item Arbeit an der Python-Klasse für das Labyrinth
 \item \ldots
 \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile,t]{Praktikumsverlauf ausgehend von der ursprünglichen Planung}
 \blue{Milestones:}
+
+\smallskip
 \begin{enumerate}
- \item \blue{Einarbeitung} \textit{(bis Anfang Dezember)}\blue{:}\\
- Vorgängercode und Funktionsfähigkeit des Roboters testen.
+ \item \blue{Einarbeitung} \textit{(bis Anfang Dezember)}\blue{:} Vorgängercode und Funktionsfähigkeit des Roboters testen.
  \item \blue{Durchlaufen des Labyrinths} \textit{(bis Anfang Januar)}\blue{:}\\
  Durch Vorgabe eines Labyrinths als Datenstruktur soll die Kugel einen beliebig vorgegebenen Pfad durchlaufen können. Ferner wird ein optimaler Weg durch das Labyrinth berechnet.
  \item \blue{Erkennen des Labyrinths} \textit{(bis Ende Januar)}\blue{:}\\
  Durch Ablaufen eines realen Labyrinths soll die Struktur des Labyrinths erkannt und abgespeichert werden. Dafür wird ein Algorithmus entworfen und implementiert.
  \textcolor{gray}{
  \item[\textcolor{gray}{4.}] Fertigstellung \textit{(bis Anfang März)}:\\
- Präsentation, Poster und Webseite fertig stellen; ggf. eine grafische Oberfläche erstellen.
+Präsentation, Poster und Webseite fertig stellen; ggf. eine grafische Oberfläche erstellen.
 }
 \end{enumerate}
 \end{frame}
 
 \begin{frame}[fragile,t]{Praktikumsverlauf ausgehend von der ursprünglichen Planung}
-Unseren Zeitplan konnten wir recht gut einhalten. Der dritte Milestone ist wie erwartet aufwendiger geworden, erreicht haben wir ihn erst nach den Klausuren (also Mitte Februar). Hinzugekommen sind (optische) Verbesserungen an der Hardware. \blocking{Letztere zeigen!}
+Unseren Zeitplan konnten wir recht gut einhalten. Der dritte Milestone ist wie erwartet aufwendiger geworden, erreicht haben wir ihn erst nach den Klausuren (also Mitte Februar). Hinzugekommen sind (optische) Verbesserungen an der Hardware. \blocking{Letztere am Roboter zeigen!}
 
 \smallskip
 \begin{enumerate}
@@ -76,18 +79,33 @@ Unseren Zeitplan konnten wir recht gut einhalten. Der dritte Milestone ist wie e
 \end{enumerate}
 \end{frame}
 
-\begin{frame}[fragile,t]{Ergebnis in sinnvoller Strukturierung}
+\begin{frame}[fragile,t]{Ergebnis}
+\begin{figure}
+  \centering
+  \includegraphics[scale=.0675]{roboter}
+  %\caption{}
+\end{figure}
+\end{frame}
+
+\begin{frame}[fragile,t]{Ergebnis}
 Text.
 \end{frame}
 
 \begin{frame}[fragile,t]{Aufgetretene Probleme}
-Keine nennenswerten.
+Keine nennenswerten. \blocking{Was ich damit meine: Wir hatten kein ausgezeichnetes Problem und es gibt keine offenen Probleme. Google hat bei sämtlichen kleineren Hürden gereicht.}
 \end{frame}
 
 \begin{frame}[fragile,t]{Ausblick/Reflexion}
+Das Praktikum hat uns sehr gefallen und war ein guter Ausgleich zu unseren Vorlesungen.
+
+\medskip\noindent
+Wir denken nicht, dass sich der Roboter (bezogen auf unsere Aufgabenstellung) großartig verbessern lässt. Mögliche Erweiterungen:
 \begin{itemize}
 \item Rechte-Hand-Regel zur direkten Lösung des Labyrinths implementieren
 \item GUI schreiben
+\textcolor{gray}{
+\item[\textcolor{gray}{$\triangleright$}] Hardware erneuern und optimieren (beinhaltet Arbeit am MCU-Code)
+}
 \end{itemize}
 \end{frame}
 
