@@ -3,7 +3,7 @@
 \author{\texorpdfstring{Florian Nowak \& Yichuan Shen\\ Betreuer: Gero Plettenberg, Thomas Kloepfer}{Florian Nowak \& Yichuan Shen}}
 \date{Wintersemester 2014/15}
 
-\usetheme{Goettingen}
+%\usetheme{Goettingen}
 \setbeamertemplate{navigation symbols}{}
 
 \usepackage[utf8]{inputenc}
@@ -37,17 +37,6 @@ Ein bereits vorhandener Roboter mit neigbarem Touchscreen soll etwas Neues lerne
 \blocking{\verb~string~-Darstellung des vorhandenen Labyrinths einlesen und Labyrinth lösen! Anschließend mit der Tiefensuche beginnen! (Letztere parallel zum weiteren Vortrag laufen lassen.)}
 \end{frame}
 
-\begin{frame}[fragile,t]{Herangehensweise an die Problemstellung}
-\begin{itemize}
-\item Festlegung von \blue{Python (2.7.9)} als Programmiersprache
-\item Begutachtung des Roboters
-\item Auswahl des fortan zugrunde liegenden MCU-Codes, Einarbeitung
-\item Erweiterung des Roboter um eine serielle Schnittstelle, Herstellung der Kommunikation zwischen Computer und MCU
-\item Arbeit an der Python-Klasse für das Labyrinth
-\item \ldots
-\end{itemize}
-\end{frame}
-
 \begin{frame}[fragile,t]{Praktikumsverlauf ausgehend von der ursprünglichen Planung}
 \blue{Milestones:}
 
@@ -79,6 +68,21 @@ Unseren Zeitplan konnten wir recht gut einhalten. Der dritte Milestone ist wie e
 \end{enumerate}
 \end{frame}
 
+\begin{frame}[fragile,t]{Herangehensweise an die Problemstellung}
+\begin{itemize}
+\item Festlegung von \blue{Python (2.7)} als Programmiersprache
+\item Auswahl des fortan zugrunde liegenden MCU-Codes, Einarbeitung und Reduktion auf die wesentlichen Routinen
+\item Erweiterung des Roboter um eine serielle Schnittstelle, Herstellung der Kommunikation zwischen Computer und MCU 
+\begin{itemize}
+\item Auslesen der Kugelposition
+\item Schicken einer neuen Position
+\item Schreiben einer Python-Klasse für den Touchscreen (\verb~Balancer~-Klasse)
+\end{itemize}
+\item Speicherung des Labyrinths als rechteckiger, einfacher Graph: Schreiben der \verb~Maze~-Klasse
+\item \blocking{Bild zeichnen/tikz, einfügen!}
+\end{itemize}
+\end{frame}
+
 \begin{frame}[fragile,t]{Ergebnis}
 \begin{figure}
   \centering
@@ -88,24 +92,30 @@ Unseren Zeitplan konnten wir recht gut einhalten. Der dritte Milestone ist wie e
 \end{frame}
 
 \begin{frame}[fragile,t]{Ergebnis}
-Text.
+\begin{enumerate}
+\item Maze-Klasse kurz erklären (Labyrinth als Graph)
+\item Balancer-Klasse/Kommunikation PC--TS (bzw. PC--MCU) erklären
+\item Bestimmung des optimalen Wegs durch Breitensuche
+\item Ablauf der Wanderkennung (Flowchart)
+\item Optimierung erklären (skippables; Nichtzurückkehren zum Anker in spezieller Situation bei Wanderkennung; Zeilen 144--146)
+\end{enumerate}
 \end{frame}
 
 \begin{frame}[fragile,t]{Aufgetretene Probleme}
 Keine nennenswerten. \blocking{Was ich damit meine: Wir hatten kein ausgezeichnetes Problem und es gibt keine offenen Probleme. Google hat bei sämtlichen kleineren Hürden gereicht.\\\ \\
 Wie wäre es mit:\\
-- \glqq Stottern\grqq der Kugel: Am Rand (vor allem an dem Eingangs- bzw. Ausgangsfeld), an gewissen Wänden (Felder zu klein)\\
-- Optimierung erklären
+- \glqq Stottern\grqq der Kugel: Am Rand (vor allem an dem Eingangs- bzw. Ausgangsfeld), an gewissen Wänden (Felder unregelmäßig geschnitten, manche zu klein: keine Lösung bis auf perfektes Labyrinth)
 }
 \end{frame}
 
-\begin{frame}[fragile,t]{Ausblick/Reflexion}
+\begin{frame}[fragile,t]{Ausblick/Reflektion}
 Das Praktikum hat uns sehr gefallen und war ein guter Ausgleich zu unseren Vorlesungen.
 
 \medskip\noindent
 Wir denken nicht, dass sich der Roboter (bezogen auf unsere Aufgabenstellung) großartig verbessern lässt. Mögliche Erweiterungen:
 \begin{itemize}
-\item Rechte-Hand-Regel zur direkten Lösung des Labyrinths implementieren \blocking{unnötig: Eine Tiefensuche ist gerade die Rechte(-Linke)-Hand-Regel + Felder überspringen, die wir schon überprüft haben.}
+\item
+\item Labyrinthmaße experimentell bestimmen lassen
 \item GUI schreiben
 \textcolor{gray}{
 \item[\textcolor{gray}{$\triangleright$}] Hardware erneuern und optimieren (beinhaltet Arbeit am MCU-Code)
