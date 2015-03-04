@@ -11,7 +11,7 @@
 \usepackage[ngerman]{babel}
 \usepackage{lmodern}
 \usepackage{graphicx}
-  \graphicspath{{bilder/}}  
+  \graphicspath{{bilder/}}
 \usepackage{xparse}
   \NewDocumentCommand\blocking{m}{\textcolor{green}{\textit{#1}}}
   \NewDocumentCommand\blue{m}{{%
@@ -72,7 +72,7 @@ Unseren Zeitplan konnten wir recht gut einhalten. Der dritte Milestone ist wie e
 \begin{itemize}
 \item Festlegung von \blue{Python (2.7)} als Programmiersprache
 \item Auswahl des fortan zugrunde liegenden MCU-Codes, Einarbeitung und Reduktion auf die wesentlichen Routinen
-\item Erweiterung des Roboter um eine serielle Schnittstelle, Herstellung der Kommunikation zwischen Computer und MCU 
+\item Erweiterung des Roboter um eine serielle Schnittstelle, Herstellung der Kommunikation zwischen Computer und MCU
 \begin{itemize}
 \item Auslesen der Kugelposition
 \item Schicken einer neuen Position
@@ -97,15 +97,17 @@ Unseren Zeitplan konnten wir recht gut einhalten. Der dritte Milestone ist wie e
 \item Balancer-Klasse/Kommunikation PC--TS (bzw. PC--MCU) erklären
 \item Bestimmung des optimalen Wegs durch Breitensuche
 \item Ablauf der Wanderkennung (Flowchart)
-\item Optimierung erklären (skippables; Nichtzurückkehren zum Anker in spezieller Situation bei Wanderkennung; Zeilen 144--146)
+\item Optimierung
+\begin{enumerate}
+\item Die Funktion \verb~run(path, maze)~ berücksichtigt durch \verb~maze.get_skippables(path)~ erhaltene überspringbare Felder.
+\item \verb~detect_walls~ lässt die Kugel auf dem letzten Nachbarn, falls dieser erreichbar war.
+\item \verb~detect_maze~ berücksichtigt die Ausgabe von \verb~detect_walls~ und verhindert \glqq{}unnötige Pfade\grqq.
+\end{enumerate}
 \end{enumerate}
 \end{frame}
 
 \begin{frame}[fragile,t]{Aufgetretene Probleme}
-Keine nennenswerten. \blocking{Was ich damit meine: Wir hatten kein ausgezeichnetes Problem und es gibt keine offenen Probleme. Google hat bei sämtlichen kleineren Hürden gereicht.\\\ \\
-Wie wäre es mit:\\
-- \glqq Stottern\grqq der Kugel: Am Rand (vor allem an dem Eingangs- bzw. Ausgangsfeld), an gewissen Wänden (Felder unregelmäßig geschnitten, manche zu klein: keine Lösung bis auf perfektes Labyrinth)
-}
+Durch den unempfindlichen inneren Rand des Touchscreens dauert das Ausbalancieren in Randnähe durchschnittlich länger. Auch in verhältnismäig kleinen Labyrinthfeldern können Verzögerungen bei der Erkennung des Labyrinths auftreten. Die naheliegende Lösung beider Probleme ist eine Verbesserung der Hardware.
 \end{frame}
 
 \begin{frame}[fragile,t]{Ausblick/Reflektion}
@@ -114,7 +116,6 @@ Das Praktikum hat uns sehr gefallen und war ein guter Ausgleich zu unseren Vorle
 \medskip\noindent
 Wir denken nicht, dass sich der Roboter (bezogen auf unsere Aufgabenstellung) großartig verbessern lässt. Mögliche Erweiterungen:
 \begin{itemize}
-\item
 \item Labyrinthmaße experimentell bestimmen lassen
 \item GUI schreiben
 \textcolor{gray}{
