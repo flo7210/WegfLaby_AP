@@ -12,6 +12,8 @@
 \usepackage{lmodern}
 \usepackage{graphicx}
   \graphicspath{{bilder/}}
+\usepackage{tikz}
+  \usetikzlibrary{shapes}
 \usepackage{xparse}
   \NewDocumentCommand\blocking{m}{\textcolor{green}{\textit{#1}}}
   \NewDocumentCommand\blue{m}{{%
@@ -34,13 +36,11 @@ Ein bereits vorhandener Roboter mit neigbarem Touchscreen soll etwas Neues lerne
 \end{frame}
 
 \begin{frame}[fragile,t]{Demonstration der Lösung des Labyrinths}
-\blocking{\verb~string~-Darstellung des vorhandenen Labyrinths einlesen und Labyrinth lösen! Anschließend mit der Tiefensuche beginnen! (Letztere parallel zum weiteren Vortrag laufen lassen.)}
+\blocking{\verb~string~-Darstellung des vorhandenen Labyrinths einlesen und Labyrinth lösen! Anschließend mit der Tiefensuche beginnen!}
 \end{frame}
 
 \begin{frame}[fragile,t]{Praktikumsverlauf ausgehend von der ursprünglichen Planung}
 \blue{Milestones:}
-
-\smallskip
 \begin{enumerate}
  \item \blue{Einarbeitung} \textit{(bis Anfang Dezember)}\blue{:} Vorgängercode und Funktionsfähigkeit des Roboters testen.
  \item \blue{Durchlaufen des Labyrinths} \textit{(bis Anfang Januar)}\blue{:}\\
@@ -79,8 +79,41 @@ Unseren Zeitplan konnten wir recht gut einhalten. Der dritte Milestone ist wie e
 \item Schreiben einer Python-Klasse für den Touchscreen (\verb~Balancer~-Klasse)
 \end{itemize}
 \item Speicherung des Labyrinths als rechteckiger, einfacher Graph: Schreiben der \verb~Maze~-Klasse
-\item \blocking{Bild zeichnen/tikz, einfügen!}
 \end{itemize}
+\blue{Code-Aufteilung:}
+\begin{figure}[h]
+  \centering
+  \begin{tikzpicture}[
+    text centered,
+	rounded/.style={
+	  rounded rectangle,
+	  very thick,
+	  draw=lime!50!black!70,
+	  top color=white,
+	  bottom color=lime!50!black!30
+	},
+	block/.style={
+	  rectangle,
+	  very thick,
+	  draw=black!50,
+	  top color=white,
+	  bottom color=black!20
+	},
+ 	line/.style={draw, thick}
+	]
+	\node [block] at (0, 0) (main) {\verb~main.py~};
+	\node [rounded] at (-2, 0) (maze) {\verb~Maze~};
+	\node [rounded] at (3, 0) (balancer) {\verb~Balancer~};
+	\node [block, dashed] at (1, 1) (mcu) {MCU-Code};
+	\node at (-3, 1) {Labyrinth};
+	\node at (4, 1) {TS};
+	\path[line] (main) -- (balancer);
+	\path[line, dashed] (balancer) -- (mcu);
+	\path[line] (main) -- (maze);
+	\draw[line, <->] (-2.3, .3) -- (-2.8, .8);
+	\draw[line, <->] (3.3, .3) -- (3.8, .8);
+  \end{tikzpicture}
+\end{figure}
 \end{frame}
 
 \begin{frame}[fragile,t]{Ergebnis}
@@ -91,19 +124,140 @@ Unseren Zeitplan konnten wir recht gut einhalten. Der dritte Milestone ist wie e
 \end{figure}
 \end{frame}
 
-\begin{frame}[fragile,t]{Ergebnis}
-\begin{enumerate}
-\item Maze-Klasse kurz erklären (Labyrinth als Graph)
-\item Balancer-Klasse/Kommunikation PC--TS (bzw. PC--MCU) erklären
-\item Bestimmung des optimalen Wegs durch Breitensuche
-\item Ablauf der Wanderkennung (Flowchart)
-\item Optimierung
-\begin{enumerate}
-\item Die Funktion \verb~run(path, maze)~ berücksichtigt durch \verb~maze.get_skippables(path)~ erhaltene überspringbare Felder.
-\item \verb~detect_walls~ lässt die Kugel auf dem letzten Nachbarn, falls dieser erreichbar war.
-\item \verb~detect_maze~ berücksichtigt die Ausgabe von \verb~detect_walls~ und verhindert \glqq{}unnötige Pfade\grqq.
-\end{enumerate}
-\end{enumerate}
+\begin{frame}[fragile,t]{Ergebnis}{Die \verb~Maze~-Klasse}
+Text.
+\end{frame}
+
+\begin{frame}[fragile,t]{Ergebnis}{Die \verb~Balancer~-Klasse: Kommunikation zwischen PC und MCU}
+Text.
+\end{frame}
+
+\begin{frame}[fragile,t]{Ergebnis}{Ablauf der Wanderkennung}
+\blue{Flowchart zu \texttt{detect\textunderscore walls(anchor, maze, dualmaze)}:}
+\begin{small}
+\begin{figure}[h]
+  \centering
+  \begin{tikzpicture}[
+    text centered,
+	rounded/.style={
+	  rounded rectangle,
+	  very thick,
+	  draw=red!50!black!70,
+	  top color=white,
+	  bottom color=red!50!black!30
+	},
+	kugel/.style={
+	  rounded rectangle,
+	  text width=2cm,
+	  very thick,
+	  draw=blue!50!black!70,
+	  top color=white,
+	  bottom color=blue!50!black!30
+	},
+	block/.style={
+	  rectangle,
+	  text width=3cm,
+	  very thick,
+	  draw=black!50,
+	  top color=white,
+	  bottom color=black!20
+	},
+ 	line/.style={draw, thick, ->}
+	]
+	\node at (0, 0) [rounded] (start) {Start};
+	\node at (0, -1.5) [block] (nstack) {Generiere \verb~neighbors_stack~ von \verb~anchor~};
+	\node at (0, -3.5) [block] (init) {Initialisierung: Balanciere Kugel auf \verb~anchor~ aus};
+	\node at (0, -5) [kugel] (kugel) {Kugel ist ausbalanciert};
+	\path [line] (start) -- (nstack);
+	\path [line] (nstack) -- (init);
+	\path [line] (init) -- (kugel);
+  \end{tikzpicture}
+\end{figure}
+\end{small}
+\end{frame}
+
+\begin{frame}[fragile,t]{Ergebnis}{Ablauf der Wanderkennung}
+\begin{tiny}
+\begin{figure}[h]
+  \centering
+  \begin{tikzpicture}[
+    text centered,
+	rounded/.style={
+	  rounded rectangle,
+	  very thick,
+	  draw=red!50!black!70,
+	  top color=white,
+	  bottom color=red!50!black!30
+	},
+	kugel/.style={
+	  rounded rectangle,
+	  text width=1.25cm,
+	  very thick,
+	  draw=blue!50!black!70,
+	  top color=white,
+	  bottom color=blue!50!black!30
+	},
+	block/.style={
+	  rectangle,
+	  text width=1.75cm,
+	  very thick,
+	  draw=black!50,
+	  top color=white,
+	  bottom color=black!20
+	},
+	decision/.style={
+	  diamond,
+	  text width=1cm,
+	  very thick,
+	  draw=lime!50!black!70,
+	  top color=white,
+	  bottom color=lime!50!black!30
+	},
+ 	line/.style={draw, thick, ->}
+	]
+	\path[draw, thick, dashed, blue!50!black!70] (0, -6) -- (0, -6.5) -- (-1.125, -6.5) -- (-1.125, 0) -- (0, 0);
+    \node at (0, 0) [kugel] (kugelstart) {Kugel ist ausbalanciert};
+	\node at (-2, 0) [rounded] (ende) {Ende};
+	\node at (2, 0) [block, text width=1cm] (nochmal) {Versuche es erneut};
+	\node at (0, -1.5) [decision] (ziel) {Ist die Kugel am Ziel?};
+	\node at (-3, -1.5) [decision, text width=1.675cm] (leer) {Ist \verb~neighbors_stack~ leer?};
+	\node at (3, -1.5) [decision] (anker) {Ist \verb~anchor~ das Ziel?};
+	\node at (0, -4) [block, text width=1cm] (erreichbar) {$n$ ist erreichbar};
+	\node at (-3, -4) [decision] (nachbar) {Ist Ziel ein Nachbar $n$?};
+	\node at (3, -4) [decision] (versucht) {Bereits zweimal versucht?};
+	\node at (0, -5) [block, text width=1cm] (zurueck) {Gehe zurück zu \verb~anchor~};
+	\node at (-4, -6) [block, text width=2cm] (weiter) {Hole einen (neuen) Nachbarn $n$ aus \verb~neighbors_stack~ und schicke die Kugel dorthin};
+	\node at (4, -6) [block, text width=1.25cm] (wand) {Zwischen \verb~anchor~ und $n$ ist eine Wand};	
+	\node at (0, -6) [kugel] (kugelende) {Kugel ist ausbalanciert};
+	\node at (2, -6) [block, text width=1.375cm] (servos) {Setze die Servomotoren zurück};
+	\path[line] (nochmal) -- (kugelstart);
+	\path[line] (leer) -- node [left] {J} (ende);
+	\path[line] (kugelstart) -- (ziel);
+	\path[line] (anker) -- node [right] {J} (nochmal);
+	\path[line] (ziel) -- node [above] {J} (leer);
+	\path[line] (ziel) -- node [above] {N} (anker);
+	\path[line] (leer) -- node [left] {N} (nachbar);
+	\path[line] (anker) -- node [right] {N} (versucht);
+	\path[line] (nachbar) -- node [above] {J} (erreichbar);	
+	\path[line] (nachbar) -- node [left] {N} (weiter);
+	\path[line] (erreichbar) -- (zurueck);
+	\path[line] (versucht) -- node [right] {J} (wand);
+	\path[line] (4, -4) -- node [right] {N} (4, 0) -- (nochmal);
+	\path[line] (weiter) -- (kugelende);
+	\path[line] (zurueck) -- (kugelende);
+	\path[line] (wand) -- (servos);
+	\path[line] (servos) -- (kugelende);
+  \end{tikzpicture}
+\end{figure}
+\end{tiny}
+\end{frame}
+
+\begin{frame}[fragile,t]{Ergebnis}{Optimierung}
+\begin{itemize}
+\item Die Funktion \verb~run(path, maze)~ berücksichtigt durch \verb~maze.get_skippables(path)~ erhaltene Felder
+\item \verb~detect_walls~ lässt die Kugel auf dem letzten Nachbarn, falls dieser erreichbar war
+\item \verb~detect_maze~ berücksichtigt die Ausgabe von \verb~detect_walls~ und verhindert unnötige Wege
+\end{itemize}
 \end{frame}
 
 \begin{frame}[fragile,t]{Aufgetretene Probleme}
@@ -114,7 +268,7 @@ Durch den unempfindlichen inneren Rand des Touchscreens dauert das Ausbalanciere
 Das Praktikum hat uns sehr gefallen und war ein guter Ausgleich zu unseren Vorlesungen.
 
 \medskip\noindent
-Wir denken nicht, dass sich der Roboter (bezogen auf unsere Aufgabenstellung) großartig verbessern lässt. Mögliche Erweiterungen:
+Wir denken nicht, dass sich der Roboter (bezogen auf unsere Aufgabenstellung) wesentlich verbessern lässt. Mögliche Erweiterungen:
 \begin{itemize}
 \item Labyrinthmaße experimentell bestimmen lassen
 \item GUI schreiben
