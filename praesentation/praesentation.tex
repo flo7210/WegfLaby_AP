@@ -102,16 +102,16 @@ Unseren Zeitplan konnten wir recht gut einhalten. Der dritte Milestone ist wie e
  	line/.style={draw, thick}
 	]
 	\node [block] at (0, 0) (main) {\verb~main.py~};
-	\node [rounded] at (-2, 0) (maze) {\verb~Maze~};
+	\node [rounded] at (-3, 0) (maze) {\verb~Maze~};
 	\node [rounded] at (3, 0) (balancer) {\verb~Balancer~};
-	\node [block, dashed] at (1, 1) (mcu) {MCU-Code};
-	\node at (-3, 1) {Labyrinth};
-	\node at (4, 1) {TS};
+	\node [block, dashed] at (0, 1) (mcu) {MCU-Code};
+	\node at (-3, 1) (labyrinth) {Labyrinth};
+	\node at (3, 1) (touchscreen) {Touchscreen};
 	\path[line] (main) -- (balancer);
 	\path[line, dashed] (balancer) -- (mcu);
 	\path[line] (main) -- (maze);
-	\draw[line, <->] (-2.3, .3) -- (-2.8, .8);
-	\draw[line, <->] (3.3, .3) -- (3.8, .8);
+	\draw[line, <->] (maze) -- (labyrinth);
+	\draw[line, <->] (balancer) -- (touchscreen);
   \end{tikzpicture}
 \end{figure}
 \end{frame}
