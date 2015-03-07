@@ -25,23 +25,22 @@
 \begin{document}
 \maketitle
 
-\begin{frame}[fragile,t]{Aufgabenstellung des Projekts}
+\begin{frame}[fragile,t]{Aufgabenstellung}
 Ein bereits vorhandener Roboter mit neigbarem Touchscreen soll etwas Neues lernen: Er soll ein beliebiges auf dem Rahmen seines Touchscreens aufliegendes Labyrinth (vorgegebener Rastergröße) mithilfe einer Metallkugel einlesen können. Der Roboter kann eine solche Kugel bereits auf eine ihm vorgegebene Position durch Kippen rollen lassen (und dort auch zum Stillstehen bringen). Das Ziel ist es somit, den Roboter ein zuvor eingelesenes Labyrinth mit der Kugel (auf optimalem Weg) lösen zu lassen.
 
 \medskip\noindent
 \blocking{Aufgabenstellung am Roboter erläutern!}
 \end{frame}
 
-\begin{frame}[fragile,t]{Vorstellung der Studierenden}
+\begin{frame}[fragile,t]{Vorstellung}
 \blocking{Kurz vorstellen!}
 \end{frame}
 
-\begin{frame}[fragile,t]{Demonstration der Lösung des Labyrinths}
+\begin{frame}[fragile,t]{Demonstration}
 \blocking{\verb~string~-Darstellung des vorhandenen Labyrinths einlesen und Labyrinth lösen! Anschließend mit der Tiefensuche beginnen!}
 \end{frame}
 
-\begin{frame}[fragile,t]{Praktikumsverlauf ausgehend von der ursprünglichen Planung}
-\blue{Milestones:}
+\begin{frame}[fragile,t]{Praktikumsverlauf}
 \begin{enumerate}
  \item \blue{Einarbeitung} \textit{(bis Anfang Dezember)}\blue{:} Vorgängercode und Funktionsfähigkeit des Roboters testen.
  \item \blue{Durchlaufen des Labyrinths} \textit{(bis Anfang Januar)}\blue{:}\\
@@ -55,8 +54,8 @@ Präsentation, Poster und Webseite fertig stellen; ggf. eine grafische Oberfläc
 \end{enumerate}
 \end{frame}
 
-\begin{frame}[fragile,t]{Praktikumsverlauf ausgehend von der ursprünglichen Planung}
-Unseren Zeitplan konnten wir recht gut einhalten. Der dritte Milestone ist wie erwartet aufwendiger geworden, erreicht haben wir ihn erst nach den Klausuren (also Mitte Februar). Hinzugekommen sind (optische) Verbesserungen an der Hardware. \blocking{Letztere am Roboter zeigen!}
+\begin{frame}[fragile,t]{Praktikumsverlauf}
+Unseren Zeitplan konnten wir recht gut einhalten. Der dritte Milestone ist wie erwartet aufwendiger geworden, erreicht haben wir ihn erst nach den Klausuren (also Mitte Februar). Hinzugekommen sind optische Verbesserungen an der Hardware. \blocking{Letztere am Roboter zeigen!}
 
 \smallskip
 \begin{enumerate}
@@ -125,15 +124,15 @@ Unseren Zeitplan konnten wir recht gut einhalten. Der dritte Milestone ist wie e
 \end{figure}
 \end{frame}
 
-\begin{frame}[fragile,t]{Ergebnis}{Die \verb~Maze~-Klasse}
+\begin{frame}[fragile,t]{Die \verb~Maze~-Klasse}
 Text.
 \end{frame}
 
-\begin{frame}[fragile,t]{Ergebnis}{Die \verb~Balancer~-Klasse: Kommunikation zwischen PC und MCU}
+\begin{frame}[fragile,t]{Die \verb~Balancer~-Klasse}{Kommunikation zwischen PC und MCU}
 Text.
 \end{frame}
 
-\begin{frame}[fragile,t]{Ergebnis}{Ablauf der Wanderkennung}
+\begin{frame}[fragile,t]{Ablauf der Wanderkennung}
 \begin{small}
 \begin{figure}[h]
   \centering
@@ -177,7 +176,7 @@ Text.
 \end{small}
 \end{frame}
 
-\begin{frame}[fragile,t]{Ergebnis}{Ablauf der Wanderkennung}
+\begin{frame}[fragile,t]{Ablauf der Wanderkennung}
 \begin{tiny}
 \begin{figure}[h]
   \centering
@@ -254,7 +253,7 @@ Text.
 \end{tiny}
 \end{frame}
 
-\begin{frame}[fragile,t]{Ergebnis}{Optimierung}
+\begin{frame}[fragile,t]{Optimierung}
 \begin{itemize}
 \item Die Funktion \verb~run(path, maze)~ berücksichtigt durch \verb~maze.get_skippables(path)~ erhaltene Felder
 \item \verb~detect_walls~ lässt die Kugel auf dem letzten Nachbarn, falls dieser erreichbar war
