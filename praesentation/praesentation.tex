@@ -18,7 +18,7 @@
   \NewDocumentCommand\blocking{m}{\textcolor{green}{\textit{#1}}}
   \NewDocumentCommand\blue{m}{{%
   	\usebeamercolor[fg]{frametitle}{#1}%
-  	}}
+  }}
 
 
 \begin{document}
@@ -133,7 +133,6 @@ Text.
 \end{frame}
 
 \begin{frame}[fragile,t]{Ergebnis}{Ablauf der Wanderkennung}
-\blue{Flowchart zu \texttt{detect\textunderscore walls(anchor, maze, dualmaze)}:}
 \begin{small}
 \begin{figure}[h]
   \centering
@@ -141,6 +140,7 @@ Text.
     text centered,
 	rounded/.style={
 	  rounded rectangle,
+	  text width=1cm,
 	  very thick,
 	  draw=red!50!black!70,
 	  top color=white,
@@ -148,7 +148,7 @@ Text.
 	},
 	kugel/.style={
 	  rounded rectangle,
-	  text width=2cm,
+	  text width=2.5cm,
 	  very thick,
 	  draw=blue!50!black!70,
 	  top color=white,
@@ -167,7 +167,7 @@ Text.
 	\node at (0, 0) [rounded] (start) {Start};
 	\node at (0, -1.5) [block] (nstack) {Generiere \verb~neighbors_stack~ von \verb~anchor~};
 	\node at (0, -3.5) [block] (init) {Initialisierung: Balanciere Kugel auf \verb~anchor~ aus};
-	\node at (0, -5) [kugel] (kugel) {Kugel ist ausbalanciert};
+	\node at (0, -5.3) [kugel] (kugel) {Kugel ist ausbalanciert};
 	\path [line] (start) -- (nstack);
 	\path [line] (nstack) -- (init);
 	\path [line] (init) -- (kugel);
@@ -184,6 +184,7 @@ Text.
     text centered,
 	rounded/.style={
 	  rounded rectangle,
+	  text width=.7cm,
 	  very thick,
 	  draw=red!50!black!70,
 	  top color=white,
