@@ -289,6 +289,20 @@ Gibt eine Liste aller Indizes \verb~i~ zurück, sodass \blue{\texttt{[path[i - 1
 \end{itemize}
 \end{frame}
 
+\begin{frame}[fragile,t]{Kommunikationsmodell}
+\begin{itemize}
+\item Das Protokoll ist asymmetrisch
+\begin{itemize}
+\item Zwei Teilnehmer: MCU und \verb~Balancer~-Klasse
+\end{itemize}
+\item Der Kommunikationskanal wird als fehlerfrei angenommen
+\item \verb~Balancer~ übergibt die Befehle, MCU antwortet
+
+\smallskip\noindent
+\textcolor{red}{\textit{Kommunikationsdiagramm erstellen!}}
+\end{itemize}
+\end{frame}
+
 \begin{frame}[fragile,t]{Die \verb~Balancer~-Klasse}{Kommunikation zwischen PC und MCU}
 
 \blue{\texttt{\longunderscore init\longunderscore (serial, width=580, height=580, padding=25)}}
@@ -312,20 +326,6 @@ balancer.add_command(290, 290)
 balancer.start_listening()
 balancer.serial.close()
 \end{minted}
-\end{frame}
-
-\begin{frame}[fragile,t]{Kommunikationsmodell}
-\begin{itemize}
-\item Das Protokoll ist asymmetrisch
-\begin{itemize}
-\item Zwei Teilnehmer: MCU und \verb~Balancer~-Klasse
-\end{itemize}
-\item Der Kommunikationskanal wird als fehlerfrei angenommen
-\item \verb~Balancer~ übergibt die Befehle, MCU antwortet
-
-\smallskip\noindent
-\textcolor{red}{\textit{Kommunikationsdiagramm erstellen!}}
-\end{itemize}
 \end{frame}
 
 \begin{frame}[fragile,t]{Ablauf der Wanderkennung}{Anfangssequenz}
