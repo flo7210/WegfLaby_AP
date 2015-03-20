@@ -248,3 +248,5 @@ obj/
 *.nav
 *.snm
 *.vrb
+*.pyg
+_minted-praesentation/
