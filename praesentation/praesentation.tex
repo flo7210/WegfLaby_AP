@@ -255,6 +255,23 @@ print m
 
 \begin{frame}[fragile,t]{Methoden der \verb~Maze~-Klasse}
 \begin{itemize}
+\item \blue{\texttt{has\textunderscore vertex(x, y)}}
+
+\smallskip
+Gibt ein \verb~bool~ zurück, ob sich der Punkt \blue{\texttt{(x, y)}} auf dem Graph befindet, oder nicht.
+\item \blue{\texttt{has\textunderscore edge(v1, v2)}}
+
+\smallskip
+Gibt ein \verb~bool~ zurück, ob die Punkte \blue{\texttt{v1}} und \blue{\texttt{v2}} mit einer Kante verbunden sind, oder nicht.
+\item \blue{\texttt{parse(string)}}
+
+\smallskip
+Liest die gegebene \verb~string~-Darstellung eines Labyrinths und fügt/entfernt Kanten, sodass das Objekt dieser Darstellung entspricht.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,t]{Methoden der \verb~Maze~-Klasse}
+\begin{itemize}
 \item \blue{\texttt{bfs(start, end)}}
 
 \smallskip
@@ -269,23 +286,6 @@ Gibt eine Liste aller Punkten auf dem Graphen zurück, die genau Manhattan-Dista
 Gibt eine Liste aller Punkten \verb~v~ in \verb~get_neighbors(x, y)~ zurück, die eine Kante nach \blue{\texttt{(x, y)}} haben.
 \item \blue{\texttt{get\textunderscore skippables(path)}}
 Gibt eine Liste aller Indizes \verb~i~ zurück, sodass \blue{\texttt{[path[i - 1], path[i], path[i + 1]]}} eine gerade Strecke bildet.
-\end{itemize}
-\end{frame}
-
-\begin{frame}[fragile,t]{Methoden der \verb~Maze~-Klasse}
-\begin{itemize}
-\item \blue{\texttt{has\textunderscore vertex(x, y)}}
-
-\smallskip
-Gibt ein \verb~bool~ zurück, ob sich der Punkt \blue{\texttt{(x, y)}} auf dem Graph befindet, oder nicht.
-\item \blue{\texttt{has\textunderscore edge(v1, v2)}}
-
-\smallskip
-Gibt ein \verb~bool~ zurück, ob die Punkte \blue{\texttt{v1}} und \blue{\texttt{v2}} mit einer Kante verbunden sind, oder nicht.
-\item \blue{\texttt{parse(string)}}
-
-\smallskip
-Liest die gegebene \verb~string~-Darstellung eines Labyrinths und fügt/entfernt Kanten, sodass das Objekt dieser Darstellung entspricht.
 \end{itemize}
 \end{frame}
 
