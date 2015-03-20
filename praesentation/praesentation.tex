@@ -302,15 +302,15 @@ Erstellt eine neue Instanz der \verb~Balancer~-Klasse.\\
 
 \medskip
 \begin{minted}[bgcolor=black!85]{python}
-balancer = Balancer(serial.Serial(0))
-balancer.serial.close()
-\end{minted}
+def balanced(destination, response, reached):
+    if reached: return
+    balancer.add_command(290, 290)
 
-\smallskip
-\begin{minted}[bgcolor=black!85]{python}
-with Balancer(serial.Serial(0)) as balancer:
-    # do things
-    pass
+balancer = Balancer(serial.Serial(0))
+balancer.balance_handler = balanced
+balancer.add_command(290, 290)
+balancer.start_listening()
+balancer.serial.close()
 \end{minted}
 \end{frame}
 
