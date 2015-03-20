@@ -297,9 +297,32 @@ Gibt eine Liste aller Indizes \verb~i~ zurück, sodass \blue{\texttt{[path[i - 1
 \end{itemize}
 \item Der Kommunikationskanal wird als fehlerfrei angenommen
 \item \verb~Balancer~ übergibt die Befehle, MCU antwortet
+\end{itemize}
+\end{frame}
 
-\smallskip\noindent
-\textcolor{red}{\textit{Kommunikationsdiagramm erstellen!}}
+\begin{frame}[fragile,t]{Kommunikationsmodell}{Antworten}
+\begin{minted}{text}
+[sign][x-coord],[y-coord]
+\end{minted}
+
+\begin{itemize}
+\item Der MCU wird beim Balancieren der Kugel maximal 60 mal pro Sekunde eine Antwort senden.
+\item \texttt{[x-coord]} und \texttt{[y-coord]} sind dreistellige Zahlen zwischen \texttt{025} und \texttt{555}, die die aktuellen Koordinaten der Kugel entspricht.
+\item \texttt{[sign]} ist \texttt{=}, wenn die sich balanciert hat.
+\item Ansonsten ist \texttt{[sign]} ein \texttt{:} (Doppelpunkt).
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,t]{Kommunikationsmodell}{Befehle}
+\begin{minted}{text}
+[sign][x-coord],[y-coord]
+\end{minted}
+
+\begin{itemize}
+\item Befehle können nur gesendet werden, wenn sich die Kugel balanciert hat.
+\item \texttt{[x-coord]} und \texttt{[y-coord]} sind dreistellige Zahlen zwischen \texttt{025} und \texttt{555} und entsprechen die Koordinaten, die die Kugel ansteuern soll.
+\item \texttt{[sign]} ist \texttt{!}, wenn die Servomotoren des Touchscreens auf den Anfangswerten zurückgesetzt werden sollen.
+\item Ansonsten ist \texttt{[sign]} ein \texttt{.} (Punkt).
 \end{itemize}
 \end{frame}
 
