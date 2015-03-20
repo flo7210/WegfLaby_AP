@@ -361,15 +361,14 @@ Erstellt eine neue Instanz der \verb~Balancer~-Klasse.\\
 
 \medskip
 \begin{minted}[bgcolor=black!85]{python}
-def balanced(destination, response, reached):
-    if reached: return
-    balancer.add_command(290, 290)
+with Balancer(serial.Serial(0)) as balancer:
+    def balanced(destination, response, reached):
+        if reached: return
+        balancer.add_command(290, 290)
 
-balancer = Balancer(serial.Serial(0))
-balancer.balance_handler = balanced
-balancer.add_command(290, 290)
-balancer.start_listening()
-balancer.serial.close()
+    balancer.balance_handler = balanced
+    balancer.add_command(290, 290)
+    balancer.start_listening()
 \end{minted}
 \end{frame}
 
