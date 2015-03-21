@@ -346,25 +346,27 @@ Gibt eine Liste aller Indizes \verb~i~ zurück, sodass \blue{\texttt{[path[i - 1
 
 \begin{frame}[fragile,t]{Die \verb~Balancer~-Klasse}{Kommunikation zwischen PC und MCU}
 
-\blue{\texttt{\longunderscore init\longunderscore (serial, width=580, height=580, padding=25)}}
+\begin{itemize}
+\item Ist die Kugel balanciert, so wird eine Rückruffunktion (\textit{callback function}) ausgeführt
+\begin{itemize}
+\item \verb+destination+: Der Zielpunkt
+\item \verb+response+: Die Antwort von MCU
+\item \verb+dest_reached+: Gibt an, ob die Kugel am Ziel ist
+\end{itemize}
+\end{itemize}
 
-\smallskip\noindent
-Erstellt eine neue Instanz der \verb~Balancer~-Klasse.\\
-\blocking{Argumente mündlich erläutern!}
-
-\medskip\noindent
 \textbf{Beispiel:}
 
 \medskip
 \begin{minted}[bgcolor=black!85]{python}
-with Balancer(serial.Serial(0)) as balancer:
-    def balanced(destination, response, reached):
-        if reached: return
-        balancer.add_command(290, 290)
-
-    balancer.balance_handler = balanced
+balancer = Balancer(serial.Serial(0))
+def balanced(destination, response, dest_reached):
+    if dest_reached: return
     balancer.add_command(290, 290)
-    balancer.start_listening()
+
+balancer.balance_handler = balanced
+balancer.add_command(290, 290)
+balancer.start_listening()
 \end{minted}
 \end{frame}
 
