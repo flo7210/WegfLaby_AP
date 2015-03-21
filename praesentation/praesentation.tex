@@ -166,27 +166,32 @@ Präsentation, Poster und Webseite fertig stellen; ggf. eine grafische Oberfläc
 \item Schicken einer neuen Position
 \item Schreiben einer Python-Klasse für den Touchscreen
 \end{itemize}
-\item Speicherung des Labyrinths als rechteckiger, einfacher Graph: Schreiben der \verb~Maze~-Klasse
+\item Speicherung des Labyrinths als rechteckiger, einfacher Graph
+\item Wir setzen die Maße des zu erkennendes Labyrinths als bekannt voraus
 \end{itemize}
-\blue{Code-Aufteilung:}
+\end{frame}
+
+\begin{frame}[fragile,t]{Code Aufteilung}
+\vfill
 \begin{figure}[h]
   \centering
   \begin{tikzpicture}
 	\node [block, draw=blue!50!black!70, fill=blue!50!black!30] at (0, 0) (main) {\verb~main.py~};
 	\node [rounded] at (-3, 0) (maze) {\verb~Maze~};
 	\node [rounded] at (3, 0) (balancer) {\verb~Balancer~};
-	\node [block, dashed] at (0, 1) (mcu) {MCU-Code};
-	\node at (-3, 1) (labyrinth) {Labyrinth};
-	\node at (3, 1) (touchscreen) {Touchscreen};
+	\node [block, dashed] at (0, 2) (mcu) {MCU-Code};
+	\node at (-3, 2) (labyrinth) {Labyrinth};
+	\node at (3, 2) (touchscreen) {Touchscreen};
 	\path[line] (main) -- (balancer);
 	\path[line, dashed] (balancer) -- (mcu);
 	\path[line] (main) -- (maze);
-	\draw[line, <->] (maze) -- (-3, .85);
-	\draw[line, <->] (balancer) -- (3, .85);
+	\draw[line, <->] (maze) -- (-3, 1.85);
+	\draw[line, <->] (balancer) -- (3, 1.85);
   \end{tikzpicture}
 \end{figure}
 \end{frame}
 
+\iffalse
 \begin{frame}[fragile,t]{Ergebnis}
 \begin{figure}
   \centering
@@ -194,6 +199,7 @@ Präsentation, Poster und Webseite fertig stellen; ggf. eine grafische Oberfläc
   %\caption{}
 \end{figure}
 \end{frame}
+\fi
 
 \begin{frame}[fragile,t]{Die \verb~Maze~-Klasse}{Datenstruktur für das Labyrinth}
 \blue{\texttt{\longunderscore init\longunderscore (width, height)}}
