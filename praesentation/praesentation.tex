@@ -203,36 +203,23 @@ Präsentation, Poster und Webseite fertig stellen; ggf. eine grafische Oberfläc
 \fi
 
 \begin{frame}[fragile,t]{Die \verb~Maze~-Klasse}{Datenstruktur für das Labyrinth}
-\blue{\texttt{\longunderscore init\longunderscore (width, height)}}
-
-\smallskip\noindent
-Erstellt eine neue Instanz der \verb~Maze~-Klasse.
-
-\medskip\noindent
-\textbf{Beispiel:}
-
-\medskip
-\begin{minted}[bgcolor=black!85]{python}
-m = Maze(5, 3)
-print m
-
-# Output:
-#
-# +--+--+--+--+--+
-# |  |  |  |  |  |
-# +--+--+--+--+--+
-# |  |  |  |  |  |
-# +--+--+--+--+--+
-# |  |  |  |  |  |
-# +--+--+--+--+--+
-\end{minted}
+\begin{itemize}
+\item Rechteckiger, einfacher Graph
+\begin{itemize}
+\item Knoten sind Felder des Labyrinths
+\item Eine Ecke zwischen \verb+v+ und \verb+w+ bedeutet, dass zwischen \verb+v+ und \verb+w+ keine Wand existiert
+\end{itemize}
+\item Knoten sind Tupel \verb+(x, y)+
+\item Zu jedem Knoten \verb+v+ wird eine Liste von Knoten \verb+w+ gespeichert, so dass zwischen \verb+w+ und \verb+v+ eine Ecke existiert
+\item Da die Maße des Labyrinths und die des Touchscreens bekannt sind, können wir La\-by\-rinth\-ko\-or\-di\-na\-ten in Touch\-screen\-ko\-or\-di\-na\-ten umwandeln und umgekehrt
+\end{itemize}
 \end{frame}
 
 \begin{frame}[fragile,t]{Methoden der \verb~Maze~-Klasse}
 \blue{\texttt{add\textunderscore edge(v1, v2)}}
 
 \smallskip\noindent
-Fügt eine Kante zwischen den Punkten \blue{\texttt{v1}} und \blue{\texttt{v2}}.
+Fügt eine Kante zwischen den Knoten \blue{\texttt{v1}} und \blue{\texttt{v2}} hinzu.
 
 \medskip\noindent
 \textbf{Beispiel:}
@@ -308,12 +295,14 @@ Führt eine Breitensuche durch und gibt den kürzesten Pfad vom Punkt \blue{\tex
 \item \blue{\texttt{get\textunderscore neighbors(x, y)}}
 
 \smallskip
-Gibt eine Liste aller Punkten auf dem Graphen zurück, die genau Manhattan-Distanz 1 vom Punkt \blue{\texttt{(x, y)}} entfernt sind.
+Gibt eine Liste aller Knoten auf dem Graphen zurück, die genau Manhattan-Distanz 1 vom Punkt \blue{\texttt{(x, y)}} entfernt sind.
 \item \blue{\texttt{get\textunderscore reachables(x, y)}}
 
 \smallskip
-Gibt eine Liste aller Punkten \verb~v~ in \verb~get_neighbors(x, y)~ zurück, die eine Kante nach \blue{\texttt{(x, y)}} haben.
+Gibt eine Liste aller Knoten \verb~v~ in \verb~get_neighbors(x, y)~ zurück, die eine Kante nach \blue{\texttt{(x, y)}} haben.
 \item \blue{\texttt{get\textunderscore skippables(path)}}
+
+\smallskip
 Gibt eine Liste aller Indizes \verb~i~ zurück, sodass \blue{\texttt{[path[i - 1], path[i], path[i + 1]]}} eine gerade Strecke bildet.
 \end{itemize}
 \end{frame}
