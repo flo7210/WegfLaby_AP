@@ -3,7 +3,7 @@
 \author{\texorpdfstring{Florian Nowak \& Yichuan Shen\\ Betreuer: Gero Plettenberg, Thomas Kloepfer}{Florian Nowak \& Yichuan Shen}}
 \date{Wintersemester 2014/15}
 
-%\usetheme{Goettingen}
+%\usecolortheme{beaver}
 \setbeamertemplate{navigation symbols}{}
 
 \usepackage[utf8]{inputenc}
@@ -89,7 +89,7 @@
 \begin{center}
 \includegraphics[scale=.13]{roboter_no-maze}
 \end{center}
-\begin{itemize}
+\begin{itemize}[<+->]
 \item Ein Roboter mit neigbarem Touchscreen und einer Metallkugel
 \item Die Position der Kugel kann bestimmt werden.
 \item Die Kugel kann in einer vorgegebener Richtung gelenkt und zum Stillstehen gebracht (balanciert) werden.
@@ -100,7 +100,7 @@
 \begin{center}
 \includegraphics[scale=.12]{roboter_badly-photoshoped}
 \end{center}
-\begin{itemize}
+\begin{itemize}[<+->]
 \item Die Struktur eines beliebiges, auf dem Touchscreen liegendes Labyrinth soll eingelesen werden.
 \item Die Kugel soll ein zuvor eingelesenes Labyrinth optimal durchlaufen können.
 \end{itemize}
@@ -124,22 +124,21 @@ Ein bereits vorhandener Roboter mit neigbarem Touchscreen soll etwas Neues lerne
 \fi
 
 \begin{frame}[fragile,t]{Praktikumsverlauf}{Milestones}
-\begin{enumerate}
+\begin{enumerate}[<+->]
  \item \blue{Einarbeitung} \textit{(bis Anfang Dezember)}\blue{:}\\
  Vorgängercode und Funktionsfähigkeit des Roboters testen.
  \item \blue{Durchlaufen des Labyrinths} \textit{(bis Anfang Januar)}\blue{:}\\
  Durch Vorgabe eines Labyrinths als Datenstruktur soll die Kugel einen beliebig vorgegebenen Pfad durchlaufen können. Ferner wird ein optimaler Weg durch das Labyrinth berechnet.
  \item \blue{Erkennen des Labyrinths} \textit{(bis Ende Januar)}\blue{:}\\
  Durch Ablaufen eines realen Labyrinths soll die Struktur des Labyrinths erkannt und abgespeichert werden. Dafür wird ein Algorithmus entworfen und implementiert.
- \textcolor{gray}{
- \item[\textcolor{gray}{4.}] Fertigstellung \textit{(bis Anfang März)}:\\
+ \item[\textcolor{gray}{4.}] \textcolor{gray}{Fertigstellung \textit{(bis Anfang März)}:\\
 Präsentation, Poster und Webseite fertig stellen; ggf. eine grafische Oberfläche erstellen.
 }
 \end{enumerate}
 \end{frame}
 
 \begin{frame}[fragile,t]{Praktikumsverlauf}
-\begin{itemize}
+\begin{itemize}[<+->]
 \item Zeitplan konnte recht gut einhalten werden
 \item Milestone 3 ist wie erwartet aufwendiger geworden:
 
@@ -157,7 +156,7 @@ Präsentation, Poster und Webseite fertig stellen; ggf. eine grafische Oberfläc
 \end{frame}
 
 \begin{frame}[fragile,t]{Herangehensweise an die Problemstellung}
-\begin{itemize}
+\begin{itemize}[<+->]
 \item Festlegung von \blue{Python (2.7)} als Programmiersprache
 \item Auswahl des fortan zugrunde liegenden MCU-Codes, Einarbeitung und Reduktion auf die wesentlichen Routinen
 \item Erweiterung des Roboter um eine serielle Schnittstelle, Herstellung der Kommunikation zwischen Computer und MCU
@@ -202,7 +201,7 @@ Präsentation, Poster und Webseite fertig stellen; ggf. eine grafische Oberfläc
 \fi
 
 \begin{frame}[fragile,t]{Die \verb~Maze~-Klasse}{Datenstruktur für das Labyrinth}
-\begin{itemize}
+\begin{itemize}[<+->]
 \item Rechteckiger, einfacher Graph
 \begin{itemize}
 \item Knoten sind Felder des Labyrinths
@@ -286,7 +285,7 @@ Liest die gegebene \verb~string~-Darstellung eines Labyrinths und fügt/entfernt
 \fi
 
 \begin{frame}[fragile,t]{Methoden der \verb~Maze~-Klasse}
-\begin{itemize}
+\begin{itemize}[<+->]
 \item \blue{\texttt{bfs(start, end)}}
 
 \smallskip
@@ -307,7 +306,7 @@ Gibt eine Liste aller Indizes \verb~i~ zurück, sodass \blue{\texttt{[path[i - 1
 \end{frame}
 
 \begin{frame}[fragile,t]{Kommunikationsmodell}
-\begin{itemize}
+\begin{itemize}[<+->]
 \item Das Protokoll ist asymmetrisch
 \begin{itemize}
 \item Zwei Teilnehmer: MCU und \verb~Balancer~-Klasse
@@ -322,7 +321,7 @@ Gibt eine Liste aller Indizes \verb~i~ zurück, sodass \blue{\texttt{[path[i - 1
 [sign][x-coord],[y-coord]
 \end{minted}
 
-\begin{itemize}
+\pause \begin{itemize}[<+->]
 \item Der MCU wird beim Balancieren der Kugel maximal 60 mal pro Sekunde eine Antwort senden
 \item \texttt{[x-coord]} und \texttt{[y-coord]} sind dreistellige Zahlen zwischen \texttt{025} und \texttt{555}, die die aktuellen Koordinaten der Kugel entspricht
 \item \texttt{[sign]} ist \texttt{=}, wenn die Kugel sich balanciert hat
@@ -335,7 +334,7 @@ Gibt eine Liste aller Indizes \verb~i~ zurück, sodass \blue{\texttt{[path[i - 1
 [sign][x-coord],[y-coord]
 \end{minted}
 
-\begin{itemize}
+\pause \begin{itemize}[<+->]
 \item Befehle können nur gesendet werden, wenn sich die Kugel balanciert hat
 \item \texttt{[x-coord]} und \texttt{[y-coord]} sind dreistellige Zahlen zwischen \texttt{025} und \texttt{555} und entsprechen die Koordinaten, die die Kugel ansteuern soll
 \item \texttt{[sign]} ist \texttt{!}, wenn die Servomotoren des Touchscreens auf den Anfangswerten zurückgesetzt werden sollen
@@ -345,7 +344,7 @@ Gibt eine Liste aller Indizes \verb~i~ zurück, sodass \blue{\texttt{[path[i - 1
 
 \begin{frame}[fragile,t]{Die \verb~Balancer~-Klasse}{Kommunikation zwischen PC und MCU}
 
-\begin{itemize}
+\begin{itemize}[<+->]
 \item Ist die Kugel balanciert, so wird eine Rückruffunktion (\textit{callback function}) ausgeführt
 \begin{itemize}
 \item \verb+destination+: Der Zielpunkt
@@ -354,7 +353,7 @@ Gibt eine Liste aller Indizes \verb~i~ zurück, sodass \blue{\texttt{[path[i - 1
 \end{itemize}
 \end{itemize}
 
-\textbf{Beispiel:}
+\pause\textbf{Beispiel:}
 
 \medskip
 \begin{minted}[bgcolor=black!85]{python}
@@ -446,7 +445,7 @@ balancer.start_listening()
 \end{frame}
 
 \begin{frame}[fragile,t]{Optimierung}
-\begin{itemize}
+\begin{itemize}[<+->]
 \item Die Funktion \verb~run(path, maze)~ berücksichtigt durch \verb~maze.get_skippables(path)~ erhaltene Felder
 \item \verb~detect_walls~ lässt die Kugel auf dem letzten Nachbarn, falls dieser erreichbar war
 \begin{itemize}
@@ -465,21 +464,20 @@ balancer.start_listening()
 Das \blue{Ausbalancieren im Toleranzbereich} einzelner Felder \blue{dauert gelegentlich verhältnismäßig lange}
 
 \medskip\noindent
-\textbf{Gründe:}
-\begin{itemize}
+\pause \textbf{Gründe:}
+\begin{itemize}[<+->]
 \item Der unempfindliche Rand des Touchscreens
 \item Unterschiede in der Größe der Felder des realen Labyrinths
 \end{itemize}
 
 \medskip\noindent
-\textbf{Folgen:} \blue{Verzögerungen bei} der \blue{Erkennung des Labyrinths}
+\pause \textbf{Folgen:} \blue{Verzögerungen bei} der \blue{Erkennung des Labyrinths}
 
 \medskip\noindent
-\textbf{Lösungsansätze:}
-\begin{itemize}
+\pause \textbf{Lösungsansätze:}
+\begin{itemize}[<+->]
 \item Toleranzbereich kurzzeitig vergrößern
-\textcolor{gray}{
-\item[\textcolor{gray}{$\triangleright$}] Hardware verbessern
+\item[\textcolor{gray}{$\triangleright$}] \textcolor{gray}{Hardware verbessern
 }
 \end{itemize}
 \end{frame}
@@ -488,13 +486,12 @@ Das \blue{Ausbalancieren im Toleranzbereich} einzelner Felder \blue{dauert geleg
 Das Praktikum hat uns sehr gefallen und war ein guter Ausgleich zu unseren Vorlesungen.
 
 \medskip\noindent
-Wir denken nicht, dass sich der Roboter (bezogen auf unsere Aufgabenstellung) wesentlich verbessern lässt. Mögliche Erweiterungen:
-\begin{itemize}
+\pause Wir denken nicht, dass sich der Roboter (bezogen auf unsere Aufgabenstellung) wesentlich verbessern lässt. Mögliche Erweiterungen:
+\pause \begin{itemize}[<+->]
 \item GUI schreiben
 \item Labyrinthmaße experimentell bestimmen lassen
 \item Unregelmäßige Labyrinthe zulassen
-\textcolor{gray}{
-\item[\textcolor{gray}{$\triangleright$}] Hardware erneuern und optimieren (beinhaltet Arbeit am MCU-Code)
+\item[\textcolor{gray}{$\triangleright$}] \textcolor{gray}{Hardware erneuern und optimieren (beinhaltet Arbeit am MCU-Code)
 }
 \end{itemize}
 \end{frame}
