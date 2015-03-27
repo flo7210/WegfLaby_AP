@@ -5,11 +5,11 @@ from serial import Serial
 def to_touchscreen_coord(maze, balancer, v):
     """Return the corresponding touchscreen coordinates to the given vertex in the maze."""
 
-    width = balancer.width
-    height = balancer.height
+    width = balancer.width - balancer.padding * 2
+    height = balancer.height - balancer.padding * 2
 
-    t = v[0] * width / maze.width - width / (2 * maze.width)
-    u = v[1] * height / maze.height - height / (2 * maze.height)
+    t = balancer.padding + v[0] * width / maze.width - width / (2 * maze.width)
+    u = balancer.padding + v[1] * height / maze.height - height / (2 * maze.height)
 
     return (t, u)
 
@@ -146,11 +146,11 @@ def detect_maze(start, width, height):
 if __name__ == "__main__":
     m = Maze(1, 1)
 
-    answer = None
-    while answer not in ['A', 'B']:
-        answer = raw_input('Detect new maze (A) or read existing .maze file (B)?')
+    answer = ''
+    while answer.upper() not in ['A', 'B']:
+        answer = raw_input('Detect new maze (A) or read existing .maze file (B)? ')
 
-    if answer == 'A':
+    if answer.upper() == 'A':
         width = int(raw_input('Width: '))
         height = int(raw_input('Height: '))
 
@@ -179,7 +179,7 @@ if __name__ == "__main__":
             f.write(repr(m))
         print ('String representation saved.')
 
-    elif answer == 'B':
+    elif answer.upper() == 'B':
         name = raw_input('File name (w/o extension): ')
         with open(name + '.maze', 'r') as f:
             s = f.read()

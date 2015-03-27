@@ -6,7 +6,7 @@ class Balancer:
 
         self.response_handler = None
         self.balance_handler = None
-        self.destination_reached = lambda dest, coord: self.distance(dest, coord) < 30
+        self.destination_reached = lambda dest, coord: self.distance(dest, coord) < 27
         self.serial = serial
         self.width = width
         self.height = height

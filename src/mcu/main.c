@@ -32,10 +32,10 @@ uint8_t stehtcnt = 0;
 float last_sx = 0.0;
 float last_sy = 0.0;
 
-uint16_t servo_init_x = 1584;
-uint16_t servo_init_y = 1458;
-uint16_t servo_null_x = 1584;
-uint16_t servo_null_y = 1458;
+uint16_t servo_init_x = 1522;
+uint16_t servo_init_y = 1467;
+uint16_t servo_null_x = 1522;
+uint16_t servo_null_y = 1467;
 
 uint16_t destX = 290;
 uint16_t destY = 290;
