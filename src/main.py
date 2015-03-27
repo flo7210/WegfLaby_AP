@@ -27,7 +27,7 @@ def to_vertex(maze, balancer, coord):
 def run(path, maze):
     if len(path) == 0: return
 
-    with Balancer(Serial(0)) as balancer:
+    with Balancer(Serial('/dev/ttyUSB0')) as balancer:
         def balance_handler(destination, response, destination_reached):
             (balanced, t, u) = response
 
@@ -70,7 +70,7 @@ def is_done(vertex, maze, dualmaze):
 def detect_walls(anchor, maze, dualmaze):
     neighbors_stack = [n for n in maze.get_neighbors(*anchor) if not is_done(n, maze, dualmaze)]
 
-    with Balancer(Serial(0)) as balancer:
+    with Balancer(Serial('/dev/ttyUSB0')) as balancer:
         def balance_handler(destination, response, destination_reached):
             (_, t, u) = response
             v_destination = to_vertex(maze, balancer, destination)
@@ -155,7 +155,7 @@ if __name__ == "__main__":
         height = int(raw_input('Height: '))
 
         # Find nearest vertex to begin with
-        with Balancer(Serial(0)) as balancer:
+        with Balancer(Serial('/dev/ttyUSB0')) as balancer:
             def balance_handler(destination, response, destination_reached):
                 (_, t, u) = response
 
