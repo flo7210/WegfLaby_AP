@@ -179,6 +179,7 @@ if __name__ == "__main__":
         name = raw_input('File name (w/o extension): ')
         with open(name + '.maze', 'w') as f:
             f.write(repr(m))
+
         print ('String representation saved.')
 
     elif answer.upper() == 'B':
@@ -195,8 +196,6 @@ if __name__ == "__main__":
 
         a = (int(s[0]), int(s[2]))
         b = (int(f[0]), int(f[2]))
-
-        print('Please place the ball near ' + repr(a))
 
         path = m.bfs(a, b)
         run(path, m)
