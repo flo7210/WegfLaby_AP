@@ -20,7 +20,7 @@
   \tikzstyle{every picture} += [font=\sffamily]
 
 \usepackage{xparse}
-  \NewDocumentCommand\blocking{m}{\textcolor{green}{\textit{#1}}}
+  \NewDocumentCommand\blocking{m}{}
   \NewDocumentCommand\blue{m}{{%
   	\usebeamercolor[fg]{frametitle}{#1}%
   }}
@@ -124,7 +124,7 @@ Ein bereits vorhandener Roboter mit neigbarem Touchscreen soll etwas Neues lerne
 \fi
 
 \begin{frame}[fragile,t]{Praktikumsverlauf}{Milestones}
-\begin{enumerate}[<+->]
+\begin{enumerate}
  \item \blue{Einarbeitung} \textit{(bis Anfang Dezember)}\blue{:}\\
  Vorgängercode und Funktionsfähigkeit des Roboters testen.
  \item \blue{Durchlaufen des Labyrinths} \textit{(bis Anfang Januar)}\blue{:}\\
@@ -138,7 +138,7 @@ Präsentation, Poster und Webseite fertig stellen; ggf. eine grafische Oberfläc
 \end{frame}
 
 \begin{frame}[fragile,t]{Praktikumsverlauf}
-\begin{itemize}[<+->]
+\begin{itemize}
 \item Zeitplan konnte recht gut einhalten werden
 \item Milestone 3 ist wie erwartet aufwendiger geworden:
 
@@ -298,10 +298,6 @@ Gibt eine Liste aller Knoten auf dem Graphen zurück, die genau Manhattan-Distan
 
 \smallskip
 Gibt eine Liste aller Knoten \verb~v~ in \verb~get_neighbors(x, y)~ zurück, die eine Kante nach \blue{\texttt{(x, y)}} haben.
-\item \blue{\texttt{get\textunderscore skippables(path)}}
-
-\smallskip
-Gibt eine Liste aller Indizes \verb~i~ zurück, sodass \blue{\texttt{[path[i - 1], path[i], path[i + 1]]}} eine gerade Strecke bildet.
 \end{itemize}
 \end{frame}
 
@@ -368,7 +364,7 @@ balancer.start_listening()
 \end{minted}
 \end{frame}
 
-\begin{frame}[fragile,t]{Ablauf der Wanderkennung}{Anfangssequenz}
+\begin{frame}[fragile,t]{Ablauf der Wanderkennung}{Flowchart zu \texttt{detect\textunderscore walls}}
 \begin{small}
 \begin{figure}[h]
   \centering
@@ -390,23 +386,24 @@ balancer.start_listening()
 \begin{figure}[h]
   \centering
   \begin{tikzpicture}
+  	\draw[thick,->] (3, -3) -- node[above]{J} (5.265, -1);
 	\node at (0, 0) [kugel, text width=1.25cm] (kugelstart) {Kugel ist ausbalanciert};
-	\node at (0, -3) [startend] (ende) {Ende};
+	\node at (9, -4.5) [startend] (ende) {Ende};
 	\node at (3, 0) [decision, text width=1.25cm] (amziel) {Ist die Kugel am Ziel?};
-	\node at (3, -3) [decision, text width=1.75cm] (stackleer) {Ist \verb~neighbors_stack~ leer?};
+	\node at (6, -3) [decision, text width=1.75cm] (stackleer) {Ist \verb~neighbors_stack~ leer?};
 	\node at (6, -1) [block, text width=1.25cm] (erreichbar) {$n$ ist\\ erreichbar};
-	\node at (6, -3) [decision, text width=1.25cm] (istnachbar) {Ist Ziel ein Nachbar $n$?};
+	\node at (3, -3) [decision, text width=1.25cm] (istnachbar) {Ist Ziel ein Nachbar $n$?};
 	\node at (6, 0) [block, text width=1.25cm] (gehezurueck) {Gehe zurück zu \verb~anchor~};
 	\node at (9, 0) [kugel, text width=1.25cm] (kugelende) {Kugel ist ausbalanciert};
 	\node at (9, -3) [block, text width=1.75cm] (weiter) {Hole einen (neuen) Nachbarn $n$ aus \verb~neighbors_stack~ und schicke die Kugel dorthin};
 	\path[line] (kugelstart) -- (amziel);
-	\path[line] (amziel) -- node[left]{J} (stackleer);
-	\path[line] (stackleer) -- node[above]{J} (ende);
-	\path[line] (stackleer) -- node[above]{N} (istnachbar);
-	\path[line] (istnachbar) -- node[left]{J} (erreichbar);
+	\path[line] (amziel) -- node[left]{J} (istnachbar);
+	\path[line] (stackleer) |- node[near end,above]{J} (ende);
+	\path[line] (stackleer) -- node[above]{N} (weiter);
+	%\path[line] (istnachbar) -- node[above]{J} (erreichbar);
 	\path[line] (erreichbar) -- (gehezurueck);
 	\path[line] (gehezurueck) -- (kugelende);
-	\path[line] (istnachbar) -- node[above]{N} (weiter);
+	\path[line] (istnachbar) -- node[above]{N} (stackleer);
 	\path[line] (weiter) -- (kugelende);
 	\draw[thick, dashed, draw=blue!50!black!70] (kugelende) -- (9, 1.25) -- (0, 1.25) -- (kugelstart);
 	\draw[thick, gray, ->] (amziel) -- node[left]{N} (3, 2);	
@@ -425,8 +422,8 @@ balancer.start_listening()
 	\node at (3, 0) [decision, text width=1.25cm] (amziel) {Ist die Kugel am Ziel?};
 	\node at (3, 3) [decision, text width=1.25cm] (istanchor) {Ist \verb~anchor~ das Ziel?};
 	\node at (6, 3) [decision, text width=1.25cm] (zweimal) {Bereits zweimal versucht?};
-	\node at (6, 1) [block, text width=1.25cm] (wand) {Zwischen \verb~anchor~ und Nachbarn $n$};
-	\node at (6, 0) [block, text width=1.25cm] (setzezurueck) {Setze die\\ Servomotoren zurück};
+	\node at (6, 1) [block, text width=1.45cm] (wand) {Zwischen \verb~anchor~ und $n$ ist eine Wand};
+	\node at (6, 0) [block, text width=1.45cm] (setzezurueck) {Setze die\\ Servomotoren zurück};
 	\node at (9, 0) [kugel, text width=1.25cm] (kugelende) {Kugel ist ausbalanciert};
 	\path[line] (kugelstart) -- (amziel);
 	\draw[thick, dashed, draw=blue!50!black!70] (kugelende) -- (9, -1.25) -- (0, -1.25) -- (kugelstart);
@@ -446,15 +443,22 @@ balancer.start_listening()
 
 \begin{frame}[fragile,t]{Optimierung}
 \begin{itemize}[<+->]
-\item Die Funktion \verb~run(path, maze)~ berücksichtigt durch \verb~maze.get_skippables(path)~ erhaltene Felder
+\item \verb~run(path, maze)~ berücksichtigt überspringbare Felder
+\begin{itemize}
+\item \blue{\texttt{get\textunderscore skippables(path)}}
+
+\smallskip
+Gibt eine Liste aller Indizes \verb~i~ zurück, sodass 
+\begin{center}
+\blue{\texttt{[path[i - 1], path[i], path[i + 1]]}}
+\end{center}
+eine gerade Strecke bildet.
+\end{itemize}
 \item \verb~detect_walls~ lässt die Kugel auf dem letzten Nachbarn, falls dieser erreichbar war
 \begin{itemize}
 \item Erspart unnötiges Zurückgehen zum Anker
 \end{itemize}
-\item \verb~detect_maze~ berücksichtigt das letzte Ziel der Kugel 
-\begin{itemize}
 \item Falls die Kugel auf einem Nachbarn gelassen wurde wird dieser zum neuen Anker für \verb~detect_walls~ gemacht 
-\end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -496,6 +500,16 @@ Das Praktikum hat uns sehr gefallen und war ein guter Ausgleich zu unseren Vorle
 \end{itemize}
 \end{frame}
 
+\begin{frame}[fragile,t]
+\vfill
+\begin{center}
+\begin{huge}
+Vielen Dank
+\end{huge}
+
+\medskip Noch Fragen?
+\end{center}
+\end{frame}
 
 %\begin{frame}[fragile,t]{Thema}{Unterthema}
 %\verb~print('Hello world!')~
