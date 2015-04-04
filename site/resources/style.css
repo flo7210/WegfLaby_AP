@@ -109,12 +109,14 @@ h2, h3, h4, h5, h6 {
     h2 + h3 {
         margin-top: 0;
     }
-    h4 {
+    h4, h5 {
         font-family: Roboto, sans-serif;
         font-size: 1em;
-        xletter-spacing: 1px;
         text-transform: uppercase;
         font-weight: bold;
+    }
+    h5 {
+        text-transform: none;
 }
 
 h1, h2, h3, h4, h5, h6, ul, ol, pre, blockquote, p {
@@ -122,15 +124,8 @@ h1, h2, h3, h4, h5, h6, ul, ol, pre, blockquote, p {
 }
 
 code {
-    padding: .05em .2em;
-    background: #23241f;
-    color: white;
-}
-
-h2 code, h3 code, h4 code {
-    padding: 0;
-    background: transparent;
-    color: black;
+    padding: .01em .2em;
+    background: #eee;
 }
 
 pre code {
