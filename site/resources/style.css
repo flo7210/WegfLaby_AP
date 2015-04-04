@@ -91,6 +91,8 @@ main {
     }
     .hastoc main nav {
         display: block;
+        position: sticky;
+        top: 0;
         width: 13em;
         float: right;
     }
