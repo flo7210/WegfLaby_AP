@@ -60,7 +60,42 @@ header nav ul {
 }
 
 main {
-    margin-top: 3em;
+        margin-top: 3em;
+    }
+    main nav { display: none; }
+    main nav code {
+        padding: 0;
+        background: transparent;
+    }
+    main nav ol { list-style: none; }
+    main nav > ol > li {
+        margin-top: 2em;
+    }
+    main nav > ol > li > a {
+        color: black;
+        font-size: .8em;
+        font-weight: bold;
+        text-decoration: none;
+        text-transform: uppercase;
+    }
+    main nav ol ol a {
+        display: block;
+        height: 1.5em;
+        overflow: hidden;
+        text-decoration: none;
+        text-overflow: ellipsis;
+        white-space: nowrap
+    }
+    main nav ol ol a:hover, main nav ol ol a:focus {
+        text-decoration: underline;
+    }
+    .hastoc main nav {
+        display: block;
+        width: 13em;
+        float: right;
+    }
+    .hastoc main article {
+        margin-right: 15em;
 }
 
 footer {
@@ -140,9 +175,10 @@ strong {
     text-transform: uppercase;
 }
 
-a {
-        color: #B90F0C;
-    }
-    a:hover, a:focus {
-        color: #333;
+a { color: #B90F0C; }
+a:hover, a:focus { color: #333; }
+
+img {
+    vertical-align: middle;
+    max-width: 100%;
 }

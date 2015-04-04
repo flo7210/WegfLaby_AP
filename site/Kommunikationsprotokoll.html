@@ -22,21 +22,24 @@
     <h1>Wegfindung im Labyrinth</h1>
     <nav>
         <ul>
-            <li><a href="#">Überblick</a></li>
-            <li><a href="#">Kommunikationsprotokoll</a></li>
-            <li><a href="#">Wanderkennung</a></li>
-            <li><a href="#">Referenz</a></li>
-            <li><a href="#">Ergebnis</a></li>
+            <li><a href="Überblick.html">Überblick</a></li>
+            <li><a href="Kommunikationsprotokoll.html">Kommunikationsprotokoll</a></li>
+            <li><a href="Wanderkennung.html">Wanderkennung</a></li>
+            <li><a href="Referenz.html">Referenz</a></li>
+            <li><a href="Ergebnis.html">Ergebnis</a></li>
         </ul>
     </nav>
 </header>
 
 <main>
 
-<h2 id="kommunikationsprotokoll">Kommunikationsprotokoll</h2>
-<h3 id="modell">Modell</h3>
+<nav id="toc"></nav>
+
+<article>
+<h2 id="h2-kommunikationsprotokoll">Kommunikationsprotokoll</h2>
+<h3 id="h3-modell">Modell</h3>
 <p>Das Protokoll ist asymmetrisch und umfasst zwei Teilnehmer, nämlich den Microcontroller und die <a href="API">Balancer Klasse</a>. Wir nehmen an, dass der Kommunikationskanal frei von Fehlern ist. <code>Balancer</code> übergibt die <em>Befehle</em> und der Microcontroller gibt <em>Antworten</em>.</p>
-<h3 id="antworten">Antworten</h3>
+<h3 id="h3-antworten">Antworten</h3>
 <p><em>Antworten</em> bestehen aus genau acht Zeichen. Der Microcontroller wird beim Balancieren der Kugel maximal 60 mal pro Sekunde die aktuelle Position der Kugel als Antwort der folgenden Form geben:</p>
 <pre><code>[sign][x-coord],[y-coord]
 </code></pre><p><code>[x-coord]</code> und <code>[y-coord]</code> sind dreistellige Zahlen zwischen <code>025</code> und <code>555</code>, die die Koordinaten der Kugel entspricht. <code>[sign]</code> ist von der folgenden Form:</p>
@@ -45,9 +48,9 @@
 <li><code>:</code>, sonst.</li>
 </ul>
 <p><strong>Bemerkung:</strong> Hat sich die Kugel balanciert, so muss die Kugel nicht notwendigerweise am Zielpunkt sein. Ungültige Kugelkoordinaten, d.h. Koordinaten, die stark von den vorherigen abweichen, werden nicht zurückgegeben.</p>
-<h3 id="kommentare">Kommentare</h3>
+<h3 id="h3-kommentare">Kommentare</h3>
 <p>Kommentare können in den Antwortenstream eingebunden werden. Taucht das Zeichen <code>#</code> auf, so werden dieses und die sieben Zeichen danach von der Interpretation ausgeschlossen.</p>
-<h3 id="befehle">Befehle</h3>
+<h3 id="h3-befehle">Befehle</h3>
 <p>Ist die Kugel balanciert, so wird der Microcontroller auf ein Befehl warten. Ein <em>Befehl</em> ist genau acht Zeichen lang und hat die folgende Form:</p>
 <pre><code>[sign][x-coord],[y-coord]
 </code></pre><p><code>[x-coord]</code> und <code>[y-coord]</code> entsprechen die Koordinaten, die die Kugel ansteuern soll. <code>[sign]</code> ist von der folgenden Form:</p>
@@ -57,6 +60,7 @@
 </ul>
 <p><strong>Bemerkung:</strong> Der Befehl wird nur dann vom Microcontroller angenommen, wenn die Kugel balanciert ist. Befehle können keine Kommentare sein.</p>
 
+</article>
 
 </main>
 
