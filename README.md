@@ -10,7 +10,7 @@ Ordnerstruktur
 * `/src` für Quellcode
 * `/poster` für Poster
 * `/praesentation` für Präsentation
-* Benutze [Wiki](https://github.com/flo7210/WegfLaby_AP/wiki) für Webseite
+* `/site` für Webseite
 
 Coding style
 ----------
