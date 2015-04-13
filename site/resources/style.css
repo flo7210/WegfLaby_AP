@@ -54,6 +54,11 @@ header nav ul {
         background: #B90F0C;
         color: white;
     }
+    #ueberblick header nav li:nth-child(1) a,
+    #kommunikationsprotokoll header nav li:nth-child(2) a,
+    #wanderkennung header nav li:nth-child(3) a,
+    #referenz header nav li:nth-child(4) a,
+    #ergebnis header nav li:nth-child(5) a,
     header nav li.current a {
         background: white;
         color: #333;
@@ -94,7 +99,7 @@ main {
         width: 13em;
         float: right;
     }
-    .hastoc main article {
+    main article {
         margin-right: 15em;
 }
 
@@ -183,6 +188,8 @@ a { color: #B90F0C; }
 a:hover, a:focus { color: #333; }
 
 img {
+    display: block;
     vertical-align: middle;
+    margin: 0 auto;
     max-width: 100%;
 }
