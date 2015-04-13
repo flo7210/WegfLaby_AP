@@ -9,7 +9,7 @@ Ein bereits vorhandener Roboter mit neigbarem Touchscreen soll etwas Neues lerne
 
 ### Vereinfachungen
 
-Wir haben zunächst ein paar vereinfachende Voraussetzungen getroffen:
+Wir haben zunächst ein paar vereinfachende Annahmen getroffen:
 
 - Das Labyrinth soll rechteckig und *gleichmäßig* sein, z.B:
 
