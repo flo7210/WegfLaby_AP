@@ -65,6 +65,8 @@
 \begin{figure}[t]
   \centering
   \begin{tikzpicture}
+  16.175
+    \path[line] (16.825, -5.5) -- (16.825, -.525);
     \node at (-5.5, 5.5) [startend] (start) {Start};
     \node at (-5.5, 2.25) [block, text width=3cm] (generiere) {Generiere \verb~neighbors_stack~ von \verb~anchor~};
     \node at (-5.5, 0) [block, text width=3cm] (initialisierung) {Initialisierung: Balanciere Kugel auf \verb~anchor~ aus};
@@ -100,9 +102,8 @@
 	\path[line] (stackleer) -- (0, -8.5) -- node[above]{N} (16.5, -8.5) -- (weiterimtext);
 	\path[line] (istzielnachbar) -- node[above]{J} (isterreichbar);
 	\path[line] (isterreichbar) -- (gehezurueck);
-	\path[line] (gehezurueck) -- (11, -2.5) -- (16.5, -2.5) -- (kugelende);
-	\path[line] (weiterimtext) -- (kugelende);
-	%\draw[thick, dashed, draw=blue!50!black!70] (kugelende) -- (16.5, -2.25) -- (0, -2.25) -- (kugelstart);
+	\path[line] (gehezurueck) -- (11, -2.75) -- (16.175, -2.75) -- (16.175, -.525);
+	\draw[thick, dashed, draw=blue!50!black!70] (kugelende) -- (16.5, -2.25) -- (0, -2.25) -- (kugelstart);
   \end{tikzpicture}
 \end{figure}
 
