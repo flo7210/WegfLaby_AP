@@ -16,7 +16,7 @@ def to_touchscreen_coord(maze, balancer, v):
     return (t, u)
 
 def to_vertex(maze, balancer, coord):
-    """Return the corresponding vertex in the maze to the given touchscreen coordinates."""
+    """Return the estimated vertex in the maze to the given touchscreen coordinates."""
 
     vertex_width = balancer.width / maze.width
     vertex_height = balancer.height / maze.height
@@ -27,6 +27,8 @@ def to_vertex(maze, balancer, coord):
     return (x, y)
 
 def run(path, maze):
+    """Try to navigate through the given path in the given maze."""
+
     if len(path) == 0: return
 
     with Balancer(Serial(port)) as balancer:
@@ -63,6 +65,8 @@ def run(path, maze):
         balancer.start_listening()
 
 def is_done(vertex, maze, dualmaze):
+    """Return whether the surrounding walls of the given vertex has been detected or not."""
+
     for neighbor in maze.get_neighbors(*vertex):
         if maze.has_edge(neighbor, vertex) == dualmaze.has_edge(neighbor, vertex):
             return False
@@ -70,6 +74,8 @@ def is_done(vertex, maze, dualmaze):
     return True
 
 def detect_walls(anchor, maze, dualmaze):
+    """Try to detect the surrounding walls of the given vertex anchor."""
+
     neighbors_stack = [n for n in maze.get_neighbors(*anchor) if not is_done(n, maze, dualmaze)]
 
     with Balancer(Serial(port)) as balancer:
@@ -125,12 +131,14 @@ def detect_walls(anchor, maze, dualmaze):
 
         return balance_handler.last_vertex
 
-def detect_maze(start, width, height):
+def detect_maze(vertex, width, height):
+    """Try to detect maze with given maze size, starting at given vertex."""
+
     maze = Maze(width, height)
     dualmaze = Maze(width, height)
 
-    last_vertex = start
-    stack = [start]
+    last_vertex = vertex
+    stack = [vertex]
 
     while len(stack) > 0:
         vertex = stack.pop()
@@ -145,6 +153,26 @@ def detect_maze(start, width, height):
 
     return maze
 
+def estimate_current_vertex(width, height):
+    """Try to estimate the current vertex in the maze with given size, the vertex where the ball is supposed to be."""
+
+    with Balancer(Serial(port)) as balancer:
+        def balance_handler(destination, response, destination_reached):
+            (_, t, u) = response
+
+            # Do this the first time only
+            if balance_handler.position == (-1, -1):
+                balance_handler.position = (t, u)
+                balancer.add_command(t, u, True)
+
+        balance_handler.position = (-1, -1)
+
+        balancer.add_command(290, 290)
+        balancer.balance_handler = balance_handler
+        balancer.start_listening()
+
+        return to_vertex(Maze(width, height), balancer, balance_handler.position)
+
 if __name__ == "__main__":
     m = Maze(1, 1)
 
@@ -157,34 +185,19 @@ if __name__ == "__main__":
         height = int(raw_input('Height: '))
 
         # Find nearest vertex to begin with
-        with Balancer(Serial(port)) as balancer:
-            def balance_handler(destination, response, destination_reached):
-                (_, t, u) = response
+        start = guess_current_vertex(width, height)
+        m = detect_maze(start, width, height)
+        print('Maze detected!')
 
-                # Do this the first time only
-                if balance_handler.position == (-1, -1):
-                    balance_handler.position = (t, u)
-                    balancer.add_command(t, u, True)
-
-            balance_handler.position = (-1, -1)
-
-            balancer.add_command(290, 290)
-            balancer.balance_handler = balance_handler
-            balancer.start_listening()
-
-            start = to_vertex(Maze(width, height), balancer, balance_handler.position)
-            m = detect_maze(start, width, height)
-            print('Maze detected!')
-
-        name = raw_input('File name (w/o extension): ')
-        with open(name + '.maze', 'w') as f:
+        name = raw_input('File name: ')
+        with open(name, 'w') as f:
             f.write(repr(m))
 
         print ('String representation saved.')
 
     elif answer.upper() == 'B':
-        name = raw_input('File name (w/o extension): ')
-        with open(name + '.maze', 'r') as f:
+        name = raw_input('File name: ')
+        with open(name, 'r') as f:
             s = f.read()
             m.parse(s)
 
