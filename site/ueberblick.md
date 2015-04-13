@@ -26,7 +26,7 @@ Wir haben zunächst ein paar vereinfachende Annahmen getroffen:
 
 ### Code-Aufteilung
 
-Der Roboter, auf dem unsere Aufgabenstellung aufbaut, wird alleine durch den Mikrocontroller (MCU) gesteuert. Wir hingegen haben die Labyrintherkennungs- und Lösungslogik auf dem Computer entwickelt. Wir haben uns für [Python 2.7](http://python.org) entschieden. Für die Kommunikation zwischen dem Computer und dem Mikrocontroller wird die Softwarebibliothek [pySerial 2.7](http://pyserial.sourceforge.net/) benutzt.
+Der Roboter, auf dem unsere Aufgabenstellung aufbaut, wird alleine durch den Mikrocontroller (MCU) gesteuert. Wir hingegen haben die Labyrintherkennungs- und Lösungslogik auf dem Computer entwickelt. Dabei haben wir uns für [Python 2.7](http://python.org) entschieden. Für die Kommunikation zwischen dem Computer und dem Mikrocontroller wird die Softwarebibliothek [pySerial 2.7](http://pyserial.sourceforge.net/) benutzt.
 
 Unser Quellcode ist in drei Teile aufgeteilt:
 
