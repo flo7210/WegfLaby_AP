@@ -60,7 +60,7 @@ header nav ul {
         transition: .2s background;
     }
     header nav li a:hover, header nav li a:focus {
-        background: #B90F0C;
+        background: #5DA84D;
         color: white;
     }
     #ueberblick header nav li:first-child a,
