@@ -32,9 +32,9 @@ Unser Quellcode ist in drei Teile aufgeteilt:
 
 ![Code-Aufteilung](resources/code.png)
 
-1. Die `Maze`-Klasse ist eine Datenstruktur zur Speicherung des Labyrinths im Form eines einfachen Graphens.
-2. Die `Balancer`-Klasse ist speziell für die Kommunikation zwischen dem Computer und dem Touchscreen (Mikrocontroller) verantwortlich.
-3. Die Logik für die Labyrintherkennung befindet sich in `main.py`, das beide Klassen verbindet.
+1. Die [`Maze`-Klasse](referenz.html#h2-class-maze-maze "Referenz") ist eine Datenstruktur zur Speicherung des Labyrinths im Form eines einfachen Graphens.
+2. Die [`Balancer`-Klasse](referenz.html#h2-class-balancer-balancer "Referenz") ist speziell für die Kommunikation zwischen dem Computer und dem Touchscreen (Mikrocontroller) verantwortlich.
+3. Die Logik für die Labyrintherkennung befindet sich in [`main.py`](referenz.html#h2-main-py "Referenz"), das beide Klassen verbindet.
 
 Über uns
 --------
