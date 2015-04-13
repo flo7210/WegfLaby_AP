@@ -49,16 +49,17 @@ header nav ul {
         background: rgba(108, 118, 125, .8);
         color: white;
         text-decoration: none;
+        transition: .2s background;
     }
     header nav li a:hover, header nav li a:focus {
         background: #B90F0C;
         color: white;
     }
-    #ueberblick header nav li:nth-child(1) a,
+    #ueberblick header nav li:first-child a,
     #kommunikationsprotokoll header nav li:nth-child(2) a,
     #wanderkennung header nav li:nth-child(3) a,
     #referenz header nav li:nth-child(4) a,
-    #ergebnis header nav li:nth-child(5) a,
+    #ergebnis header nav li:last-child a,
     header nav li.current a {
         background: white;
         color: #333;
@@ -109,6 +110,7 @@ footer {
         padding-bottom: .5em;
         background: #304664;
         color: white;
+        text-align: right;
     }
     footer a, footer a:hover, footer a:focus {
         color: white;

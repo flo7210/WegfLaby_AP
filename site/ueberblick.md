@@ -22,11 +22,11 @@ Wir haben zunächst ein paar vereinfachende Voraussetzungen getroffen:
                       |  |     |  |        |
                       +--+--+--+--+--+--+--+
   ```
-- Die Maße des Labyrinths soll bekannt sein.
+- Die Maße des Labyrinths werden als bekannt vorausgesetzt.
 
 ### Code-Aufteilung
 
-Der Roboter, auf dem unsere Aufgabenstellung aufbaut, wird alleine durch den Mikrocontroller (MCU) gesteuert. Wir hingegen haben die Labyrintherkennungs- und Lösungslogik auf dem Computer entwickelt. Wir haben uns für [Python 2.7](http://python.org) entschieden.
+Der Roboter, auf dem unsere Aufgabenstellung aufbaut, wird alleine durch den Mikrocontroller (MCU) gesteuert. Wir hingegen haben die Labyrintherkennungs- und Lösungslogik auf dem Computer entwickelt. Wir haben uns für [Python 2.7](http://python.org) entschieden. Für die Kommunikation zwischen dem Computer und dem Mikrocontroller wird die Softwarebibliothek [pySerial 2.7](http://pyserial.sourceforge.net/) benutzt.
 
 Unser Quellcode ist in drei Teile aufgeteilt:
 
