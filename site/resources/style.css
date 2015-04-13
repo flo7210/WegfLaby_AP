@@ -176,6 +176,7 @@ pre code {
     display: block;
     overflow-x: auto;
     padding: .5em;
+    line-height: 1.3;
 }
 
 strong {
