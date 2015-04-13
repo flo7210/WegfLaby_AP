@@ -185,7 +185,7 @@ if __name__ == "__main__":
         height = int(raw_input('Height: '))
 
         # Find nearest vertex to begin with
-        start = guess_current_vertex(width, height)
+        start = estimate_current_vertex(width, height)
         m = detect_maze(start, width, height)
         print('Maze detected!')
 
