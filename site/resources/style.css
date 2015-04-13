@@ -123,7 +123,7 @@ footer {
  */
 
 body {
-    font: 100%/1.5 Roboto, sans-serif;
+    font: 100%/1.7 Roboto, sans-serif;
     font-weight: 300;
 }
 
@@ -191,5 +191,5 @@ img {
     display: block;
     vertical-align: middle;
     margin: 0 auto;
-    max-width: 100%;
+    max-width: 50em;
 }
