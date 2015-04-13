@@ -1,7 +1,7 @@
 Kommunikationsprotokoll
 -----------------------
-### Einleitung
 
+![Serial-Anschluss](resources/serial.jpg)
 
 ### Modell
  
@@ -11,7 +11,7 @@ Das Protokoll ist asymmetrisch und umfasst zwei Teilnehmer, nämlich den Microco
 
 *Antworten* bestehen aus genau acht Zeichen. Der Microcontroller wird beim Balancieren der Kugel maximal 60 mal pro Sekunde die aktuelle Position der Kugel als Antwort der folgenden Form geben:
 
-```
+```ini
 [sign][x-coord],[y-coord]
 ```
 
@@ -30,7 +30,7 @@ Kommentare können in den Antwortenstream eingebunden werden. Taucht das Zeichen
 
 Ist die Kugel balanciert, so wird der Microcontroller auf ein Befehl warten. Ein *Befehl* ist genau acht Zeichen lang und hat die folgende Form:
 
-```
+```ini
 [sign][x-coord],[y-coord]
 ```
 
