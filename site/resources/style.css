@@ -23,12 +23,20 @@ header, main, footer {
 }
 
 header {
+        position: relative;
         background: #304664 url('edge.png') 200px bottom no-repeat;
         padding-top: 5em;
     }
-    header h1 {
+    header h1, header p {
         color: white;
         text-shadow: 0 0 5px rgba(0, 0, 0, .5);
+    }
+    header p {
+        position: absolute;
+        top: 3em;
+        left: 1.33em;
+        font: 1.5em 'Roboto Slab', serif;
+        opacity: .7;
 }
 
 header nav ul {
