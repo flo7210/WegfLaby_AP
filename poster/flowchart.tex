@@ -1,0 +1,110 @@
+\documentclass[ngerman]{scrartcl}
+
+\usepackage[landscape=true,margin=0cm]{geometry}
+
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[default]{sourcesanspro}
+\usepackage{tikz}
+  \usetikzlibrary{external,shapes}
+%  \tikzexternalize
+
+\begin{document}
+\pagenumbering{gobble}
+
+\tikzstyle{startend}=[
+  circle,
+  text centered,
+  very thick,
+  draw=red!50!black!70,
+  fill=red!50!black!30,
+  %top color=white,
+  %bottom color=red!50!black!30
+  ]
+\tikzstyle{rounded}=[
+  rounded rectangle,
+  text centered,
+  very thick,
+  draw=lime!50!black!70,
+  fill=lime!50!black!30,
+  %top color=white,
+  %bottom color=lime!50!black!30
+  ]
+\tikzstyle{kugel}=[
+  rounded rectangle,
+  text centered,
+  text width=2.25cm,
+  very thick,
+  draw=blue!50!black!70,
+  fill=blue!50!black!30,
+  %top color=white,
+  %bottom color=blue!50!black!30
+  ]
+\tikzstyle{block}=[
+  rectangle,
+  text centered,
+  text width=2.25cm,
+  very thick,
+  draw=black!40,
+  fill=black!24,
+  %top color=white,
+  %bottom color=black!30
+  ]
+\tikzstyle{decision}=[
+  diamond,
+  text centered,
+  text width=2.25cm,
+  very thick,
+  draw=lime!50!black!70,
+  fill=lime!50!black!30,
+  %top color=white,
+  %bottom color=lime!50!black!30
+  ]
+\tikzstyle{line}=[draw, thick, ->]
+
+\begin{figure}[t]
+  \centering
+  \begin{tikzpicture}
+    \node at (-5.5, 5.5) [startend] (start) {Start};
+    \node at (-5.5, 2.25) [block, text width=3cm] (generiere) {Generiere \verb~neighbors_stack~ von \verb~anchor~};
+    \node at (-5.5, 0) [block, text width=3cm] (initialisierung) {Initialisierung: Balanciere Kugel auf \verb~anchor~ aus};
+    \node at (0, 5.5) [block] (versucheerneut) {Versuche es erneut};
+    \node at (5.5, 5.5) [decision] (nachbarzielist) {Ist Ziel ein Nachbar \textit{n}?};
+    \node at (11, 5.5) [decision] (bereitszweimal) {Bereits zweimal versucht?};
+    \node at (11, 2) [block, text width=2.5cm] (isteinewand) {Zwischen \verb~anchor~ und \textit{n} ist eine Wand};
+    \node at (11, 0) [block, text width=2.5cm] (servoszurueck) {Setze die Servomotoren zurück};
+	\node at (0, 0) [kugel] (kugelstart) {Kugel ist ausbalanciert};
+	\node at (5.5, 0) [decision] (amziel) {Ist die Kugel am Ziel?};
+	\node at (11, -4) [block] (gehezurueck) {Gehe zurück zu \verb~anchor~};
+	\node at (16.5, 0) [kugel] (kugelende) {Kugel ist ausbalanciert};
+	\node at (11, -5.5) [block] (isterreichbar) {\textit{n} ist erreichbar};
+	\node at (5.5, -5.5) [decision] (istzielnachbar) {Ist Ziel ein Nachbar \textit{n}?};
+	\node at (0, -5.5) [decision, text width=3cm] (stackleer) {Ist \verb~neighbors_stack~ leer?};
+	\node at (16.5, -5.5) [block, text width=3.25cm] (weiterimtext) {Hole einen (neuen) Nachbarn \textit{n} aus \verb~neighbors_stack~ und schicke die Kugel dorthin};
+	\node at (-5.5, -5.5) [startend] (ende) {Ende};
+	\path[line] (start) -- (generiere);
+	\path[line] (generiere) -- (initialisierung);
+	\path[line] (initialisierung) -- (kugelstart);
+	\path[line] (kugelstart) -- (amziel);
+	\path[line] (amziel) -- node[left]{N} (nachbarzielist);
+	\path[line] (nachbarzielist) -- node[above]{J} (bereitszweimal);
+	\path[line] (bereitszweimal) -- node[left]{J} (isteinewand);
+	\path[line] (isteinewand) -- (servoszurueck);
+	\path[line] (servoszurueck) -- (kugelende);
+	\path[line] (bereitszweimal) -- (11, 8.5) -- node[above]{N} (0, 8.5) -- (versucheerneut);
+	\path[line] (versucheerneut) -- (kugelstart);
+	\path[line] (nachbarzielist) -- node[above]{N} (versucheerneut);
+	\path[line] (amziel) -- node[left]{J} (istzielnachbar);
+	\path[line] (istzielnachbar) -- node[above]{N} (stackleer);
+	\path[line] (stackleer) -- node[above]{J} (ende);
+	\path[line] (stackleer) -- (0, -8.5) -- node[above]{N} (16.5, -8.5) -- (weiterimtext);
+	\path[line] (istzielnachbar) -- node[above]{J} (isterreichbar);
+	\path[line] (isterreichbar) -- (gehezurueck);
+	\path[line] (gehezurueck) -- (11, -2.5) -- (16.5, -2.5) -- (kugelende);
+	\path[line] (weiterimtext) -- (kugelende);
+	%\draw[thick, dashed, draw=blue!50!black!70] (kugelende) -- (16.5, -2.25) -- (0, -2.25) -- (kugelstart);
+  \end{tikzpicture}
+\end{figure}
+
+
+\end{document}

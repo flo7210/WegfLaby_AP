@@ -1,4 +1,5 @@
 \documentclass[a0paper,portrait,fleqn,leqno]{tikzposter}
+% Ein Blatt in DIN A0 ist 841 mm breit und 1189 mm lang
 \title{Wegfindung im Labyrinth}
 %\institute{Universit\"{a}t Heidelberg}
 \author{Florian Nowak \& Yichuan Shen}
@@ -10,24 +11,32 @@
 
 % Für die Bestimmungen aus dem Leitfaden siehe Dokumentende
 
-
 \settitle{%
   \centering\vbox{%
-  \@titlegraphic\\%
+  \hfill\@titlegraphic\\%
   [\TP@titlegraphictotitledistance]\centering\color{titlefgcolor}%
   {\bfseries\Huge\sc\@title\par}%
   \vspace*{1em}%
   {\huge\@author\par}\vspace*{1em}{\LARGE\@date}%
   }}
+\tikzposterlatexaffectionproofoff
+  
+%\settitle{ \centering \vbox{
+%\@titlegraphic \\[\TP@titlegraphictotitledistance] \centering
+%\color{titlefgcolor} {\bfseries \Huge \sc \@title \par}
+%\vspace*{1em}
+%{\huge \@author \par} \vspace*{1em} {\LARGE \@institute}
+%}}
   
 \colorlet{Gray}{black!40}
 \colorlet{lightGray}{black!25}
 \colorlet{Lime}{lime!50!black!70}
 \colorlet{lightLime}{lime!50!black!30}
+\colorlet{Blue}{blue!50!black!70}
 
 \definecolorstyle{mystyle}{%
   \definecolor{colorOne}{named}{lightGray}
-  \definecolor{colorTwo}{named}{Lime}
+  \definecolor{colorTwo}{named}{Blue}
   }{%
   % Background Colors
   \colorlet{backgroundcolor}{white}
@@ -41,7 +50,6 @@
   \colorlet{blockbodybgcolor}{white}
   \colorlet{blockbodyfgcolor}{black}
   }
-
 \definelayouttheme{mytheme}{%
   \usecolorstyle{mystyle}
   \usebackgroundstyle{Default} 
@@ -57,15 +65,16 @@
   % Default, Corner, VerticalShading, Sticky
   }
 
-
 \titlegraphic{%
-  \includegraphics[scale=2]{unihei_logo_bl}
+  \includegraphics[width=300.4mm]{unihei_logo_bl}
+  % Die Breite des Logos beträgt a + c + c + a = 140,2 mm + 10 mm + 10 mm + 140,2 mm = 300,4 mm für Anwendungen in DIN A0 (siehe Gestaltungshandbuch, Seite 11). Der Abstand des Logos zum oberen sowie zum rechten Rand des Posters beträgt c + d = 10 mm + 20 mm = 30 mm.
   }
 \usetheme{mytheme}
 
 \usepackage[ngerman]{babel}
+\usepackage{graphicx}
 \usepackage[utf8]{inputenc}
-\usepackage{graphicx,xparse} 
+\usepackage[default]{sourcesanspro}
 
 %\usepackage{minted}
 %  \usemintedstyle{monokai}
@@ -75,30 +84,39 @@
 \begin{document}
 \maketitle
 
-\block[roundedcorners=0,linewidth=2pt]{Aufgabenstellung}{%
-  %\begin{tikzfigure}[Caption]
-  %	\includegraphics[scale=.5]{roboter_badly-photoshoped}
-  %\end{tikzfigure}
-  }
 
 \begin{columns}
   \column{.5}
-  \block[roundedcorners=0,linewidth=2pt]{Titel}{%
-  \blindtext
-  \begin{tikzfigure}[Caption of the figure]
-  	Figure
+  \block[roundedcorners=0,linewidth=2pt]{Aufgabenstellung}{%
+  \begin{tikzfigure}
+  	\includegraphics[scale=.8]{roboter_badly-photoshoped}
   \end{tikzfigure}
+  
+  \bigskip\noindent
+  Ein bereits vorhandener Roboter mit neigbarem Touchscreen soll etwas Neues lernen: Er soll ein beliebiges auf dem Rahmen seines Touchscreens aufliegendes Labyrinth (vorgegebener Rastergröße) mithilfe einer Metallkugel einlesen können. Der Roboter kann eine solche Kugel bereits auf eine ihm vorgegebene Position durch Kippen rollen lassen (und dort auch zum Stillstehen bringen). Das Ziel ist es somit, den Roboter ein zuvor eingelesenes Labyrinth mit der Kugel (auf optimalem Weg) lösen zu lassen.
   }
-  \column{.5}
-  \block[roundedcorners=0,linewidth=2pt]{Titel}{Text}
-  \block[roundedcorners=0,linewidth=2pt]{Personen}{%
-  \textbf{Autoren}\\
-  Florian Nowak: B.\,Sc. Mathematik, 7. Fachsemester\\
-  Yichuan Shen:\hspace{.1875em} M.\,Sc. Mathematik, 1. Fachsemester
+  \block[roundedcorners=0,linewidth=2pt]{Beteiligte}{%
+  \textbf{Studierende}\\
+  Florian Nowak:\hspace{1em}B.\,Sc. Mathematik, 7. Fachsemester\\
+  \makebox[0pt][l]{Yichuan Shen:}\hphantom{Florian Nowak:}\hspace{1em}M.\,Sc. Mathematik, 1. Fachsemester
   
   \medskip\noindent
-  \textbf{Betreuer}\\
-  Gero Plettenberg, Thomas Kloepfer 
+  \makebox[0pt][l]{\textbf{Betreuer:}}\hphantom{Florian Nowak:}\hspace{1em}Gero Plettenberg\\
+  \makebox[0pt][l]{\textbf{Supervisor:}}\hphantom{Florian Nowak:}\hspace{1em}Thomas Kloepfer 
+  }
+  \block[roundedcorners=0,linewidth=2pt]{Sonstiges}{%
+  \textbf{Quelle} für das Universitätslogo\\
+  \texttt{uni-heidelberg.de/einrichtungen/rektorat/kum/corporatedesign/\\
+  \hphantom{uni-heidelberg.de/einrichtungen/rektorat/kum/corporatedesign}\makebox[0pt][r]{logo{\textunderscore}vorlagen}}
+  }
+  \column{.5}
+  \block[roundedcorners=0,linewidth=2pt]{Überblick}{%
+  Text.
+  }
+  \block[roundedcorners=0,linewidth=2pt]{Wanderkennung}{%
+  \begin{tikzfigure}
+  	\includegraphics[scale=3]{flowchart-figure0}
+  \end{tikzfigure}
   }
 \end{columns}
 
