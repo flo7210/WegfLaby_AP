@@ -154,7 +154,7 @@ def detect_maze(vertex, width, height):
     return maze
 
 def estimate_current_vertex(width, height):
-    """Try to estimate the current vertex in the maze with given size, the vertex where the ball is supposed to be."""
+    """Try to estimate the vertex, where the ball is, in the maze with given size."""
 
     with Balancer(Serial(port)) as balancer:
         def balance_handler(destination, response, destination_reached):
@@ -187,13 +187,13 @@ if __name__ == "__main__":
         # Find nearest vertex to begin with
         start = estimate_current_vertex(width, height)
         m = detect_maze(start, width, height)
-        print('Maze detected!')
+        print 'Maze detected!'
 
         name = raw_input('File name: ')
         with open(name, 'w') as f:
             f.write(repr(m))
 
-        print ('String representation saved.')
+        print 'String representation saved.'
 
     elif answer.upper() == 'B':
         name = raw_input('File name: ')
