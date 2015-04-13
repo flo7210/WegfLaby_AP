@@ -5,7 +5,7 @@ Ergebnis
 
 ### Ergebnis
 
-Obwohl der Roboter für die Wanderkennung jedes Feld des Labyrinths ansteuern muss, braucht die Erkennung des gesamten Labyrinths (35 Felder) dank diverser Optimierungen lediglich etwas mehr als 10 Minuten. Zudem kann man das erkannte Labyrinth in einer Datei speichern und es zu einem späteren Zeitpunkt lösen lassen.
+Obwohl der Roboter für die Wanderkennung jedes Feld des Labyrinths ansteuern muss, braucht die Erkennung des gesamten Testlabyrinths (35 Felder) dank diverser Optimierungen lediglich etwas mehr als 10 Minuten. Zudem kann man das erkannte Labyrinth in einer Datei speichern und es zu einem späteren Zeitpunkt lösen lassen.
 
 ### Probleme
 
