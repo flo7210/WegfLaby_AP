@@ -1,7 +1,7 @@
 \documentclass[a0paper,portrait,fleqn,leqno]{tikzposter}
 % Ein Blatt in DIN A0 ist 841 mm breit und 1189 mm lang
 \title{Wegfindung im Labyrinth}
-%\institute{Universit\"{a}t Heidelberg}
+\institute{Universit\"{a}t Heidelberg}
 \author{Florian Nowak \& Yichuan Shen}
 %\author{%
 %  Florian Nowak\footnote{Florian Nowak: B.\,Sc. Mathematik, 7. Fachsemester}\; \& Yichuan Shen\footnote{Yichuan Shen: M.\,Sc. Mathematik, 1. Fachsemester}\\
@@ -12,12 +12,16 @@
 % Für die Bestimmungen aus dem Leitfaden siehe Dokumentende
 
 \settitle{%
+  \vspace*{1cm}
   \centering\vbox{%
-  \hfill\@titlegraphic\\%
-  [\TP@titlegraphictotitledistance]\centering\color{titlefgcolor}%
-  {\bfseries\Huge\sc\@title\par}%
+  \color{titlefgcolor}%
+  \hspace{27cm}{\bfseries\Huge\sc\@title}\hspace{8cm}\@titlegraphic\par%
   \vspace*{1em}%
-  {\huge\@author\par}\vspace*{1em}{\LARGE\@date}%
+  {\huge\@author\par}
+  \vspace*{.75em}
+  {\LARGE\@institute\par}%
+  \vspace*{.5em}
+  {\Large\@date}%
   }}
 \tikzposterlatexaffectionproofoff
   
@@ -66,13 +70,14 @@
   }
 
 \titlegraphic{%
-  \includegraphics[width=300.4mm]{unihei_logo_bl}
+  \includegraphics[width=19cm]{orb}
   % Die Breite des Logos beträgt a + c + c + a = 140,2 mm + 10 mm + 10 mm + 140,2 mm = 300,4 mm für Anwendungen in DIN A0 (siehe Gestaltungshandbuch, Seite 11). Der Abstand des Logos zum oberen sowie zum rechten Rand des Posters beträgt c + d = 10 mm + 20 mm = 30 mm.
   }
 \usetheme{mytheme}
 
 \usepackage[ngerman]{babel}
 \usepackage{graphicx}
+\usepackage[colorlinks=true,urlcolor=cyan,hidelinks]{hyperref}
 \usepackage[utf8]{inputenc}
 \usepackage[default]{sourcesanspro}
 
@@ -89,34 +94,42 @@
   \column{.5}
   \block[roundedcorners=0,linewidth=2pt]{Aufgabenstellung}{%
   \begin{tikzfigure}%[Roboter mit aufliegendem Labyrinth]
-  	\includegraphics[scale=.8]{roboter_badly-photoshoped}
+  	\includegraphics[width=38cm]{roboter_badly-photoshoped}
   \end{tikzfigure}
+  \vspace{1em}
+  Ein bereits vorhandener Roboter mit neigbarem Touchscreen soll etwas Neues lernen: 
   
-  \bigskip\noindent
-  Ein bereits vorhandener Roboter mit neigbarem Touchscreen soll etwas Neues lernen: Er soll ein beliebiges auf dem Rahmen seines Touchscreens aufliegendes Labyrinth (vorgegebener Rastergröße) mithilfe einer Metallkugel einlesen können. Der Roboter kann eine solche Kugel bereits auf eine ihm vorgegebene Position durch Kippen rollen lassen (und dort auch zum Stillstehen bringen). Das Ziel ist es somit, den Roboter ein zuvor eingelesenes Labyrinth mit der Kugel (auf optimalem Weg) lösen zu lassen.
+  \smallskip\noindent
+  Er soll ein beliebiges auf dem Rahmen seines Touchscreens aufliegendes Labyrinth (vorgegebener Rastergröße) mithilfe einer Metallkugel einlesen können. Der Roboter kann eine solche Kugel bereits auf eine ihm vorgegebene Position durch Kippen rollen lassen (und dort auch zum Stillstehen bringen). Das Ziel ist es somit, den Roboter ein zuvor eingelesenes Labyrinth mit der Kugel (auf optimalem Weg) lösen zu lassen.
   }
   \block[roundedcorners=0,linewidth=2pt]{Beteiligte}{%
-  \textbf{Studierende}\\
-  Florian Nowak:\hspace{1em}B.\,Sc. Mathematik, 7. Fachsemester\\
-  \makebox[0pt][l]{Yichuan Shen:}\hphantom{Florian Nowak:}\hspace{1em}M.\,Sc. Mathematik, 1. Fachsemester
+  %\textbf{Studierende}\\
+  \makebox[0pt][l]{\textbf{Florian Nowak:}}\hphantom{Gero Plettenberg}\hspace{1em}B.\,Sc. Mathematik, 7. Fachsemester\\
+  \makebox[0pt][l]{\textbf{Yichuan Shen:}}\hphantom{Gero Plettenberg}\hspace{1em}M.\,Sc. Mathematik, 1. Fachsemester
   
   \medskip\noindent
-  \makebox[0pt][l]{\textbf{Betreuer:}}\hphantom{Florian Nowak:}\hspace{1em}Gero Plettenberg\\
-  \makebox[0pt][l]{\textbf{Supervisor:}}\hphantom{Florian Nowak:}\hspace{1em}Thomas Kloepfer 
+  Gero Plettenberg\hspace{1em}\textit{(Betreuer)}\\
+  \makebox[0pt][l]{Thomas Kloepfer}\hphantom{Gero Plettenberg}\hspace{1em}\textit{(Supervisor)} 
   }
   \block[roundedcorners=0,linewidth=2pt]{Sonstiges}{%
-  \textbf{Quelle} für das Universitätslogo\\
-  \texttt{uni-heidelberg.de/einrichtungen/rektorat/kum/corporatedesign/\\
-  \hphantom{uni-heidelberg.de/einrichtungen/rektorat/kum/corporatedesign}\makebox[0pt][r]{logo{\textunderscore}vorlagen}}
+  \textbf{GitHub Projektseite:}\hspace{1em}\url{github.com/flo7210/WegfLaby_AP} 
   }
   \column{.5}
   \block[roundedcorners=0,linewidth=2pt]{Überblick}{%
   Text.
   }
+  \block[roundedcorners=0,linewidth=2pt]{Labyrintherkennung}{%
+  
+  }
   \block[roundedcorners=0,linewidth=2pt]{Wanderkennung}{%
+  Das folgende Flowchart stellt die (lokale) Wanderkennung dar:
+  \vspace{1em} 
   \begin{tikzfigure}
-  	\includegraphics[scale=1.5]{flowchart_cutout}
+  	\includegraphics[width=38cm]{flowchart_cutout}
   \end{tikzfigure}
+  }
+  \block[roundedcorners=0,linewidth=2pt]{Lösen des Labirinths}{%
+  Wir berechnen den optimalen Pfad durch das Labyrinth per\ldots
   }
 \end{columns}
 
