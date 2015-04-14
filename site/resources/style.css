@@ -23,12 +23,20 @@ header, main, footer {
 }
 
 header {
+        position: relative;
         background: #304664 url('edge.png') 200px bottom no-repeat;
         padding-top: 5em;
     }
-    header h1 {
+    header h1, header p {
         color: white;
         text-shadow: 0 0 5px rgba(0, 0, 0, .5);
+    }
+    header p {
+        position: absolute;
+        top: 3em;
+        left: 1.33em;
+        font: 1.5em 'Roboto Slab', serif;
+        opacity: .7;
 }
 
 header nav ul {
@@ -49,16 +57,17 @@ header nav ul {
         background: rgba(108, 118, 125, .8);
         color: white;
         text-decoration: none;
+        transition: .2s background;
     }
     header nav li a:hover, header nav li a:focus {
-        background: #B90F0C;
+        background: #5DA84D;
         color: white;
     }
-    #ueberblick header nav li:nth-child(1) a,
+    #ueberblick header nav li:first-child a,
     #kommunikationsprotokoll header nav li:nth-child(2) a,
     #wanderkennung header nav li:nth-child(3) a,
     #referenz header nav li:nth-child(4) a,
-    #ergebnis header nav li:nth-child(5) a,
+    #ergebnis header nav li:last-child a,
     header nav li.current a {
         background: white;
         color: #333;
@@ -109,6 +118,7 @@ footer {
         padding-bottom: .5em;
         background: #304664;
         color: white;
+        text-align: right;
     }
     footer a, footer a:hover, footer a:focus {
         color: white;
@@ -123,7 +133,7 @@ footer {
  */
 
 body {
-    font: 100%/1.5 Roboto, sans-serif;
+    font: 100%/1.7 Roboto, sans-serif;
     font-weight: 300;
 }
 
@@ -176,6 +186,7 @@ pre code {
     display: block;
     overflow-x: auto;
     padding: .5em;
+    line-height: 1.3;
 }
 
 strong {
@@ -191,5 +202,5 @@ img {
     display: block;
     vertical-align: middle;
     margin: 0 auto;
-    max-width: 100%;
+    max-width: 50em;
 }

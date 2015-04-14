@@ -148,19 +148,25 @@ Liest die gegebene `string` Darstellung eines Labyrinths und fügt bzw. entfernt
 #### Beispiel
 
 ```python
-m = Maze(5, 3)
-m.add_path([(1, 1), (1, 2), (2, 2), (3, 2), (5, 3), (5, 2)])
-print m.print_path([(1, 1), (1, 2), (2, 2), (3, 2)], [(5, 1)])
+m = Maze(1, 1).parse(\
+"""+--+--+--+--+--+--+--+
+|     |              |
++  +--+  +  +  +--+  +
+|     |  |  |  |     |
++  +  +  +  +--+  +--+
+|  |     |  |        |
++--+--+--+--+--+--+--+""")
+print m
 
 # Output:
 #
-# +--+--+--+--+--+
-# | x|  |  |  | #|
-# +  +--+--+--+--+
-# | x  x (X|  |  |
-# +--+--+--+--+  +
-# |  |  |  |  |  |
-# +--+--+--+--+--+
+# +--+--+--+--+--+--+--+
+# |     |              |
+# +  +--+  +  +  +--+  +
+# |     |  |  |  |     |
+# +  +  +  +  +--+  +--+
+# |  |     |  |        |
+# +--+--+--+--+--+--+--+
 ```
 
 `class balancer.Balancer`
@@ -274,4 +280,31 @@ Ein Tupel `(t, u)` aus zwei `int`.
 ```python
 balancer = Balancer(Serial(0))
 distance = balancer.distance((100, 25), (0, 0))     # ergibt 100
+```
+
+`main.py`
+---------
+
+### `to_touchscreen_coord(maze, balancer, vertex)`
+Gibt die entsprechenden Touchscreen-Koordinaten zum gegebenen Punkt `vertex` im Labyrinth `maze` zurück.
+
+### `to_vertex(maze, balancer, coord)`
+Gibt den geschätzten Punkt im Labyrinth `maze` zum gegebenen Touchscreen-Koordinaten `coord` zurück.
+
+### `run(path, maze)`
+Bringt die Kugel dazu, den angegebenen Pfad im Labyrinth `maze` zu durchlaufen.
+
+### `detect_maze(vertex, width, height)`
+Versucht das Labyrinth mit der angegebenen Größe zu erkennen. Die Kugel soll auf dem angegebenen Punkt `vertex` im Labyrinth gesetzt werden.
+
+### `estimate_current_vertex(width, height)`
+Versucht die aktuelle Position der Kugel in einem Labyrinth der angegebenen Größe zu bestimmen.
+
+#### Beispiel
+
+```python
+# Find nearest vertex to begin with
+start = estimate_current_vertex(5, 3)
+m = detect_maze(start, 5, 3)
+print 'Maze detected!'
 ```

@@ -5,7 +5,7 @@ Kommunikationsprotokoll
 
 ### Modell
  
-Das Protokoll ist asymmetrisch und umfasst zwei Teilnehmer, nämlich den Microcontroller und die [Balancer Klasse](referenz.html#h2-class-balancer-balancer). Wir nehmen an, dass der Kommunikationskanal frei von Fehlern ist. `Balancer` übergibt die *Befehle* und der Microcontroller gibt *Antworten*.
+Das Protokoll ist asymmetrisch und umfasst zwei Teilnehmer, nämlich den Microcontroller und die [`Balancer`-Klasse](referenz.html#h2-class-balancer-balancer). Wir nehmen an, dass der Kommunikationskanal frei von Fehlern ist. `Balancer` übergibt die *Befehle* und der Microcontroller gibt *Antworten*.
 
 ### Antworten
 

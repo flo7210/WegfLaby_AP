@@ -6,4 +6,4 @@ Wanderkennung
 ### Einleitung
 ### Lokale Wanderkennung
 
-[![Flowchart](resources/flowchart.png)](resources/flowchart.png)
+![Flowchart](resources/flowchart.png)
