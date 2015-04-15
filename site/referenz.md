@@ -241,7 +241,7 @@ Eine Funktion, die ausgeführt wird, wann immer `start_listening()` ausgeführt 
 ### `destination_reached`
 Eine Funktion der Form `destination_reached(dest, coord)` die ein `bool` zurückgibt, das bestimmt, ob der angegebene Koordinatenpunkt `coord` die Zielkoordinate `dest` erreicht hat, oder nicht.
 
-*Standard:* `lambda dest, coord: self.distance(dest, coord) < 15`
+*Standard:* `lambda dest, coord: self.distance(dest, coord) < 27`
 
 ### `add_command(t, u, force_reset = False)`
 Fügt ein Befehl der Form `(force_reset, t, u)` zur `command_queue` hinzu.
