@@ -12,17 +12,26 @@
 % Für die Bestimmungen aus dem Leitfaden siehe Dokumentende
 
 \settitle{%
-  \vspace*{1cm}
-  \centering\vbox{%
+  \vspace*{2cm}
   \color{titlefgcolor}%
-  \hspace{27cm}{\bfseries\Huge\sc\@title}\hspace{8cm}\@titlegraphic\par%
-  \vspace*{1em}%
-  {\huge\@author\par}
-  \vspace*{.75em}
-  {\LARGE\@institute\par}%
-  \vspace*{.5em}
-  {\Large\@date}%
-  }}
+  \begin{minipage}[t]{.48\textwidth}
+  \begin{flushright}
+  {\bfseries\Huge\sc\@title}\hspace*{2cm}\par%
+  \vspace*{1cm}%
+  {\huge\@author\hspace*{2cm}}\par%
+  \vspace*{1cm}
+  {\LARGE\@institute\hspace*{2cm}}\par%
+  \vspace*{.5cm}
+  \raisebox{-4mm}{{\Large\@date\hspace*{2cm}}}\par%
+  \end{flushright}
+  \end{minipage}%
+  \begin{minipage}{.48\textwidth}
+  \begin{flushleft}
+  \hspace*{2cm}\@titlegraphic
+  \end{flushleft}
+  \end{minipage}
+  }
+
 \tikzposterlatexaffectionproofoff
   
 %\settitle{ \centering \vbox{
@@ -100,7 +109,7 @@
   Ein bereits vorhandener Roboter mit neigbarem Touchscreen soll etwas Neues lernen: 
   
   \smallskip\noindent
-  Er soll ein beliebiges auf dem Rahmen seines Touchscreens aufliegendes Labyrinth (vorgegebener Rastergröße) mithilfe einer Metallkugel einlesen können. Der Roboter kann eine solche Kugel bereits auf eine ihm vorgegebene Position durch Kippen rollen lassen (und dort auch zum Stillstehen bringen). Das Ziel ist es somit, den Roboter ein zuvor eingelesenes Labyrinth mit der Kugel (auf optimalem Weg) lösen zu lassen.
+  Er soll ein beliebiges auf dem Rahmen seines Touchscreens aufliegendes Labyrinth (vorgegebener Rastergröße) mithilfe einer Metallkugel einlesen können. Der Roboter kann eine solche Kugel bereits auf eine ihm vorgegebene Richtung durch Kippen rollen lassen und dort ausbalancieren, so dass die Kugel stillsteht. Das Roboter soll zudem ein zuvor eingelesenes Labyrinth mit der Kugel auf optimalem Weg lösen können.
   }
   \block[roundedcorners=0,linewidth=2pt]{Beteiligte}{%
   %\textbf{Studierende}\\

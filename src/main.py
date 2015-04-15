@@ -177,6 +177,7 @@ if __name__ == "__main__":
     m = Maze(1, 1)
 
     answer = ''
+    print 'Make sure that the ball is placed somewhere on the touchscreen.'
     while answer.upper() not in ['A', 'B']:
         answer = raw_input('Detect new maze (A) or read existing .maze file (B)? ')
 
