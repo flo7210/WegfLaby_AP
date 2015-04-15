@@ -5,11 +5,11 @@ Kommunikationsprotokoll
 
 ### Modell
  
-Das Protokoll ist asymmetrisch und umfasst zwei Teilnehmer, nämlich den Microcontroller und die [`Balancer`-Klasse](referenz.html#h2-class-balancer-balancer). Wir nehmen an, dass der Kommunikationskanal frei von Fehlern ist. `Balancer` übergibt die *Befehle* und der Microcontroller gibt *Antworten*.
+Das Protokoll ist asymmetrisch und umfasst zwei Teilnehmer, nämlich den Mikrocontroller und die [`Balancer`-Klasse](referenz.html#h2-class-balancer-balancer). Wir nehmen an, dass der Kommunikationskanal frei von Fehlern ist. `Balancer` übergibt die *Befehle* und der Mikrocontroller gibt *Antworten*.
 
 ### Antworten
 
-*Antworten* bestehen aus genau acht Zeichen. Der Microcontroller wird beim Balancieren der Kugel maximal 60 mal pro Sekunde die aktuelle Position der Kugel als Antwort der folgenden Form geben:
+*Antworten* bestehen aus genau acht Zeichen. Der Mikrocontroller wird beim Balancieren der Kugel maximal 60 mal pro Sekunde die aktuelle Position der Kugel als Antwort der folgenden Form geben:
 
 ```ini
 [sign][x-coord],[y-coord]
@@ -28,7 +28,7 @@ Kommentare können in den Antwortenstream eingebunden werden. Taucht das Zeichen
 
 ### Befehle
 
-Ist die Kugel balanciert, so wird der Microcontroller auf ein Befehl warten. Ein *Befehl* ist genau acht Zeichen lang und hat die folgende Form:
+Ist die Kugel balanciert, so wird der Mikrocontroller auf ein Befehl warten. Ein *Befehl* ist genau acht Zeichen lang und hat die folgende Form:
 
 ```ini
 [sign][x-coord],[y-coord]
@@ -38,4 +38,4 @@ Ist die Kugel balanciert, so wird der Microcontroller auf ein Befehl warten. Ein
 - `!`, wenn die Servomotoren des Touchscreens auf den Anfangswerten zurückgesetzt werden sollen.
 - `.`, sonst.
 
-**Bemerkung:** Der Befehl wird nur dann vom Microcontroller angenommen, wenn die Kugel balanciert ist. Befehle können keine Kommentare sein.
+**Bemerkung:** Der Befehl wird nur dann vom Mikrocontroller angenommen, wenn die Kugel balanciert ist. Befehle können keine Kommentare sein.
