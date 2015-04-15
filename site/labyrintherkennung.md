@@ -7,7 +7,7 @@ Labyrintherkennung
 
 Beim Erkennen des Labyrinths besteht die Herausforderung im Wesentlichen aus der *(lokalen) Wanderkennung*: Für ein Feld soll überprüft werden, ob die benachbarten Felder mit der Kugel erreichbar sind. Die Labyrintherkennung ist schließlich eine Iteration über die Wanderkennung bei jedem Feld.
 
-Im Anschluss ist das Lösen des Labyrinths lediglich eine [Breitensuche](#h3-bfs-start-end-).
+Im Anschluss ist das Lösen des Labyrinths lediglich eine [Breitensuche](referenz.html#h3-bfs-start-end-).
 
 ### Wanderkennung
 
