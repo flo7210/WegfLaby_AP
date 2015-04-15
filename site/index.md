@@ -5,14 +5,15 @@
 
 ### Aufgabenstellung
 
-Ein bereits vorhandener Roboter mit neigbarem Touchscreen soll etwas Neues lernen: Er soll ein beliebiges auf dem Rahmen seines Touchscreens aufliegendes Labyrinth (vorgegebener Rastergröße) mithilfe einer Metallkugel einlesen können. Der Roboter kann eine solche Kugel bereits auf eine ihm vorgegebene Richtung durch Kippen rollen lassen und sie balancieren, so dass die Kugel stillsteht. Das Roboter soll zudem ein zuvor eingelesenes Labyrinth mit der Kugel auf optimalem Weg lösen können.
+Ein bereits vorhandener Roboter mit neigbarem Touchscreen soll etwas Neues lernen: Er soll ein beliebiges auf dem Rahmen seines Touchscreens aufliegendes Labyrinth (vorgegebener Rastergröße) mithilfe einer Metallkugel einlesen können. Der Roboter kann eine solche Kugel bereits auf eine ihm vorgegebene Richtung durch Kippen rollen lassen und dort ausbalancieren, so dass die Kugel stillsteht. Das Roboter soll zudem ein zuvor eingelesenes Labyrinth mit der Kugel auf optimalem Weg lösen können.
 
 ### Vereinfachungen
 
 Wir haben zunächst ein paar vereinfachende Annahmen getroffen:
 
-- Das Labyrinth soll rechteckig und *gleichmäßig* sein, z.B:
+- Das Labyrinth soll rechteckig und *gleichmäßig* sein.
 
+  #### Beispiel:
   ```ini
                       +--+--+--+--+--+--+--+
                       |     |              |
