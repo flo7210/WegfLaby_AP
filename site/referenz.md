@@ -292,7 +292,14 @@ Gibt die entsprechenden Touchscreen-Koordinaten zum gegebenen Punkt `vertex` im 
 Gibt den geschätzten Punkt im Labyrinth `maze` zum gegebenen Touchscreen-Koordinaten `coord` zurück.
 
 ### `run(path, maze)`
-Bringt die Kugel dazu, den angegebenen Pfad im Labyrinth `maze` zu durchlaufen.
+Bringt die Kugel dazu, den angegebenen Pfad im Labyrinth `maze` zu durchlaufen, wobei wir die Indizes in [`m.get_skippables(path)`](#h3-get_skippables-path-) überspringen.
+
+#### Beispiel
+```python
+run([(1, 1), (1, 2), (1, 3)], m)
+```
+
+Dieses Beispiel balanciert die Kugel zunächst auf dem Feld (1, 1) aus, und anschließend auf (1, 3).
 
 ### `detect_maze(vertex, width, height)`
 Versucht das Labyrinth mit der angegebenen Größe zu erkennen. Die Kugel soll auf dem angegebenen Punkt `vertex` im Labyrinth gesetzt werden.

@@ -63,9 +63,9 @@ header nav ul {
         background: #5DA84D;
         color: white;
     }
-    #ueberblick header nav li:first-child a,
+    #index header nav li:first-child a,
     #kommunikationsprotokoll header nav li:nth-child(2) a,
-    #wanderkennung header nav li:nth-child(3) a,
+    #labyrintherkennung header nav li:nth-child(3) a,
     #referenz header nav li:nth-child(4) a,
     #ergebnis header nav li:last-child a,
     header nav li.current a {
@@ -107,6 +107,9 @@ main {
         display: block;
         width: 13em;
         float: right;
+    }
+    main nav ol {
+        margin-left: 0;
     }
     main article {
         margin-right: 15em;
@@ -175,6 +178,10 @@ h1, h2, h3, h4, h5, h6, ul, ol, pre, blockquote, p {
 
 ul {
     list-style: square;
+}
+
+ul ul, ol ol, ul ol, ol ul {
+    margin-left: 1.5em;
 }
 
 code {

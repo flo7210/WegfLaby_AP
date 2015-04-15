@@ -9,14 +9,22 @@ Obwohl der Roboter für die Wanderkennung jedes Feld des Labyrinths ansteuern mu
 
 ### Probleme
 
-Probleme aufzählen.
+- Das Ausbalancieren im Toleranzbereich einzelner Felder dauert gelegentlich verhältnismäßig lange.
+  
+  #### Gründe:
+  * Der Rand des Touchscreens ist unempfindlich
+  * Unterschiede in der Größe der Felder des realen Labyrinths
+
+  #### Lösungsansätze:
+  * Toleranzbereich kurzzeitig vergrößern
+  * Hardware verbessern
 
 ### Projektverlauf
 
-- **Einarbeitung:** Vorgängercode und Funktionsfähigkeit des Roboters testen.
-- **Durchlaufen des Labyrinths:** Durch Vorgabe eines Labyrinths als Datenstruktur soll die Kugel einen beliebig vorgegebenen Pfad durchlaufen können. Ferner wird ein optimaler Weg durch das Labyrinth berechnet.
-- **Erkennen des Labyrinths:** Durch Ablaufen eines realen Labyrinths soll die Struktur des Labyrinths erkannt und abgespeichert werden. Dafür wird ein Algorithmus entworfen und implementiert.
-- **Fertigstellung:** Präsentation, Poster und Webseite fertig stellen; ggf. eine grafische Oberfläche erstellen.
+1. **Einarbeitung:** Vorgängercode und Funktionsfähigkeit des Roboters testen.
+2. **Durchlaufen des Labyrinths:** Durch Vorgabe eines Labyrinths als Datenstruktur soll die Kugel einen beliebig vorgegebenen Pfad durchlaufen können. Ferner wird ein optimaler Weg durch das Labyrinth berechnet.
+3. **Erkennen des Labyrinths:** Durch Ablaufen eines realen Labyrinths soll die Struktur des Labyrinths erkannt und abgespeichert werden. Dafür wird ein Algorithmus entworfen und implementiert.
+4. **Fertigstellung:** Präsentation, Poster und Webseite fertig stellen; ggf. eine grafische Oberfläche erstellen.
 
 ### Ausblick
 
