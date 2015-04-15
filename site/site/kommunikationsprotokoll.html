@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+<meta charset="utf-8" />
+<title>Wegfindung im Labyrinth</title>
+<meta name="author" content="Florian Nowak, Yichuan Shen" />
+<link rel="shortcut icon" href="/rlab/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" type="text/css" href="resources/style.css" />
+
+<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/styles/monokai_sublime.min.css">
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/highlight.min.js"></script>
+
+<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.3.0/katex.min.css">
+<script src="http://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.3.0/katex.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.3.0/contrib/auto-render.min.js"></script>
+
+</head>
+<body id="kommunikationsprotokoll">
+
+<header>
+    <h1>Wegfindung im Labyrinth</h1>
+    <p>Robotikpraktikum WS 2014/2015</p>
+    <nav>
+        <ul>
+            <li><a href="./">Überblick</a></li>
+            <li><a href="./kommunikationsprotokoll.html">Kommunikationsprotokoll</a></li>
+            <li><a href="./labyrintherkennung.html">Labyrintherkennung</a></li>
+            <li><a href="./referenz.html">Referenz</a></li>
+            <li><a href="./ergebnis.html">Ergebnis</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+
+<nav id="toc"></nav>
+
+<article>
+<h2 id="h2-kommunikationsprotokoll">Kommunikationsprotokoll</h2>
+<p><img src="resources/serial.jpg" alt="Serial-Anschluss"></p>
+<h3 id="h3-modell">Modell</h3>
+<p>Das Protokoll ist asymmetrisch und umfasst zwei Teilnehmer, nämlich den Mikrocontroller und die <a href="referenz.html#h2-class-balancer-balancer"><code>Balancer</code>-Klasse</a>. Wir nehmen an, dass der Kommunikationskanal frei von Fehlern ist. <code>Balancer</code> übergibt die <em>Befehle</em> und der Mikrocontroller gibt <em>Antworten</em>.</p>
+<h3 id="h3-antworten">Antworten</h3>
+<p><em>Antworten</em> bestehen aus genau acht Zeichen. Der Mikrocontroller wird beim Balancieren der Kugel maximal 60 mal pro Sekunde die aktuelle Position der Kugel als Antwort der folgenden Form geben:</p>
+<pre><code class="ini">[sign][x-coord],[y-coord]
+</code></pre>
+<p><code>[x-coord]</code> und <code>[y-coord]</code> sind dreistellige Zahlen zwischen <code>025</code> und <code>555</code>, die die Koordinaten der Kugel entspricht. <code>[sign]</code> ist von der folgenden Form:</p>
+<ul>
+<li><code>=</code>, wenn die Kugel sich balanciert hat.</li>
+<li><code>:</code>, sonst.</li>
+</ul>
+<p><strong>Bemerkung:</strong> Hat sich die Kugel balanciert, so muss die Kugel nicht notwendigerweise am Zielpunkt sein. Ungültige Kugelkoordinaten, d.h. Koordinaten, die stark von den vorherigen abweichen, werden nicht zurückgegeben.</p>
+<h3 id="h3-kommentare">Kommentare</h3>
+<p>Kommentare können in den Antwortenstream eingebunden werden. Taucht das Zeichen <code>#</code> auf, so werden dieses und die sieben Zeichen danach von der Interpretation ausgeschlossen.</p>
+<h3 id="h3-befehle">Befehle</h3>
+<p>Ist die Kugel balanciert, so wird der Mikrocontroller auf ein Befehl warten. Ein <em>Befehl</em> ist genau acht Zeichen lang und hat die folgende Form:</p>
+<pre><code class="ini">[sign][x-coord],[y-coord]
+</code></pre>
+<p><code>[x-coord]</code> und <code>[y-coord]</code> entsprechen die Koordinaten, die die Kugel ansteuern soll. <code>[sign]</code> ist von der folgenden Form:</p>
+<ul>
+<li><code>!</code>, wenn die Servomotoren des Touchscreens auf den Anfangswerten zurückgesetzt werden sollen.</li>
+<li><code>.</code>, sonst.</li>
+</ul>
+<p><strong>Bemerkung:</strong> Der Befehl wird nur dann vom Mikrocontroller angenommen, wenn die Kugel balanciert ist. Befehle können keine Kommentare sein.</p>
+
+</article>
+
+</main>
+
+<footer>
+<p>&copy; <a href="https://github.com/flo7210">Florian Nowak</a>, <a href="https://github.com/yishn">Yichuan Shen</a> 2015</p>
+</footer>
+
+<script type="text/javascript" src="resources/site.js"></script>
+
+</body>
+</html>
